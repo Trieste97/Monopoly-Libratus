@@ -26,7 +26,7 @@ public class Board {
 		cards = new HashMap<String, Card>();
 		
 		try {
-			Scanner scanner = new Scanner(new File("board.txt"));
+			Scanner scanner = new Scanner(new File("resources/board.txt"));
 			int pos = 0;
 			
 			while (scanner.hasNextLine()) {
