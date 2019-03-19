@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import Elementi.Bank;
 import Elementi.Casella;
 import Elementi.CasellaResidenziale;
 
@@ -18,11 +19,13 @@ public class CreatoreCaselle {
 	//private ArrayList<Casella> caselle;
 	
 	HashMap<Integer, Casella> caselle;
+	private Bank banca;
 	
 	public CreatoreCaselle() {
 
 		//this.setCaselle(new ArrayList<Casella>());
 		this.caselle = new HashMap<Integer, Casella>();
+		this.setBanca(new Bank());
 		this.file = new File("src/main/resources/gameBoard.txt");
 	}
 	
@@ -71,6 +74,7 @@ public class CreatoreCaselle {
 					//this.getCaselle().add(new CasellaResidenziale(prezzoVandita, prezzoTransito, prezzoIpoteca, prezzoRiscattoDaIpoteca, nome, colore, prezzoTransitoNumeroCase1, prezzoTransitoNumeroCase2, prezzoTransitoNumeroCase3, prezzoTransitoNumeroCase4, prezzoTransitoHotel, prezzoCostruzioneCasa));
 					Casella casellaDaAggiungere = new CasellaResidenziale(prezzoVandita, prezzoTransito, prezzoIpoteca, prezzoRiscattoDaIpoteca, nome, colore, prezzoTransitoNumeroCase1, prezzoTransitoNumeroCase2, prezzoTransitoNumeroCase3, prezzoTransitoNumeroCase4, prezzoTransitoHotel, prezzoCostruzioneCasa);
 					this.caselle.put(posizione, casellaDaAggiungere);
+					this.getBanca().addCard(casellaDaAggiungere);
 					
 				}
 				else {
@@ -78,6 +82,7 @@ public class CreatoreCaselle {
 					//this.getCaselle().add(new Casella(prezzoVandita, prezzoTransito, prezzoIpoteca, prezzoRiscattoDaIpoteca, nome, colore));
 					Casella casellaDaAggiungere = new Casella(prezzoVandita, prezzoTransito, prezzoIpoteca, prezzoRiscattoDaIpoteca, nome, colore);
 					this.caselle.put(posizione, casellaDaAggiungere);
+					this.getBanca().addCard(casellaDaAggiungere);
 				}
 				
 			}
@@ -109,6 +114,18 @@ public class CreatoreCaselle {
 
 	public void setCaselle(HashMap<Integer, Casella> caselle) {
 		this.caselle = caselle;
+	}
+
+
+
+	public Bank getBanca() {
+		return banca;
+	}
+
+
+
+	public void setBanca(Bank banca) {
+		this.banca = banca;
 	}
 
 

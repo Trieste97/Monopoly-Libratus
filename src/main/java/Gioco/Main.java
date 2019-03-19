@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+import Elementi.Bank;
 import Elementi.Casella;
 import Elementi.Dadi;
 import Elementi.Giocatore;
@@ -15,6 +16,8 @@ public class Main {
 		CreatoreCaselle creatore = new CreatoreCaselle();
 		creatore.caricaCaselle();
 		creatore.stampa();
+		
+		Bank banca = creatore.getBanca();
 		
 		HashMap<Integer, Casella> tavola = creatore.getCaselle();
 		
@@ -44,13 +47,31 @@ public class Main {
 			System.out.println(numero);
 			dadi.stampa();
 			
+			System.out.println("saldo attuale " + giocatori.get(giocatore).getSoldi());
+			System.out.println("saldo attuale " + giocatori.get(giocatore).getPosizioneInTabella());
 			
 			int posizioneGiocatore = giocatori.get(giocatore).getPosizioneInTabella();
 			int nuovaPosizione = posizioneGiocatore + numero;
 			giocatori.get(giocatore).setPosizioneInTabella(nuovaPosizione);
 			
+			if (nuovaPosizione % 40 == 0) {
+				giocatori.get(giocatore).passaDaStart();
+				System.out.println("saldo attuale " + giocatori.get(giocatore).getSoldi());
+			}
+			
 			System.out.println("il giocatore si trova sulla casella " + nuovaPosizione + " in ");
-			System.out.println(tavola.get((Integer) nuovaPosizione));
+			Casella casellaAttuale = tavola.get((Integer) nuovaPosizione);
+			System.out.println(casellaAttuale);
+			
+			//SE ACQUISTA
+			if(!banca.haCarta(casellaAttuale)) {
+				giocatori.get(giocatore).addCard(casellaAttuale);
+				banca.removeCard(casellaAttuale);
+			}
+			
+			giocatori.get(giocatore).stampaCasellePossedute();
+			
+			
 			
 			
 			

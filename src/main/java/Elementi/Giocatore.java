@@ -8,6 +8,7 @@ public class Giocatore {
 	boolean inPrigione;
 	ArrayList<Casella> casellePossedute;
 	int posizioneInTabella;
+	private int soldi;
 	
 	
 	public Giocatore(String nome) {
@@ -15,6 +16,7 @@ public class Giocatore {
 		this.inPrigione = false;
 		this.casellePossedute = new ArrayList<Casella>();
 		this.posizioneInTabella = 0;
+		this.soldi = 1000;
 	}
 	
 	
@@ -46,6 +48,33 @@ public class Giocatore {
 	public void setPosizioneInTabella(int posizioneInTabella) {
 		this.posizioneInTabella = (posizioneInTabella % 40);
 	}
+
+
+	public int getSoldi() {
+		return soldi;
+	}
+
+
+	public void setSoldi(int soldi) {
+		this.soldi = soldi;
+	}
 	
+	public void passaDaStart() {
+		this.soldi = this.soldi + 200;
+	}
+	public void avanza(int numeroCaselle) {
+		this.posizioneInTabella = this.posizioneInTabella + numeroCaselle;
+	}
 	
+	public void addCard(Casella casella) {
+		this.casellePossedute.add(casella);
+	}
+	public void removeCard(Casella casella) {
+		this.casellePossedute.remove(casella);
+	}
+	public void stampaCasellePossedute() {
+		for (Casella casella : casellePossedute) {
+			System.out.println(casella);
+		}
+	}
 }
