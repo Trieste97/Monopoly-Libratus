@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import Elementi.Bank;
 import Elementi.Casella;
 import Elementi.CasellaResidenziale;
 
@@ -18,45 +17,53 @@ public class CreatoreCaselle {
 	
 	//private ArrayList<Casella> caselle;
 	
-	HashMap<Integer, Casella> caselle;
-	private Bank banca;
+	HashMap<String, Casella> caselle;
 	
 	public CreatoreCaselle() {
 
 		//this.setCaselle(new ArrayList<Casella>());
-		this.caselle = new HashMap<Integer, Casella>();
-		this.setBanca(new Bank());
-		this.file = new File("src/main/resources/gameBoard.txt");
+		this.caselle = new HashMap<String, Casella>();
 	}
 	
 	
 	
-	public void caricaCaselle() {
+	public HashMap<Integer,String> caricaMappa() {
 
+		HashMap<Integer,String> mappa = new HashMap<Integer,String>();
+		
 		try {
-			Scanner scanner = new Scanner(file);
-			int posizione = -1;
+			Scanner scanner = new Scanner(new File("resources/board.txt"));
+			int pos = 0;
+			
 			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
 				
-				posizione++;
-				
-				
-				String casella = scanner.nextLine();
-				String[] informazioniCasella = casella.split(",");
+				if (line.isEmpty() || line.startsWith("//")) {
+					continue;
+				}
+					
+				String[] informazioniCasella = line.split(",");
 				String tipo = informazioniCasella[0];
+				
+				if(tipo.equals("Special"))  {
+					
+					String nome = informazioniCasella[1];
+					mappa.put(pos, nome);
+					continue;
+				} 
+				
+				Casella casella;
+						
 				String nome = informazioniCasella[1];
-				String colore = informazioniCasella[4];
-				String prezzoVanditas = informazioniCasella[2];
+				String prezzoVenditas = informazioniCasella[2];
 				String prezzoTransitos = informazioniCasella[3];
-				String prezzoIpotecas = informazioniCasella[2];
-				String prezzoRiscattoDaIpotecas = informazioniCasella[3];
 				
-				int prezzoVandita = Integer.parseInt(prezzoVanditas);
+				int prezzoVendita = Integer.parseInt(prezzoVenditas);
 				int prezzoTransito = Integer.parseInt(prezzoTransitos);
-				int prezzoIpoteca = Integer.parseInt(prezzoIpotecas);
-				int prezzoRiscattoDaIpoteca = Integer.parseInt(prezzoRiscattoDaIpotecas);
 				
-				if (tipo.equals("ColoredLand")) {
+				if(tipo.equals("ColoredLand")) {
+					
+					String colore = informazioniCasella[4];
 					String prezzoTransitoNumeroCase1s = informazioniCasella[5];
 					String prezzoTransitoNumeroCase2s = informazioniCasella[6];
 					String prezzoTransitoNumeroCase3s = informazioniCasella[7];
@@ -71,26 +78,26 @@ public class CreatoreCaselle {
 					int prezzoTransitoHotel = Integer.parseInt(prezzoTransitoHotels);
 					int prezzoCostruzioneCasa = Integer.parseInt(prezzoCostruzioneCasas);
 					
-					//this.getCaselle().add(new CasellaResidenziale(prezzoVandita, prezzoTransito, prezzoIpoteca, prezzoRiscattoDaIpoteca, nome, colore, prezzoTransitoNumeroCase1, prezzoTransitoNumeroCase2, prezzoTransitoNumeroCase3, prezzoTransitoNumeroCase4, prezzoTransitoHotel, prezzoCostruzioneCasa));
-					Casella casellaDaAggiungere = new CasellaResidenziale(prezzoVandita, prezzoTransito, prezzoIpoteca, prezzoRiscattoDaIpoteca, nome, colore, prezzoTransitoNumeroCase1, prezzoTransitoNumeroCase2, prezzoTransitoNumeroCase3, prezzoTransitoNumeroCase4, prezzoTransitoHotel, prezzoCostruzioneCasa);
-					this.caselle.put(posizione, casellaDaAggiungere);
-					this.getBanca().addCard(casellaDaAggiungere);
+					casella = new CasellaResidenziale(prezzoVendita, prezzoTransito, prezzoVendita/2, nome, colore,
+							prezzoTransitoNumeroCase1, prezzoTransitoNumeroCase2, prezzoTransitoNumeroCase3,
+							prezzoTransitoNumeroCase4, prezzoTransitoHotel, prezzoCostruzioneCasa);
 					
+					mappa.put(pos, casella.getNome());
+					caselle.put(casella.getNome(), casella);
 				}
-				else {
+				else if(tipo.equals("Trasportation") || tipo.equals("Infrastructure"))  {
+					casella = new Casella(prezzoVendita, prezzoTransito, prezzoVendita/2, nome);
 					
-					//this.getCaselle().add(new Casella(prezzoVandita, prezzoTransito, prezzoIpoteca, prezzoRiscattoDaIpoteca, nome, colore));
-					Casella casellaDaAggiungere = new Casella(prezzoVandita, prezzoTransito, prezzoIpoteca, prezzoRiscattoDaIpoteca, nome, colore);
-					this.caselle.put(posizione, casellaDaAggiungere);
-					this.getBanca().addCard(casellaDaAggiungere);
-				}
-				
+					mappa.put(pos, nome);
+					caselle.put(nome, casella);
+				}				
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {
-			System.err.println("File : " + file.getAbsolutePath() + " NOT FOUND!");
+			System.err.println("File not found");
 		}
-
+		
+		return mappa;
 	}
 
 
@@ -106,26 +113,12 @@ public class CreatoreCaselle {
 
 
 
-	public HashMap<Integer, Casella> getCaselle() {
+	public HashMap<String, Casella> getCaselle() {
 		return caselle;
 	}
 
-
-
-	public void setCaselle(HashMap<Integer, Casella> caselle) {
+	public void setCaselle(HashMap<String, Casella> caselle) {
 		this.caselle = caselle;
-	}
-
-
-
-	public Bank getBanca() {
-		return banca;
-	}
-
-
-
-	public void setBanca(Bank banca) {
-		this.banca = banca;
 	}
 
 

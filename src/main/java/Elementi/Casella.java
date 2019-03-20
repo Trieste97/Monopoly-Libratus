@@ -5,21 +5,16 @@ public class Casella {
 	int prezzoVendita;
 	int prezzoTransito;
 	int prezzoIpoteca;
-	int prezzoRiscattoDaIpoteca;
 	private String nome;
-	private String colore;
 	
-
+	Giocatore proprietario;
 	
-	public Casella(int prezzoVendita, int prezzoTransito, int prezzoIpoteca, int prezzoRiscattoDaIpoteca, String nome,
-			String colore) {
+	public Casella(int prezzoVendita, int prezzoTransito, int prezzoIpoteca, String nome) {
 		super();
 		this.prezzoVendita = prezzoVendita;
 		this.prezzoTransito = prezzoTransito;
 		this.prezzoIpoteca = prezzoIpoteca;
-		this.prezzoRiscattoDaIpoteca = prezzoRiscattoDaIpoteca;
 		this.setNome(nome);
-		this.colore = colore;
 	}
 	
 	
@@ -28,12 +23,6 @@ public class Casella {
 	}
 	public void setPrezzoVendita(int prezzoVendita) {
 		this.prezzoVendita = prezzoVendita;
-	}
-	public String getColore() {
-		return colore;
-	}
-	public void setColore(String colore) {
-		this.colore = colore;
 	}
 	public int getPrezzoTransito() {
 		return prezzoTransito;
@@ -47,12 +36,6 @@ public class Casella {
 	}
 	public void setPrezzoIpoteca(int prezzoIpoteca) {
 		this.prezzoIpoteca = prezzoIpoteca;
-	}
-	public int getPrezzoRiscattoDaIpoteca() {
-		return prezzoRiscattoDaIpoteca;
-	}
-	public void setPrezzoRiscattoDaIpoteca(int prezzoRiscattoDaIpoteca) {
-		this.prezzoRiscattoDaIpoteca = prezzoRiscattoDaIpoteca;
 	}
 
 
@@ -70,5 +53,17 @@ public class Casella {
 		return this.nome;
 	}
 	
+	public boolean haProprietario()  {
+		if(proprietario != null)  {
+			return true;
+		}
+		return false;
+	}
 	
+	public Giocatore getProprietario()  {
+		return proprietario;
+	}
+	public void setProprietario(Giocatore proprietario)  {
+		this.proprietario = proprietario;
+	}
 }

@@ -2,7 +2,7 @@ package Elementi;
 
 public class CasellaResidenziale extends Casella {
 	
-
+	String colore;
 	int prezzoTransitoNumeroCase1;
 	int prezzoTransitoNumeroCase2;
 	int prezzoTransitoNumeroCase3;
@@ -14,11 +14,13 @@ public class CasellaResidenziale extends Casella {
 	
 	
 	
-	public CasellaResidenziale(int prezzoVendita, int prezzoTransito, int prezzoIpoteca, int prezzoRiscattoDaIpoteca,
-			String nome, String colore, int prezzoTransitoNumeroCase1, int prezzoTransitoNumeroCase2,
+	public CasellaResidenziale(int prezzoVendita, int prezzoTransito, int prezzoIpoteca, String nome, 
+			String colore, int prezzoTransitoNumeroCase1, int prezzoTransitoNumeroCase2,
 			int prezzoTransitoNumeroCase3, int prezzoTransitoNumeroCase4, int prezzoTransitoHotel,
 			int prezzoCostruzioneCasa) {
-		super(prezzoVendita, prezzoTransito, prezzoIpoteca, prezzoRiscattoDaIpoteca, nome, colore);
+		
+		super(prezzoVendita, prezzoTransito, prezzoIpoteca, nome);
+		this.colore = colore;
 		this.prezzoTransitoNumeroCase1 = prezzoTransitoNumeroCase1;
 		this.prezzoTransitoNumeroCase2 = prezzoTransitoNumeroCase2;
 		this.prezzoTransitoNumeroCase3 = prezzoTransitoNumeroCase3;

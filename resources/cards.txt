@@ -1,0 +1,20 @@
+CommunityChest,Holiday Fund matures - Receive $100K,RiceviSoldi,100
+CommunityChest,Pay Hospital Fees of $100K,PagaSoldi,100
+CommunityChest,From sale of stock you get $50K,RiceviSoldi,50
+CommunityChest,Pay School Fees of $50K,RiceviSoldi,50
+CommunityChest,Doctor's fees,PagaSoldi,50
+CommunityChest,You inherit $100K,RiceviSoldi,100
+CommunityChest,Income Tax refund,RiceviSoldi,200
+CommunityChest,Advance to Go,MuoviSuCasella,0
+CommunityChest,Life Insurance Matures,RiceviSoldi,1000
+CommunityChest,Go to jail,MuoviSuCasella,10
+Chance,Advance to Liverpool,MuoviSuCasella,1
+Chance,Go back 3 spaces,MuoviCaselleIndietro,3
+Chance,Advance to Lincoln,MuoviSuCasella,19
+Chance,Take a walk on the Free Parking,MuoviSuCasella,20
+Chance,Your building loan matures,RiceviSoldi,150
+Chance,You have won a crossword competition,RiceviSoldi,100
+Chance,Take a trip to Glasgow Airport,MuoviSuCasella,5
+Chance,Go directly to Jail,MuoviSuCasella,10
+Chance,Pay poor tax of $15K,PagaSoldi,15
+Chance,Advance to London,MuoviSuCasella,14

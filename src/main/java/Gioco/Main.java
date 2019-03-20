@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import Elementi.Bank;
+import Elementi.Board;
 import Elementi.Casella;
 import Elementi.Dadi;
 import Elementi.Giocatore;
@@ -13,14 +13,6 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		CreatoreCaselle creatore = new CreatoreCaselle();
-		creatore.caricaCaselle();
-		creatore.stampa();
-		
-		Bank banca = creatore.getBanca();
-		
-		HashMap<Integer, Casella> tavola = creatore.getCaselle();
-		
 		Giocatore uno = new Giocatore("uno");
 		Giocatore due = new Giocatore("due");
 		Giocatore tre = new Giocatore("tre");
@@ -28,9 +20,14 @@ public class Main {
 		giocatori.add(uno);
 		giocatori.add(due);
 		giocatori.add(tre);
+		Board board = new Board(giocatori);
 		
 		Dadi dadi = new Dadi();
 		
+		//prova
+		board.finisciTurno();
+		board.gestisciPosizione("Chance");
+		board.gestisciPosizione("Jail");
 		
 		Scanner s = new Scanner(System.in);
 		String avanti = "a";
@@ -43,35 +40,19 @@ public class Main {
 			System.out.println("turno del giocatore ");
 			System.out.println(giocatori.get(giocatore).getNome());
 			int numero = dadi.tiraDadi();
-			System.out.println("Ã¨ uscito il numero");
+			System.out.println("è uscito il numero");
 			System.out.println(numero);
 			dadi.stampa();
 			
 			System.out.println("saldo attuale " + giocatori.get(giocatore).getSoldi());
-			System.out.println("saldo attuale " + giocatori.get(giocatore).getPosizioneInTabella());
+			System.out.println("posizione attuale " + giocatori.get(giocatore).getPosizioneInTabella());
 			
 			int posizioneGiocatore = giocatori.get(giocatore).getPosizioneInTabella();
 			int nuovaPosizione = posizioneGiocatore + numero;
 			giocatori.get(giocatore).setPosizioneInTabella(nuovaPosizione);
 			
-			if (nuovaPosizione % 40 == 0) {
-				giocatori.get(giocatore).passaDaStart();
-				System.out.println("saldo attuale " + giocatori.get(giocatore).getSoldi());
-			}
-			
-			System.out.println("il giocatore si trova sulla casella " + nuovaPosizione + " in ");
-			Casella casellaAttuale = tavola.get((Integer) nuovaPosizione);
-			System.out.println(casellaAttuale);
-			
-			//SE ACQUISTA
-			if(!banca.haCarta(casellaAttuale)) {
-				giocatori.get(giocatore).addCard(casellaAttuale);
-				banca.removeCard(casellaAttuale);
-			}
-			
-			giocatori.get(giocatore).stampaCasellePossedute();
-			
-			
+			System.out.println("il giocatore si trova sulla casella " + nuovaPosizione%40 + " in ");
+			//System.out.println(tavola.get((Integer) nuovaPosizione));
 			
 			
 			
