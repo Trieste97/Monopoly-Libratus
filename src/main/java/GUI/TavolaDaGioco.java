@@ -62,7 +62,7 @@ public class TavolaDaGioco extends JFrame{
 		/*pannelloComandi.add(azioni);
 		pannelloComandi.add(compra);
 		pannelloComandi.add(costruisci);
-		pannelloComandi.add(ipoteca);*/
+		pannelloComandi.add(ipoteca); */
 		pannelloComandi.setBackground(new Color(30, 30, 30));
 	}
 	
