@@ -1,5 +1,7 @@
-package Elementi;
+package Gioco;
 
+
+import Elementi.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 

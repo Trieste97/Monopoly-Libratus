@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import Elementi.Board;
+import Gioco.Board;
 import Elementi.Casella;
 import Elementi.Dadi;
 import Elementi.Giocatore;
 
 public class Main {
 	
-	public static void main(String[] args) {
+	/*public static void main1(String[] args) {
 		
 		Giocatore uno = new Giocatore("uno");
 		Giocatore due = new Giocatore("due");
@@ -68,6 +68,11 @@ public class Main {
 			
 		}
 		
+	}*/
+	
+	
+	public static void main(String[] args) {
+		System.out.println("ciao");
 	}
 
 }
