@@ -64,4 +64,49 @@ public class Banca {
 		vincitoreAsta.aggiungiCasella(casella);
 		casella.setProprietario(vincitoreAsta);
 	}
+	
+	public boolean checkPossedimentoColore(Casella casella, Giocatore giocatore)  {
+		
+		if(!(casella instanceof CasellaResidenziale))  {
+			return false;
+		}
+		
+		int numUguali = 0;
+		String col1 = ((CasellaResidenziale) casella).getColore();
+		for(Casella c : giocatore.getCasellePossedute())  {
+			if(!(c instanceof CasellaResidenziale))  {
+				continue;
+			}
+			
+			String col2 = ((CasellaResidenziale) c).getColore();
+			if(col1.equals(col2))  {
+				numUguali++;
+			}
+		}
+		
+		if(numUguali == 3)  {
+			return true;
+		} else if(numUguali == 2 && (col1.equals("brown") || col1.equals("blue")))  {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean checkDifferenzaCaseColore(Casella casella, Giocatore giocatore)  {
+		
+		CasellaResidenziale casellaRes = (CasellaResidenziale) casella;
+		for(Casella c : giocatore.getCasellePossedute())  {
+			if(!(c instanceof CasellaResidenziale))  {
+				continue;
+			}
+			
+			CasellaResidenziale cas = (CasellaResidenziale) c;
+			if(Math.abs(casellaRes.getNumeroCaseCostruite()-cas.getNumeroCaseCostruite()) > 1 && cas.getColore().equals(casellaRes.getColore()))  {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 }

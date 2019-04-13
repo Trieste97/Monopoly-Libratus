@@ -64,12 +64,29 @@ public class CasellaResidenziale extends Casella {
 	public void setPrezzoTransitoHotel(int prezzoTransitoHotel) {
 		this.prezzoTransitoHotel = prezzoTransitoHotel;
 	}
-	public int getPrezoCostruzioneCasa() {
+	public int getPrezzoCostruzioneCasa() {
 		return prezzoCostruzioneCasa;
 	}
-	public void setPrezoCostruzioneCasa(int prezoCostruzioneCasa) {
+	public void setPrezzoCostruzioneCasa(int prezoCostruzioneCasa) {
 		this.prezzoCostruzioneCasa = prezoCostruzioneCasa;
 	}
+	public String getColore()  {
+		return this.colore;
+	}
 	
+	public int getNumeroCaseCostruite()  {
+		return this.numeroCaseCostruite;
+	}
+	public void setNumeroCaseCostruite(int numeroCaseCostruite)  {
+		this.numeroCaseCostruite = numeroCaseCostruite;
+	}
 	
+	public void aggiungiCasa()  {
+		if(numeroCaseCostruite < 5)
+			numeroCaseCostruite++;
+	}
+	public void rimuoviCasa()  {
+		if(numeroCaseCostruite > 0)
+			numeroCaseCostruite--;
+	}
 }

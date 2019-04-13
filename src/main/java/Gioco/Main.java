@@ -1,13 +1,17 @@
 package Gioco;
 
+import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 import Gioco.Board;
 import Elementi.Casella;
 import Elementi.Dadi;
 import Elementi.Giocatore;
+import GUI.TavolaDaGioco;
 
 public class Main {
 	
@@ -72,7 +76,31 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
-		System.out.println("ciao");
+		int numPlayer = 2;
+		
+		try {
+			do {
+				numPlayer = Integer.parseInt(JOptionPane.showInputDialog("Enter Player Amount"));
+			} while (2 > numPlayer || numPlayer > 4);
+		} catch (Exception e) {
+			System.exit(0);
+		}
+		
+		ArrayList<Giocatore> giocatori = new ArrayList<Giocatore>();
+		Giocatore player = new Giocatore("YOU");
+		giocatori.add(player);
+		for(int i = 1; i < numPlayer; i++)  {
+			Giocatore bot = new Giocatore("BOT" + String.valueOf(i));
+			giocatori.add(bot);
+		}
+		
+		final Board board = new Board(giocatori);
+		EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new TavolaDaGioco("Monopoly game", board);
+            }
+        });
 	}
+	
 
 }

@@ -17,13 +17,13 @@ public class MazzoCarte {
 	
 	public MazzoCarte()  {
 		
-		nomiCartaChance = new String[10];
-		azioniCartaChance = new String[10];
-		valoriCartaChance = new String[10];
+		nomiCartaChance = new String[11];
+		azioniCartaChance = new String[11];
+		valoriCartaChance = new String[11];
 		
-		nomiCartaChest = new String[10];
-		azioniCartaChest = new String[10];
-		valoriCartaChest = new String[10];
+		nomiCartaChest = new String[11];
+		azioniCartaChest = new String[11];
+		valoriCartaChest = new String[11];
 		
 		try {
 			Scanner scanner = new Scanner(new File("resources/cards.txt"));
@@ -73,6 +73,7 @@ public class MazzoCarte {
 	}
 	*/
 	
+	//non esatta totalmente, ma va bene
 	public String[] pescaChance()  {
 		
 		Random random = new Random();

@@ -8,6 +8,7 @@ CommunityChest,Income Tax refund,RiceviSoldi,200
 CommunityChest,Advance to Go,MuoviSuCasella,0
 CommunityChest,Life Insurance Matures,RiceviSoldi,1000
 CommunityChest,Go to jail,MuoviSuCasella,10
+CommunityChest,Free prison Token,TokenPrigione,0
 Chance,Advance to Liverpool,MuoviSuCasella,1
 Chance,Go back 3 spaces,MuoviCaselleIndietro,3
 Chance,Advance to Lincoln,MuoviSuCasella,19
@@ -18,3 +19,4 @@ Chance,Take a trip to Glasgow Airport,MuoviSuCasella,5
 Chance,Go directly to Jail,MuoviSuCasella,10
 Chance,Pay poor tax of $15K,PagaSoldi,15
 Chance,Advance to London,MuoviSuCasella,14
+Chance,Free prison Token,TokenPrigione,0

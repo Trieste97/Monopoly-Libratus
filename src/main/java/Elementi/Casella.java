@@ -6,7 +6,7 @@ public class Casella {
 	int prezzoTransito;
 	int prezzoIpoteca;
 	private String nome;
-	
+	boolean ipotecata;
 	Giocatore proprietario;
 	
 	public Casella(int prezzoVendita, int prezzoTransito, int prezzoIpoteca, String nome) {
@@ -14,6 +14,7 @@ public class Casella {
 		this.prezzoVendita = prezzoVendita;
 		this.prezzoTransito = prezzoTransito;
 		this.prezzoIpoteca = prezzoIpoteca;
+		this.ipotecata = false;
 		this.setNome(nome);
 	}
 	
@@ -66,4 +67,11 @@ public class Casella {
 	public void setProprietario(Giocatore proprietario)  {
 		this.proprietario = proprietario;
 	}
+	public boolean isIpotecata() {
+		return ipotecata;
+	}
+	public void setIpotecata(boolean ipotecata) {
+		this.ipotecata = ipotecata;
+	}
+	
 }

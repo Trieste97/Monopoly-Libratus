@@ -36,6 +36,9 @@ public class Dadi {
 	public void stampa() {
 		System.out.println(this.dado1 + " + " + this.dado2);
 	}
-
 	
+	@Override
+	public String toString()  {
+		return String.valueOf(dado1) + "+" + String.valueOf(dado2) + " = " + String.valueOf(dado1+dado2);
+	}
 }

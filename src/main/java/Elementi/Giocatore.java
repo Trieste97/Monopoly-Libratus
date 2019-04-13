@@ -9,7 +9,7 @@ public class Giocatore {
 	ArrayList<Casella> casellePossedute;
 	int posizioneInTabella;
 	int soldi;
-	
+	int numTokensPrigione;
 	
 	public Giocatore(String nome) {
 		this.nome = nome;
@@ -17,6 +17,7 @@ public class Giocatore {
 		this.casellePossedute = new ArrayList<Casella>();
 		this.posizioneInTabella = 0;
 		this.soldi = CostantiGioco.SOLDI_INIZIALI;
+		this.numTokensPrigione = 0;
 	}
 	
 	
@@ -66,5 +67,39 @@ public class Giocatore {
 		for (Casella casella : casellePossedute) {
 			System.out.println(casella);
 		}
+	}
+	public void addTokenPrigione()  {
+		numTokensPrigione++;
+	}
+	public boolean hasTokenPrigione()  {
+		return numTokensPrigione > 0;
+	}
+	public void usaTokenPrigione()  {
+		if(numTokensPrigione > 0)  {
+			numTokensPrigione--;
+			inPrigione = false;
+		}
+	}
+	public ArrayList<String> getCaselleResidenziali()  {
+		ArrayList<String> listaCasRes = new ArrayList<String>();
+		
+		for(Casella c : casellePossedute)  {
+			if(c instanceof CasellaResidenziale)  {
+				listaCasRes.add(c.getNome());
+			}
+		}
+		
+		return listaCasRes;
+	}
+	public ArrayList<String> getCaselleNonIpotecate()  {
+ArrayList<String> listaCas = new ArrayList<String>();
+		
+		for(Casella c : casellePossedute)  {
+			if(!c.isIpotecata())  {
+				listaCas.add(c.getNome());
+			}
+		}
+		
+		return listaCas;
 	}
 }

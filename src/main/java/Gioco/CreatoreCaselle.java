@@ -33,7 +33,7 @@ public class CreatoreCaselle {
 		
 		try {
 			Scanner scanner = new Scanner(new File("resources/board.txt"));
-			int pos = 0;
+			int pos = -1;
 			
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
@@ -41,7 +41,7 @@ public class CreatoreCaselle {
 				if (line.isEmpty() || line.startsWith("//")) {
 					continue;
 				}
-					
+				pos++;
 				String[] informazioniCasella = line.split(",");
 				String tipo = informazioniCasella[0];
 				
@@ -85,12 +85,12 @@ public class CreatoreCaselle {
 					mappa.put(pos, casella.getNome());
 					caselle.put(casella.getNome(), casella);
 				}
-				else if(tipo.equals("Trasportation") || tipo.equals("Infrastructure"))  {
+				else if(tipo.equals("Transportation") || tipo.equals("Infrastructure"))  {
 					casella = new Casella(prezzoVendita, prezzoTransito, prezzoVendita/2, nome);
 					
 					mappa.put(pos, nome);
 					caselle.put(nome, casella);
-				}				
+				}
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {
