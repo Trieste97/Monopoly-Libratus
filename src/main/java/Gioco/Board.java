@@ -1,11 +1,19 @@
 package Gioco;
 
 
-import Elementi.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Gioco.CreatoreCaselle;
+import javax.swing.JOptionPane;
+
+import Elementi.Banca;
+import Elementi.Casella;
+import Elementi.CasellaResidenziale;
+import Elementi.CostantiGioco;
+import Elementi.Dadi;
+import Elementi.Giocatore;
+import Elementi.MazzoCarte;
+import GUI.TavolaDaGioco;
 
 //singleton board
 public class Board {
@@ -50,6 +58,10 @@ public class Board {
 		return giocatoreCorrente;
 	}
 	
+	public ArrayList<Giocatore> getGiocatori()  {
+		return giocatori;
+	}
+	
 	//AZIONI GIOCATORE CORRENTE	
 	
 	public void tiraDadi()  {
@@ -60,12 +72,14 @@ public class Board {
 			System.out.println("Terzo numero doppio consecutivo, Giocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
 			giocatoreCorrente.setInPrigione(true);
 			giocatoreCorrente.setPosizioneInTabella(10);
+			finisciTurno();
 			return;
 		} else if(dadi.isDoppioNumero() && giocatoreCorrente.isInPrigione())  {
 			System.out.println("Numero doppio, Giocatore " + giocatoreCorrente.getNome() + " esce dalla prigione");
 			giocatoreCorrente.setInPrigione(false);
 		} else if(giocatoreCorrente.isInPrigione())  {
 			System.out.println("Giocatore " + giocatoreCorrente.getNome() + " non è uscito di prigione");
+			finisciTurno();
 			return;
 		}
 		
@@ -89,7 +103,7 @@ public class Board {
 		}
 	}
 	
-	public void proponiScambio()  {
+	public void proponiScambio(Giocatore g)  {
 		
 	}
 	
@@ -125,11 +139,18 @@ public class Board {
 		}
 	}
 	
-	public void usaTokenPrigione()  {
-		if(giocatoreCorrente.hasTokenPrigione())  {
-			giocatoreCorrente.usaTokenPrigione();
+	public void esciDiPrigione(String modo)  {
+		if(modo.equals("Utilizza token"))  {
+			if(giocatoreCorrente.hasTokenPrigione())  {
+				giocatoreCorrente.usaTokenPrigione();
+				System.out.println("Giocatore " + giocatoreCorrente.getNome() + " ha usato token prigione ed è ora libero");
+			} else  {
+				System.out.println("Giocatore " + giocatoreCorrente.getNome() + " non ha token prigione");
+			}
+			
+		}  else  {
+			//vedere quanto si paga per uscire di prigione
 		}
-		System.out.println("Giocatore " + giocatoreCorrente.getNome() + " ha usato token prigione ed è ora libero");
 	}
 	
 	public void ipoteca(String nomeCasella)  {
@@ -185,20 +206,24 @@ public class Board {
 			if(!casella.haProprietario())  {
 				//casella libera
 				
-				boolean vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita(); //&& "chiede se la vuole comprare"
+				System.out.println("Casella libera");
+				boolean vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
 				
 				if(vuoleComprare)  {
 					banca.vendiCasella(giocatoreCorrente, casella);
+					System.out.println("Giocatore " + giocatoreCorrente.getNome() + " ha acquistato " + casella.getNome());
 				} else  {
 					banca.iniziaAsta(casella, giocatori);
 				}
 				
-			} else  {
+			} else if(giocatoreCorrente != casella.getProprietario()) {
 				//casella occupata
 				
 				int importo = casella.getPrezzoTransito();
 				giocatoreCorrente.diminuisciSoldi(importo);
 				casella.getProprietario().aumentaSoldi(importo);
+				
+				System.out.println("Giocatore " + giocatoreCorrente.getNome() + " paga a " + casella.getProprietario().getNome() + " " + importo);
 			}
 		}
 	}
@@ -238,4 +263,6 @@ public class Board {
 			giocatoreCorrente.addTokenPrigione();
 		}
 	}
+	
+	
 }

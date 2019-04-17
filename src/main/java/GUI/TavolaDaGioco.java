@@ -1,22 +1,28 @@
 package GUI;
 
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
+import Elementi.Casella;
+import Elementi.Giocatore;
 import Gioco.Board;
 
 
 public class TavolaDaGioco extends JFrame{
 	
+	private static final long serialVersionUID = 1L;
 	JPanel panel;
 	private ImageIcon immagineTavola;
 	JPanel pannelloComandi;
@@ -61,13 +67,15 @@ public class TavolaDaGioco extends JFrame{
 		azioni.setForeground(Color.WHITE);
 		
 		Button proponiScambio = new Button("Proponi scambio");
+		proponiScambio.setPreferredSize(new Dimension(100, 40));
 		proponiScambio.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				board.proponiScambio();
+				askBox.chiediConChiScambiare();
 			}
 		});
 		
 		Button costruisci = new Button("Costruisci");
+		costruisci.setPreferredSize(new Dimension(100, 40));
 		costruisci.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				askBox.chiediInfoCostruzione();
@@ -75,15 +83,23 @@ public class TavolaDaGioco extends JFrame{
 		});
 		
 		Button ipoteca = new Button("Ipoteca");
+		ipoteca.setPreferredSize(new Dimension(100, 40));
 		ipoteca.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				askBox.chiediInfoIpoteca();
 			}
 		});
 		
-		proponiScambio.setPreferredSize(new Dimension(100, 40));
-		costruisci.setPreferredSize(new Dimension(100, 40));
-		ipoteca.setPreferredSize(new Dimension(100, 40));
+		Button esciPrigione = new Button("Esci di prigione");
+		esciPrigione.setPreferredSize(new Dimension(100, 40));
+		esciPrigione.addActionListener(new ActionListener()  {
+			public void actionPerformed(ActionEvent e)  {
+				askBox.chiediComeUscirePrigione();
+			}
+		});
+		
+		
+		
 		box.add(Box.createVerticalStrut(50));
 		box.add(azioni);
 		box.add(Box.createVerticalStrut(10));
@@ -92,6 +108,8 @@ public class TavolaDaGioco extends JFrame{
 		box.add(costruisci);
 		box.add(Box.createVerticalStrut(10));
 		box.add(ipoteca);
+		box.add(Box.createVerticalStrut(10));
+		box.add(esciPrigione);
 		pannelloComandi.add(box);
 		pannelloComandi.setBackground(new Color(30, 30, 30));
 	}
@@ -113,5 +131,25 @@ public class TavolaDaGioco extends JFrame{
 		pannelloDadi.add(risultatoDadi);
 		pannelloDadi.setBackground(new Color(30, 30, 30));
 		
+	}
+	
+	public static boolean chiediSeVuoleComprare(Casella casella)  {
+		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Vuoi comprare? Prezzo: " + casella.getPrezzoVendita());
+		
+		if (answer == JOptionPane.YES_OPTION) {
+		      return true;
+		}
+		
+		return false;
+	}
+	
+	public static boolean chiediSeVuolePuntare(Giocatore g, int posta)  {
+		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Turno di " + g.getNome() + "\nVuoi puntare 10? Posta attuale: " + posta);
+		
+		if (answer == JOptionPane.YES_OPTION) {
+		      return true;
+		}
+		
+		return false;
 	}
 }

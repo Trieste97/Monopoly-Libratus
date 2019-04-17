@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Elementi.Giocatore;
 import Gioco.Board;
 
 public class AskBox extends JFrame  {
@@ -22,7 +23,7 @@ public class AskBox extends JFrame  {
 	Button confermButton;
 	
 	public AskBox(final Board board)  {
-		super("Costruisci case");
+		super("AAA");
 		this.setResizable(false);
 		this.setPreferredSize(new Dimension(200, 100));
 		this.setLayout(new BorderLayout());
@@ -71,6 +72,54 @@ public class AskBox extends JFrame  {
 		confermButton.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				board.ipoteca((String) box.getSelectedItem());
+			}
+		});
+		
+		this.setVisible(true);
+		box.setVisible(true);
+		confermButton.setVisible(true);
+	}
+	
+	public void chiediComeUscirePrigione()  {
+		box.removeAllItems();
+		box.addItem("Utilizza token");
+		box.addItem("Paga multa");
+		
+		confermButton.addActionListener(new ActionListener()  {
+			public void actionPerformed(ActionEvent e)  {
+				board.esciDiPrigione((String) box.getSelectedItem());
+			}
+		});
+		
+		this.setVisible(true);
+		box.setVisible(true);
+		confermButton.setVisible(true);
+	}
+	
+	public void chiediConChiScambiare()  {
+		box.removeAllItems();
+		
+		for(Giocatore g : board.getGiocatori())  {
+			if(g == board.getGiocatoreCorrente())  {
+				continue;
+			}
+			
+			box.addItem(g.getNome());
+		}
+		
+		confermButton.addActionListener(new ActionListener()  {
+			public void actionPerformed(ActionEvent e)  {
+				String nome = (String) box.getSelectedItem();
+				Giocatore gioc = null;
+				
+				for(Giocatore g : board.getGiocatori())  {
+					if(nome.equals(g.getNome()))  {
+						gioc = g;
+						break;
+					}
+				}
+				
+				board.proponiScambio(gioc);
 			}
 		});
 		

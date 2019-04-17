@@ -2,6 +2,8 @@ package Elementi;
 
 import java.util.ArrayList;
 
+import GUI.TavolaDaGioco;
+
 public class Banca {
 
 	final int numHotels = 12;
@@ -35,19 +37,24 @@ public class Banca {
 		while(candidati.size() > 1)  {
 			
 			//chiede al giocatore se vuole puntare o ritirarsi
-			boolean decidePuntare = true;
+			boolean decidePuntare = TavolaDaGioco.chiediSeVuolePuntare(giocatori.get(candidati.get(turno)), posta);
 			
 			if(decidePuntare)  {
 				if(giocatori.get( candidati.get( turno ) ).getSoldi() < posta+10)  {
 					//il giocatore non si può permettere di continuare
+					
+					System.out.println("Giocatore " + giocatori.get(candidati.get(turno)).getNome() + " non ha abbastanza soldi per continuare");
 					candidati.remove(turno);
 				}
 				else  {
 					//il giocatore punta aumentando la posta
+					
+					System.out.println("Giocatore " + giocatori.get(candidati.get(turno)).getNome() + " decide di puntare");
 					posta += 10;
 				}
 			} else  {
 				//decide di ritirarsi
+				System.out.println("Giocatore " + giocatori.get(candidati.get(turno)).getNome() + " si ritira dall'asta");
 				candidati.remove(turno);
 			}
 			
@@ -63,6 +70,8 @@ public class Banca {
 		vincitoreAsta.diminuisciSoldi(posta);
 		vincitoreAsta.aggiungiCasella(casella);
 		casella.setProprietario(vincitoreAsta);
+		
+		System.out.println("Giocatore " + vincitoreAsta.getNome() + " si aggiudica " + casella.getNome() + " per " + posta);
 	}
 	
 	public boolean checkPossedimentoColore(Casella casella, Giocatore giocatore)  {
