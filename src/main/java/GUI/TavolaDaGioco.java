@@ -5,10 +5,17 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +34,7 @@ public class TavolaDaGioco extends JFrame{
 	private ImageIcon immagineTavola;
 	JPanel pannelloComandi;
 	JPanel pannelloDadi;
+	JPanel pannelloCronologia;
 	AskBox askBox;
 	private Board board;
 
@@ -51,8 +59,10 @@ public class TavolaDaGioco extends JFrame{
 		panel.add(new JLabel(immagineTavola), BorderLayout.CENTER);
 		creaPannelloComandi();
 		panel.add(pannelloComandi, BorderLayout.EAST);
-		creaPannelloDadi();
-		panel.add(pannelloDadi, BorderLayout.SOUTH);
+//		creaPannelloDadi();
+		//panel.add(pannelloDadi, BorderLayout.SOUTH);
+		creaPannelloCronologia();
+		panel.add(pannelloCronologia, BorderLayout.WEST);
 		this.setContentPane(panel);
 	}
 	
@@ -110,28 +120,42 @@ public class TavolaDaGioco extends JFrame{
 		box.add(ipoteca);
 		box.add(Box.createVerticalStrut(10));
 		box.add(esciPrigione);
+		box.add(Box.createVerticalStrut(10));
+		box.add(creaPannelloDadi());
+		
 		pannelloComandi.add(box);
 		pannelloComandi.setBackground(new Color(30, 30, 30));
 	}
 	
-	public void creaPannelloDadi() {
+	JLabel risultatoDadi = new JLabel("");
+	public JPanel creaPannelloDadi() {
 		pannelloDadi = new JPanel();
 		
 		Button tiraDadi = new Button("Tira i dadi");
 		tiraDadi.setPreferredSize(new Dimension(100,  40));
 		tiraDadi.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
+				board.rollaDadi();
+				settaNumeroDadiGrafico();
 				board.tiraDadi();
+				aggiornaCronologia();
 			}
 		});
+		
 		pannelloDadi.add(tiraDadi);
 		
-		JLabel risultatoDadi = new JLabel("1-1");
 		risultatoDadi.setForeground(Color.WHITE);
 		pannelloDadi.add(risultatoDadi);
 		pannelloDadi.setBackground(new Color(30, 30, 30));
-		
+		return pannelloDadi;
 	}
+	
+	public void settaNumeroDadiGrafico() {
+		int dado1 = board.getDadi().getDado1();
+		int dado2 = board.getDadi().getDado2();
+		this.risultatoDadi.setText(dado1 + " - " + dado2);
+	}
+	
 	
 	public static boolean chiediSeVuoleComprare(Casella casella)  {
 		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Vuoi comprare? Prezzo: " + casella.getPrezzoVendita());
@@ -152,4 +176,40 @@ public class TavolaDaGioco extends JFrame{
 		
 		return false;
 	}
+	
+	
+	public void creaPannelloCronologia() {
+		this.pannelloCronologia = new JPanel();
+		this.pannelloCronologia.setLayout(new BoxLayout(pannelloCronologia, BoxLayout.PAGE_AXIS));
+		JLabel titolo = new JLabel("Cronologia");
+		titolo.setForeground(Color.WHITE);
+		pannelloCronologia.add(titolo);
+		pannelloCronologia.setBackground(new Color(30, 30, 30));
+	}
+	
+	public void aggiornaCronologia() {
+		File file = new File("./cronologia.txt"); 
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new FileReader(file));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		String st = "Monopoly";
+		String ultimaRiga = "";
+		while (st != null) {
+			try {
+				st = br.readLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(st != null)
+				ultimaRiga = st;
+		}
+		JLabel stringaDaAggiungere = new JLabel(ultimaRiga);
+		stringaDaAggiungere.setForeground(Color.WHITE);
+		pannelloCronologia.add(stringaDaAggiungere);
+	} 
 }

@@ -17,12 +17,12 @@ public class Dadi {
 		
 		this.setDoppioNumero(false);
 		Random random = new Random();
-		dado1 = random.nextInt(6) + 1;
-		dado2 = random.nextInt(6) + 1;
-		if (dado1 == dado2) {
+		setDado1(random.nextInt(6) + 1);
+		setDado2(random.nextInt(6) + 1);
+		if (getDado1() == getDado2()) {
 			this.setDoppioNumero(true);
 		}
-		return dado1 + dado2;
+		return getDado1() + getDado2();
 	}
 
 	public boolean isDoppioNumero() {
@@ -34,11 +34,27 @@ public class Dadi {
 	}
 
 	public void stampa() {
-		System.out.println(this.dado1 + " + " + this.dado2);
+		System.out.println(this.getDado1() + " + " + this.getDado2());
 	}
 	
 	@Override
 	public String toString()  {
-		return String.valueOf(dado1) + "+" + String.valueOf(dado2) + " = " + String.valueOf(dado1+dado2);
+		return String.valueOf(getDado1()) + "+" + String.valueOf(getDado2()) + " = " + String.valueOf(getDado1()+getDado2());
+	}
+
+	public int getDado1() {
+		return dado1;
+	}
+
+	public void setDado1(int dado1) {
+		this.dado1 = dado1;
+	}
+
+	public int getDado2() {
+		return dado2;
+	}
+
+	public void setDado2(int dado2) {
+		this.dado2 = dado2;
 	}
 }

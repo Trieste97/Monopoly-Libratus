@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import Gioco.Board;
+//import Gioco.Board;
 import Elementi.Casella;
 import Elementi.Dadi;
 import Elementi.Giocatore;

@@ -1,0 +1,12 @@
+Giocatore YOU ha rollato 6+1 = 7
+Giocatore BOT1 ha rollato 2+2 = 4
+Giocatore BOT1 ha rollato 5+6 = 11
+Giocatore BOT2 ha rollato 4+3 = 7
+Giocatore YOU ha rollato 1+5 = 6
+Giocatore BOT1 ha rollato 3+5 = 8
+Giocatore BOT2 ha rollato 5+5 = 10
+Giocatore BOT2 ha rollato 4+3 = 7
+Giocatore YOU ha rollato 3+3 = 6
+Giocatore YOU ha rollato 5+6 = 11
+Giocatore BOT1 ha rollato 3+2 = 5
+Giocatore BOT2 ha rollato 4+4 = 8
