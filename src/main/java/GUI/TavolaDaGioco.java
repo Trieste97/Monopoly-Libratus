@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import Elementi.Casella;
 import Elementi.Giocatore;
@@ -62,7 +63,8 @@ public class TavolaDaGioco extends JFrame{
 //		creaPannelloDadi();
 		//panel.add(pannelloDadi, BorderLayout.SOUTH);
 		creaPannelloCronologia();
-		panel.add(pannelloCronologia, BorderLayout.WEST);
+		//panel.add(pannelloCronologia, BorderLayout.WEST);
+		panel.add(scrollbar, BorderLayout.WEST);
 		this.setContentPane(panel);
 	}
 	
@@ -177,10 +179,12 @@ public class TavolaDaGioco extends JFrame{
 		return false;
 	}
 	
-	
+	JScrollPane scrollbar;
 	public void creaPannelloCronologia() {
 		this.pannelloCronologia = new JPanel();
 		this.pannelloCronologia.setLayout(new BoxLayout(pannelloCronologia, BoxLayout.PAGE_AXIS));
+		scrollbar = new JScrollPane(pannelloCronologia);
+		
 		JLabel titolo = new JLabel("Cronologia");
 		titolo.setForeground(Color.WHITE);
 		pannelloCronologia.add(titolo);
