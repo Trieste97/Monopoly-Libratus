@@ -1,12 +1,21 @@
-Giocatore YOU ha rollato 6+1 = 7
-Giocatore BOT1 ha rollato 2+2 = 4
-Giocatore BOT1 ha rollato 5+6 = 11
-Giocatore BOT2 ha rollato 4+3 = 7
-Giocatore YOU ha rollato 1+5 = 6
-Giocatore BOT1 ha rollato 3+5 = 8
-Giocatore BOT2 ha rollato 5+5 = 10
-Giocatore BOT2 ha rollato 4+3 = 7
-Giocatore YOU ha rollato 3+3 = 6
-Giocatore YOU ha rollato 5+6 = 11
-Giocatore BOT1 ha rollato 3+2 = 5
-Giocatore BOT2 ha rollato 4+4 = 8
+Giocatore YOU ha rollato 3+1 = 4
+Giocatore YOU arriva su: IncomeTax
+Giocatore YOU paga 2000 di tassa
+Giocatore BOT1 ha rollato 6+3 = 9
+Giocatore BOT1 arriva su: York
+Giocatore BOT1 ha acquistato York
+Giocatore BOT2 ha rollato 2+4 = 6
+Giocatore BOT2 arriva su: Middlesbrough
+Giocatore BOT2 ha acquistato Middlesbrough
+Giocatore YOU ha rollato 3+4 = 7
+Giocatore YOU arriva su: Colchester
+Giocatore YOU ha acquistato Colchester
+Giocatore BOT1 ha rollato 4+6 = 10
+Giocatore BOT1 arriva su: Lincoln
+Giocatore BOT1 ha acquistato Lincoln
+Giocatore BOT2 ha rollato 3+4 = 7
+Giocatore BOT2 arriva su: Manchester
+Giocatore BOT2 ha acquistato Manchester
+Giocatore YOU ha rollato 2+5 = 7
+Giocatore YOU arriva su: Plymouth
+Giocatore YOU ha acquistato Plymouth

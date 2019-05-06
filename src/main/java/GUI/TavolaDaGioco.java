@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,8 +37,11 @@ public class TavolaDaGioco extends JFrame{
 	JPanel pannelloComandi;
 	JPanel pannelloDadi;
 	JPanel pannelloCronologia;
+	JPanel pannelloPedine;
 	AskBox askBox;
 	private Board board;
+	
+	Pedina pedina = new Pedina();
 
 	public TavolaDaGioco(String title, Board board) {
 		super(title);
@@ -57,7 +61,10 @@ public class TavolaDaGioco extends JFrame{
 		panel = new JPanel();
 		panel.setBackground(new Color(30, 30, 30));
 		panel.setLayout(new BorderLayout());
-		panel.add(new JLabel(immagineTavola), BorderLayout.CENTER);
+		creaPannelloPedine();
+//		panel.add(new JLabel(pedina.getImmagine()), BorderLayout.CENTER);
+//		panel.add(new JLabel(immagineTavola), BorderLayout.CENTER);
+		panel.add(pannelloPedine, BorderLayout.CENTER);
 		creaPannelloComandi();
 		panel.add(pannelloComandi, BorderLayout.EAST);
 //		creaPannelloDadi();
@@ -65,6 +72,7 @@ public class TavolaDaGioco extends JFrame{
 		creaPannelloCronologia();
 		//panel.add(pannelloCronologia, BorderLayout.WEST);
 		panel.add(scrollbar, BorderLayout.WEST);
+		
 		this.setContentPane(panel);
 	}
 	
@@ -138,6 +146,7 @@ public class TavolaDaGioco extends JFrame{
 		tiraDadi.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				board.rollaDadi();
+				updateTabellone();
 				settaNumeroDadiGrafico();
 				board.tiraDadi();
 				aggiornaCronologia();
@@ -216,4 +225,37 @@ public class TavolaDaGioco extends JFrame{
 		stringaDaAggiungere.setForeground(Color.WHITE);
 		pannelloCronologia.add(stringaDaAggiungere);
 	} 
+	
+	
+	
+	
+	public void creaPannelloPedine() {
+		pannelloPedine = new JPanel();
+		pannelloPedine.setBackground(new Color(30, 30, 30));
+		JLabel immagineTavolaLabel = new JLabel(immagineTavola);
+		JLabel pedinaLabel = new JLabel(pedina.getImmagine());
+		pedinaLabel.setLocation(20, 20);
+		//immagineTavolaLabel.setLayout(new BorderLayout());
+		immagineTavolaLabel.setLayout(null);
+		pedinaLabel.setBounds(pedina.getPosizioneX(), pedina.getPosizioneY(), pedina.getHeight(), pedina.getWidth());
+		immagineTavolaLabel.add(pedinaLabel);
+		pannelloPedine.add(immagineTavolaLabel);
+	}
+	
+	public void updateTabellone() {
+		pannelloPedine.removeAll();
+		pannelloPedine.setBackground(new Color(30, 30, 30));
+		JLabel immagineTavolaLabel = new JLabel(immagineTavola);
+		JLabel pedinaLabel = new JLabel(pedina.getImmagine());
+		pedinaLabel.setLocation(20, 20);
+		immagineTavolaLabel.setLayout(null);
+		
+		pedina.setPosizioneX(pedina.getPosizioneX() + 10);
+		pedina.setPosizioneY(pedina.getPosizioneY() + 10);
+		
+		pedinaLabel.setBounds(pedina.getPosizioneX(), pedina.getPosizioneY(), pedina.getHeight(), pedina.getWidth());
+		immagineTavolaLabel.add(pedinaLabel);
+		pannelloPedine.add(immagineTavolaLabel);
+		
+	}
 }
