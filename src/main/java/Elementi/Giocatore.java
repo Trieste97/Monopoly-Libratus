@@ -10,6 +10,7 @@ public class Giocatore {
 	int posizioneInTabella;
 	int soldi;
 	int numTokensPrigione;
+	int numTurniPrigioneConsecutivi;
 	
 	public Giocatore(String nome) {
 		this.nome = nome;
@@ -18,6 +19,7 @@ public class Giocatore {
 		this.posizioneInTabella = 0;
 		this.soldi = CostantiGioco.SOLDI_INIZIALI;
 		this.numTokensPrigione = 0;
+		this.numTurniPrigioneConsecutivi = 0;
 	}
 	
 	
@@ -101,5 +103,17 @@ public class Giocatore {
 		}
 		
 		return listaCas;
+	}
+	
+	public void resetTurniPrigione()  {
+		this.numTurniPrigioneConsecutivi = 0;
+	}
+	
+	public void incrTurniPrigione()  {
+		this.numTurniPrigioneConsecutivi += 1;
+	}
+	
+	public int getTurniPrigione()  {
+		return this.numTurniPrigioneConsecutivi;
 	}
 }

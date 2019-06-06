@@ -1,25 +1,55 @@
 package GUI;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 public class Pedina {
 	
+	int casella;
 	int posizioneX;
 	int posizioneY;
 	int height;
 	int width;
-	ImageIcon immagine;
+	Image image;
 	
-	public Pedina() {
-		init();
+	public Pedina(int num) {
+		casella = 0;
+		init(num);
 		posizioneX = 0;
 		posizioneY = 0;
 		height = 50;
 		width = 50;
 	}
 	
-	public void init() {
-		immagine = new ImageIcon("src\\main\\resources\\pedina.png");
+	public void init(int num) {
+		String path = "src/main/resources/pedina";
+		
+		switch(num)  {
+			case 0: path += "1.png";
+			break;
+			
+			case 1: path += "2.png";
+			break;
+			
+			case 2: path += "3.png";
+			break;
+			
+			case 3: path += "4.png";
+			break;
+		}
+		try {
+			image = ImageIO.read(new File(path));
+			image = image.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public int getPosizioneX() {
@@ -38,12 +68,8 @@ public class Pedina {
 		this.posizioneY = posizioneY;
 	}
 
-	public ImageIcon getImmagine() {
-		return immagine;
-	}
-
-	public void setImmagine(ImageIcon immagine) {
-		this.immagine = immagine;
+	public Image getImg() {
+		return this.image;
 	}
 
 	public int getHeight() {
@@ -62,5 +88,14 @@ public class Pedina {
 		this.width = width;
 	}
 
+	public void avanza(int numPlaces)  {
+		casella += numPlaces;
+		if(casella > 39)  {
+			casella -= 40;
+		}
+	}
 	
+	public int getCasella()  {
+		return casella;
+	}
 }

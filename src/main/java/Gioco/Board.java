@@ -70,14 +70,15 @@ public class Board {
 	//AZIONI GIOCATORE CORRENTE
 	
 	private int numPlaces;
-	public void rollaDadi() {
+	public int rollaDadi() {
 		numPlaces = getDadi().tiraDadi();
 		TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
+		return numPlaces;
 	}
 	
 	public void tiraDadi()  {
 		if(getDadi().isDoppioNumero() && numDoppi == 2)  {
-			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo, Giocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
+			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo,\nGiocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
 			
 			giocatoreCorrente.setInPrigione(true);
 			giocatoreCorrente.setPosizioneInTabella(10);
@@ -86,8 +87,16 @@ public class Board {
 		} else if(getDadi().isDoppioNumero() && giocatoreCorrente.isInPrigione())  {
 			TavolaDaGioco.aggiungiACronologia("Numero doppio, Giocatore " + giocatoreCorrente.getNome() + " esce dalla prigione");
 			
+			giocatoreCorrente.resetTurniPrigione();
 			giocatoreCorrente.setInPrigione(false);
+		} else if(giocatoreCorrente.isInPrigione() && giocatoreCorrente.getTurniPrigione() > 2)  {
+			giocatoreCorrente.resetTurniPrigione();
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " esce di prigione pagando");
+			
+			finisciTurno();
+			return;
 		} else if(giocatoreCorrente.isInPrigione())  {
+			giocatoreCorrente.incrTurniPrigione();
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " non è uscito di prigione");
 			
 			finisciTurno();
@@ -163,7 +172,7 @@ public class Board {
 			}
 			
 		}  else  {
-			//vedere quanto si paga per uscire di prigione
+			//TODO vedere quanto si paga per uscire di prigione
 		}
 	}
 	
@@ -286,6 +295,10 @@ public class Board {
 
 	public void setDadi(Dadi dadi) {
 		this.dadi = dadi;
+	}
+	
+	public int getGiocatoreCorrenteIndex()  {
+		return giocatoreCorrenteIndex;
 	}
 	
 	

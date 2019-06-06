@@ -37,13 +37,11 @@ public class TavolaDaGioco extends JFrame{
 	JPanel pannelloComandi;
 	JPanel pannelloDadi;
 	static JPanel pannelloCronologia;
-	JPanel pannelloPedine;
+	BoardPanel pannelloTavola;
 	AskBox askBox;
 	private Board board;
-	
-	Pedina pedina = new Pedina();
 
-	public TavolaDaGioco(String title, Board board) {
+	public TavolaDaGioco(String title, Board board, int numPlayers) {
 		super(title);
 		
 		this.setResizable(false);
@@ -54,18 +52,18 @@ public class TavolaDaGioco extends JFrame{
 		this.askBox = new AskBox(board);
 		this.board = board;
 		caricaImmagine();
-		init();
+		init(numPlayers);
 	}
 	
-	public void init() {
+	public void init(int numPlayers) {
 		this.setPreferredSize(new Dimension(800,600));
 		panel = new JPanel();
 		panel.setBackground(new Color(30, 30, 30));
 		panel.setLayout(new BorderLayout());
-		creaPannelloPedine();
+		creaPannelloPedine(numPlayers);
 //		panel.add(new JLabel(pedina.getImmagine()), BorderLayout.CENTER);
 //		panel.add(new JLabel(immagineTavola), BorderLayout.CENTER);
-		panel.add(pannelloPedine, BorderLayout.CENTER);
+		panel.add(pannelloTavola, BorderLayout.CENTER);
 		creaPannelloComandi();
 		panel.add(pannelloComandi, BorderLayout.EAST);
 //		creaPannelloDadi();
@@ -146,8 +144,8 @@ public class TavolaDaGioco extends JFrame{
 		tiraDadi.setPreferredSize(new Dimension(100,  40));
 		tiraDadi.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				board.rollaDadi();
-				updateTabellone();
+				int numPosizioni = board.rollaDadi();
+				updateTabellone(numPosizioni);
 				settaNumeroDadiGrafico();
 				board.tiraDadi();
 			}
@@ -190,8 +188,8 @@ public class TavolaDaGioco extends JFrame{
 	
 	JScrollPane scrollbar;
 	public void creaPannelloCronologia() {
-		this.pannelloCronologia = new JPanel();
-		this.pannelloCronologia.setLayout(new BoxLayout(pannelloCronologia, BoxLayout.PAGE_AXIS));
+		TavolaDaGioco.pannelloCronologia = new JPanel();
+		TavolaDaGioco.pannelloCronologia.setLayout(new BoxLayout(pannelloCronologia, BoxLayout.PAGE_AXIS));
 		scrollbar = new JScrollPane(pannelloCronologia);
 		
 		JLabel titolo = new JLabel("Cronologia");
@@ -208,36 +206,13 @@ public class TavolaDaGioco extends JFrame{
 		pannelloCronologia.repaint();
 	} 
 	
-	
-	
-	
-	public void creaPannelloPedine() {
-		pannelloPedine = new JPanel();
-		pannelloPedine.setBackground(new Color(30, 30, 30));
-		JLabel immagineTavolaLabel = new JLabel(immagineTavola);
-		JLabel pedinaLabel = new JLabel(pedina.getImmagine());
-		pedinaLabel.setLocation(20, 20);
-		//immagineTavolaLabel.setLayout(new BorderLayout());
-		immagineTavolaLabel.setLayout(null);
-		pedinaLabel.setBounds(pedina.getPosizioneX(), pedina.getPosizioneY(), pedina.getHeight(), pedina.getWidth());
-		immagineTavolaLabel.add(pedinaLabel);
-		pannelloPedine.add(immagineTavolaLabel);
+	public void creaPannelloPedine(int numplayers) {
+		pannelloTavola = new BoardPanel(numplayers);
+		pannelloTavola.setBackground(new Color(30, 30, 30));
 	}
 	
-	public void updateTabellone() {
-		pannelloPedine.removeAll();
-		pannelloPedine.setBackground(new Color(30, 30, 30));
-		JLabel immagineTavolaLabel = new JLabel(immagineTavola);
-		JLabel pedinaLabel = new JLabel(pedina.getImmagine());
-		pedinaLabel.setLocation(20, 20);
-		immagineTavolaLabel.setLayout(null);
-		
-		pedina.setPosizioneX(pedina.getPosizioneX() + 10);
-		pedina.setPosizioneY(pedina.getPosizioneY() + 10);
-		
-		pedinaLabel.setBounds(pedina.getPosizioneX(), pedina.getPosizioneY(), pedina.getHeight(), pedina.getWidth());
-		immagineTavolaLabel.add(pedinaLabel);
-		pannelloPedine.add(immagineTavolaLabel);
+	public void updateTabellone(int numPosizioni) {
+		pannelloTavola.repaint(this.board.getGiocatoreCorrenteIndex(), numPosizioni);
 		
 	}
 }

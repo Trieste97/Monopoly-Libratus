@@ -86,6 +86,8 @@ public class Main {
 			System.exit(0);
 		}
 		
+		final int numPlayers = numPlayer;
+		
 		ArrayList<Giocatore> giocatori = new ArrayList<Giocatore>();
 		Giocatore player = new Giocatore("YOU");
 		giocatori.add(player);
@@ -97,7 +99,7 @@ public class Main {
 		final Board board = new Board(giocatori);
 		EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TavolaDaGioco("Monopoly game", board);
+                new TavolaDaGioco("Monopoly game", board, numPlayers);
             }
         });
 	}

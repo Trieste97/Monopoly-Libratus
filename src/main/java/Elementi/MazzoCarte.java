@@ -26,7 +26,7 @@ public class MazzoCarte {
 		valoriCartaChest = new String[11];
 		
 		try {
-			Scanner scanner = new Scanner(new File("resources/cards.txt"));
+			Scanner scanner = new Scanner(new File("src/main/resources/cards.txt"));
 			int posChance = 0;
 			int posChest = 0;
 			
@@ -61,7 +61,7 @@ public class MazzoCarte {
 			scanner.close();
 			//mischia();
 		} catch (FileNotFoundException e) {
-			System.err.println("File not found");
+			e.printStackTrace();
 		}
 	}
 	

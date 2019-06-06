@@ -14,7 +14,7 @@ Chance,Fai 3 passi indietro (con tanti auguri),MuoviCaselleIndietro,3
 Chance,Avanza fino a Piazza Dante,MuoviSuCasella,19
 Chance,Avanza fino al parcheggio,MuoviSuCasella,20
 Chance,Maturati gli interessi: 150€,RiceviSoldi,150
-Chance,Hai vinto una competizione, ricevi 100€,RiceviSoldi,100
+Chance,Hai vinto una competizione: ricevi 100€,RiceviSoldi,100
 Chance,Vai fino a Stazione Sud,MuoviSuCasella,5
 Chance,Vai in prigione,MuoviSuCasella,10
 Chance,Paga la tassa sulla povertà: 50€,PagaSoldi,50

@@ -32,7 +32,7 @@ public class CreatoreCaselle {
 		HashMap<Integer,String> mappa = new HashMap<Integer,String>();
 		
 		try {
-			Scanner scanner = new Scanner(new File("resources/board.txt"));
+			Scanner scanner = new Scanner(new File("src/main/resources/board.txt"));
 			int pos = -1;
 			
 			while (scanner.hasNextLine()) {
@@ -94,7 +94,7 @@ public class CreatoreCaselle {
 			}
 			scanner.close();
 		} catch (FileNotFoundException e) {
-			System.err.println("File not found");
+			e.printStackTrace();
 		}
 		
 		return mappa;
