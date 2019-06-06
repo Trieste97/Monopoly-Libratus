@@ -19,7 +19,7 @@ public class Pedina {
 	}
 	
 	public void init() {
-		immagine = new ImageIcon("src\\main\\java\\GUI\\pedina.png");
+		immagine = new ImageIcon("src\\main\\resources\\pedina.png");
 	}
 
 	public int getPosizioneX() {

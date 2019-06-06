@@ -71,7 +71,7 @@ public class Banca {
 		vincitoreAsta.aggiungiCasella(casella);
 		casella.setProprietario(vincitoreAsta);
 		
-		System.out.println("Giocatore " + vincitoreAsta.getNome() + " si aggiudica " + casella.getNome() + " per " + posta);
+		TavolaDaGioco.aggiungiACronologia("Giocatore " + vincitoreAsta.getNome() + " si aggiudica " + casella.getNome() + " per " + posta);
 	}
 	
 	public boolean checkPossedimentoColore(Casella casella, Giocatore giocatore)  {

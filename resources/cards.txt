@@ -1,22 +1,22 @@
-CommunityChest,Holiday Fund matures - Receive $100K,RiceviSoldi,100
-CommunityChest,Pay Hospital Fees of $100K,PagaSoldi,100
-CommunityChest,From sale of stock you get $50K,RiceviSoldi,50
-CommunityChest,Pay School Fees of $50K,RiceviSoldi,50
-CommunityChest,Doctor's fees,PagaSoldi,50
-CommunityChest,You inherit $100K,RiceviSoldi,100
-CommunityChest,Income Tax refund,RiceviSoldi,200
-CommunityChest,Advance to Go,MuoviSuCasella,0
-CommunityChest,Life Insurance Matures,RiceviSoldi,1000
-CommunityChest,Go to jail,MuoviSuCasella,10
-CommunityChest,Free prison Token,TokenPrigione,0
-Chance,Advance to Liverpool,MuoviSuCasella,1
-Chance,Go back 3 spaces,MuoviCaselleIndietro,3
-Chance,Advance to Lincoln,MuoviSuCasella,19
-Chance,Take a walk on the Free Parking,MuoviSuCasella,20
-Chance,Your building loan matures,RiceviSoldi,150
-Chance,You have won a crossword competition,RiceviSoldi,100
-Chance,Take a trip to Glasgow Airport,MuoviSuCasella,5
-Chance,Go directly to Jail,MuoviSuCasella,10
-Chance,Pay poor tax of $15K,PagaSoldi,15
-Chance,Advance to London,MuoviSuCasella,14
-Chance,Free prison Token,TokenPrigione,0
+CommunityChest,Maturano i vostri fondi, ricevi 100€,RiceviSoldi,100
+CommunityChest,Paga ticket ospedale: 100€,PagaSoldi,100
+CommunityChest,Ottieni 50€ vendendo le tue azioni,RiceviSoldi,50
+CommunityChest,Paga le tasse scolastiche: 50€,PagaSoldi,50
+CommunityChest,Tassa del dottore: 50€,PagaSoldi,50
+CommunityChest,Erediti 100€,RiceviSoldi,100
+CommunityChest,Rimborso tasse: 200€,RiceviSoldi,200
+CommunityChest,Avanza fino al via,MuoviSuCasella,0
+CommunityChest,Maturata l'assicurazione sulla vita: 200€,RiceviSoldi,200
+CommunityChest,Vai in prigione,MuoviSuCasella,10
+CommunityChest,Ottenuto token prigione,TokenPrigione,0
+Chance,Avanza fino a Vicolo corto,MuoviSuCasella,1
+Chance,Fai 3 passi indietro (con tanti auguri),MuoviCaselleIndietro,3
+Chance,Avanza fino a Piazza Dante,MuoviSuCasella,19
+Chance,Avanza fino al parcheggio,MuoviSuCasella,20
+Chance,Maturati gli interessi: 150€,RiceviSoldi,150
+Chance,Hai vinto una competizione, ricevi 100€,RiceviSoldi,100
+Chance,Vai fino a Stazione Sud,MuoviSuCasella,5
+Chance,Vai in prigione,MuoviSuCasella,10
+Chance,Paga la tassa sulla povertà: 50€,PagaSoldi,50
+Chance,Avanza fino a Piazza Università,MuoviSuCasella,14
+Chance,Ottenuto token prigione,TokenPrigione,0

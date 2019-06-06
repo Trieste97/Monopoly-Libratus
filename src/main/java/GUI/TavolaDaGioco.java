@@ -36,7 +36,7 @@ public class TavolaDaGioco extends JFrame{
 	private ImageIcon immagineTavola;
 	JPanel pannelloComandi;
 	JPanel pannelloDadi;
-	JPanel pannelloCronologia;
+	static JPanel pannelloCronologia;
 	JPanel pannelloPedine;
 	AskBox askBox;
 	private Board board;
@@ -45,6 +45,7 @@ public class TavolaDaGioco extends JFrame{
 
 	public TavolaDaGioco(String title, Board board) {
 		super(title);
+		
 		this.setResizable(false);
 		this.setPreferredSize(new Dimension(1000, 750));
 	    this.pack();
@@ -77,7 +78,7 @@ public class TavolaDaGioco extends JFrame{
 	}
 	
 	public void caricaImmagine() {
-		immagineTavola = new ImageIcon("src\\main\\java\\GUI\\immagineTavola.jpg");
+		immagineTavola = new ImageIcon("src\\main\\resources\\immagineTavola.jpg");
 	}
 	
 	public void creaPannelloComandi() {
@@ -149,7 +150,6 @@ public class TavolaDaGioco extends JFrame{
 				updateTabellone();
 				settaNumeroDadiGrafico();
 				board.tiraDadi();
-				aggiornaCronologia();
 			}
 		});
 		
@@ -200,30 +200,12 @@ public class TavolaDaGioco extends JFrame{
 		pannelloCronologia.setBackground(new Color(30, 30, 30));
 	}
 	
-	public void aggiornaCronologia() {
-		File file = new File("./cronologia.txt"); 
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new FileReader(file));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-		String st = "Monopoly";
-		String ultimaRiga = "";
-		while (st != null) {
-			try {
-				st = br.readLine();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(st != null)
-				ultimaRiga = st;
-		}
-		JLabel stringaDaAggiungere = new JLabel(ultimaRiga);
+	public static void aggiungiACronologia(String st) {
+		JLabel stringaDaAggiungere = new JLabel(st);
 		stringaDaAggiungere.setForeground(Color.WHITE);
 		pannelloCronologia.add(stringaDaAggiungere);
+		pannelloCronologia.revalidate();
+		pannelloCronologia.repaint();
 	} 
 	
 	

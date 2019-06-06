@@ -92,7 +92,7 @@ public class Giocatore {
 		return listaCasRes;
 	}
 	public ArrayList<String> getCaselleNonIpotecate()  {
-ArrayList<String> listaCas = new ArrayList<String>();
+		ArrayList<String> listaCas = new ArrayList<String>();
 		
 		for(Casella c : casellePossedute)  {
 			if(!c.isIpotecata())  {

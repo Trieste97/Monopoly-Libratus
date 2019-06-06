@@ -37,29 +37,6 @@ public class Board {
 	Giocatore giocatoreCorrente;
 	
 	
-	PrintWriter cronologia = null;
-	public void aggiungiACronologia(String stringa) {
-		try {
-			if(cronologia == null)
-			{
-				File cronologiaFile = new File("./cronologia.txt");
-				cronologiaFile.delete();
-				cronologia = new PrintWriter("./cronologia.txt", "UTF-8");
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		
-		
-		cronologia.println(stringa);
-		cronologia.flush();
-	}
-	
-	
-	
-	
 	//simple constructor
 	public Board(ArrayList<Giocatore> giocatori)  {
 		this.giocatori = giocatori;
@@ -95,25 +72,24 @@ public class Board {
 	private int numPlaces;
 	public void rollaDadi() {
 		numPlaces = getDadi().tiraDadi();
-		System.out.println("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
-		aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
+		TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
 	}
 	
 	public void tiraDadi()  {
 		if(getDadi().isDoppioNumero() && numDoppi == 2)  {
-			System.out.println("Terzo numero doppio consecutivo, Giocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
-			aggiungiACronologia("Terzo numero doppio consecutivo, Giocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
+			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo, Giocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
+			
 			giocatoreCorrente.setInPrigione(true);
 			giocatoreCorrente.setPosizioneInTabella(10);
 			finisciTurno();
 			return;
 		} else if(getDadi().isDoppioNumero() && giocatoreCorrente.isInPrigione())  {
-			System.out.println("Numero doppio, Giocatore " + giocatoreCorrente.getNome() + " esce dalla prigione");
-			aggiungiACronologia("Numero doppio, Giocatore " + giocatoreCorrente.getNome() + " esce dalla prigione");
+			TavolaDaGioco.aggiungiACronologia("Numero doppio, Giocatore " + giocatoreCorrente.getNome() + " esce dalla prigione");
+			
 			giocatoreCorrente.setInPrigione(false);
 		} else if(giocatoreCorrente.isInPrigione())  {
-			System.out.println("Giocatore " + giocatoreCorrente.getNome() + " non è uscito di prigione");
-			aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " non è uscito di prigione");
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " non è uscito di prigione");
+			
 			finisciTurno();
 			return;
 		}
@@ -123,13 +99,13 @@ public class Board {
 		//gestione "passa dal via"
 		giocatoreCorrente.setPosizioneInTabella(position + numPlaces);
 		if(giocatoreCorrente.getPosizioneInTabella() < position)  {
-			System.out.println("Giocatore " + giocatoreCorrente.getNome() + " passa dal via");
-			aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " passa dal via");
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " passa dal via");
+			
 			banca.pagaPassaggioStart(giocatoreCorrente);
 		}
 		
-		System.out.println("Giocatore " + giocatoreCorrente.getNome() + " arriva su: " + mappa.get(giocatoreCorrente.getPosizioneInTabella())); 
-		aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " arriva su: " + mappa.get(giocatoreCorrente.getPosizioneInTabella()));
+		TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " arriva su: " + mappa.get(giocatoreCorrente.getPosizioneInTabella()));
+		
 		gestisciPosizione(mappa.get(giocatoreCorrente.getPosizioneInTabella()));
 		
 		//controlla se fine turno
@@ -180,8 +156,8 @@ public class Board {
 		if(modo.equals("Utilizza token"))  {
 			if(giocatoreCorrente.hasTokenPrigione())  {
 				giocatoreCorrente.usaTokenPrigione();
-				System.out.println("Giocatore " + giocatoreCorrente.getNome() + " ha usato token prigione ed è ora libero");
-				aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha usato token prigione ed è ora libero");
+				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha usato token prigione ed è ora libero");
+				
 			} else  {
 				System.out.println("Giocatore " + giocatoreCorrente.getNome() + " non ha token prigione");
 			}
@@ -201,8 +177,7 @@ public class Board {
 		} else  {
 			giocatoreCorrente.aumentaSoldi(cas.getPrezzoIpoteca());
 			cas.setIpotecata(true);
-			System.out.println("Giocatore " + giocatoreCorrente.getNome() + " ha ipotecato " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
-			aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha ipotecato " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha ipotecato " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
 		}
 	}
 	
@@ -223,24 +198,24 @@ public class Board {
 		}
 		
 		if(position.equals("GoJail"))  {
-			System.out.println("Giocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
-			aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
 			giocatoreCorrente.setPosizioneInTabella(10);
 			giocatoreCorrente.setInPrigione(true);
+			
 		} else if(position.equals("IncomeTax"))  {
-			System.out.println("Giocatore " + giocatoreCorrente.getNome() + " paga " + CostantiGioco.INCOME_TAX + " di tassa");
-			aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " paga " + CostantiGioco.INCOME_TAX + " di tassa");
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " paga " + CostantiGioco.INCOME_TAX + " di tassa");
 			giocatoreCorrente.diminuisciSoldi(CostantiGioco.INCOME_TAX);
+			
 		} else if(position.equals("SuperTax"))  {
-			System.out.println("Giocatore " + giocatoreCorrente.getNome() + " paga " + CostantiGioco.SUPER_TAX + " di super tassa");
-			aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " paga " + CostantiGioco.SUPER_TAX + " di super tassa");
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " paga " + CostantiGioco.SUPER_TAX + " di super tassa");
 			giocatoreCorrente.diminuisciSoldi(CostantiGioco.SUPER_TAX);
+			
 		} else if(position.equals("CommunityChest"))  {
-			System.out.println("Giocatore " + giocatoreCorrente.getNome() + " pesca una carta");
 			gestisciCartaPescata(mazzo.pescaChest());
+			
 		} else if(position.equals("Chance"))  {
-			System.out.println("Giocatore " + giocatoreCorrente.getNome() + " pesca una carta");
 			gestisciCartaPescata(mazzo.pescaChest());
+			
 		} else  {
 			//capitato su una casella, se libera può acquistarla, altrimenti deve pagare la rendita
 			Casella casella = caselle.get(position);
@@ -248,13 +223,11 @@ public class Board {
 			if(!casella.haProprietario())  {
 				//casella libera
 				
-				System.out.println("Casella libera");
 				boolean vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
 				
 				if(vuoleComprare)  {
 					banca.vendiCasella(giocatoreCorrente, casella);
-					System.out.println("Giocatore " + giocatoreCorrente.getNome() + " ha acquistato " + casella.getNome());
-					aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha acquistato " + casella.getNome());
+					TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha acquistato " + casella.getNome());
 				} else  {
 					banca.iniziaAsta(casella, giocatori);
 				}
@@ -266,15 +239,14 @@ public class Board {
 				giocatoreCorrente.diminuisciSoldi(importo);
 				casella.getProprietario().aumentaSoldi(importo);
 				
-				System.out.println("Giocatore " + giocatoreCorrente.getNome() + " paga a " + casella.getProprietario().getNome() + " " + importo);
-				aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " paga a " + casella.getProprietario().getNome() + " " + importo);
+				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " paga a " + casella.getProprietario().getNome() + " " + importo + "€");
 			}
 		}
 	}
 	
 	public void gestisciCartaPescata(String[] carta)  {
 		
-		System.out.println(carta[0]);
+		TavolaDaGioco.aggiungiACronologia(carta[0]);
 		
 		String effetto = carta[1];
 		String valore  = carta[2];
