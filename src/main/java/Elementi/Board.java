@@ -1,23 +1,11 @@
-package Gioco;
+package Elementi;
 
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JOptionPane;
-
-import Elementi.Banca;
-import Elementi.Casella;
-import Elementi.CasellaResidenziale;
-import Elementi.CostantiGioco;
-import Elementi.Dadi;
-import Elementi.Giocatore;
-import Elementi.MazzoCarte;
 import GUI.TavolaDaGioco;
+import Gioco.CreatoreCaselle;
 
 //singleton board
 public class Board {

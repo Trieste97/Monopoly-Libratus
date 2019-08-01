@@ -12,8 +12,8 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Elementi.Board;
 import Elementi.Giocatore;
-import Gioco.Board;
 
 public class AskBox extends JFrame  {
 	

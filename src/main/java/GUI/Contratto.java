@@ -6,55 +6,45 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Pedina {
+public class Contratto {
 	
-	int casella;
 	int posizioneX;
 	int posizioneY;
 	int height;
 	int width;
+	boolean ipotecato;
+	
 	Image image;
 	
-	public Pedina(int num) {
-		casella = 0;
-		init(num);
+	public Contratto(String nome)  {
+		init(nome);
 		posizioneX = 0;
 		posizioneY = 0;
-		height = 50;
-		width = 50;
+		height = 39;
+		width = 82;
 	}
 	
-	public void init(int num) {
-		String path = "src/main/resources/pedina";
-		
-		switch(num)  {
-			case 0: path += "1.png";
-			break;
-			
-			case 1: path += "2.png";
-			break;
-			
-			case 2: path += "3.png";
-			break;
-			
-			case 3: path += "4.png";
-			break;
-		}
+	private void init(String nome)  {
+		String path = "src/main/resources/" + nome + ".png";
 		try {
 			image = ImageIO.read(new File(path));
-			image = image.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
+	
 	public int getPosizioneX() {
 		return posizioneX;
 	}
 
 	public void setPosizioneX(int posizioneX) {
 		this.posizioneX = posizioneX;
+	}
+	
+	public void setPosizioneXY(int x, int y)  {
+		this.posizioneX = x;
+		this.posizioneY = y;
 	}
 
 	public int getPosizioneY() {
@@ -83,16 +73,5 @@ public class Pedina {
 
 	public void setWidth(int width) {
 		this.width = width;
-	}
-
-	public void avanza(int numPlaces)  {
-		casella += numPlaces;
-		if(casella > 39)  {
-			casella -= 40;
-		}
-	}
-	
-	public int getCasella()  {
-		return casella;
 	}
 }

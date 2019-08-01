@@ -5,35 +5,26 @@ import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import Elementi.Board;
 import Elementi.Casella;
 import Elementi.Giocatore;
-import Gioco.Board;
 
 
 public class TavolaDaGioco extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	JPanel panel;
-	private ImageIcon immagineTavola;
 	JPanel pannelloComandi;
 	JPanel pannelloDadi;
 	static JPanel pannelloCronologia;
@@ -41,7 +32,7 @@ public class TavolaDaGioco extends JFrame{
 	AskBox askBox;
 	private Board board;
 
-	public TavolaDaGioco(String title, Board board, int numPlayers) {
+	public TavolaDaGioco(String title, Board board, int numPlayers, Giocatore player) {
 		super(title);
 		
 		this.setResizable(false);
@@ -51,16 +42,15 @@ public class TavolaDaGioco extends JFrame{
 		this.setVisible(true);
 		this.askBox = new AskBox(board);
 		this.board = board;
-		caricaImmagine();
-		init(numPlayers);
+		init(numPlayers, player);
 	}
 	
-	public void init(int numPlayers) {
+	public void init(int numPlayers, Giocatore player) {
 		this.setPreferredSize(new Dimension(800,600));
 		panel = new JPanel();
 		panel.setBackground(new Color(30, 30, 30));
 		panel.setLayout(new BorderLayout());
-		creaPannelloPedine(numPlayers);
+		creaPannelloPedine(numPlayers, player);
 //		panel.add(new JLabel(pedina.getImmagine()), BorderLayout.CENTER);
 //		panel.add(new JLabel(immagineTavola), BorderLayout.CENTER);
 		panel.add(pannelloTavola, BorderLayout.CENTER);
@@ -73,10 +63,6 @@ public class TavolaDaGioco extends JFrame{
 		panel.add(scrollbar, BorderLayout.WEST);
 		
 		this.setContentPane(panel);
-	}
-	
-	public void caricaImmagine() {
-		immagineTavola = new ImageIcon("src\\main\\resources\\immagineTavola.jpg");
 	}
 	
 	public void creaPannelloComandi() {
@@ -170,7 +156,7 @@ public class TavolaDaGioco extends JFrame{
 		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Vuoi comprare? Prezzo: " + casella.getPrezzoVendita());
 		
 		if (answer == JOptionPane.YES_OPTION) {
-		      return true;
+			return true;
 		}
 		
 		return false;
@@ -188,9 +174,14 @@ public class TavolaDaGioco extends JFrame{
 	
 	JScrollPane scrollbar;
 	public void creaPannelloCronologia() {
-		TavolaDaGioco.pannelloCronologia = new JPanel();
-		TavolaDaGioco.pannelloCronologia.setLayout(new BoxLayout(pannelloCronologia, BoxLayout.PAGE_AXIS));
+		pannelloCronologia = new JPanel();
+		pannelloCronologia.setLayout(new BoxLayout(pannelloCronologia, BoxLayout.PAGE_AXIS));
 		scrollbar = new JScrollPane(pannelloCronologia);
+		/*scrollbar.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+	        public void adjustmentValueChanged(AdjustmentEvent e) {  
+	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+	        }
+	    });*/
 		
 		JLabel titolo = new JLabel("Cronologia");
 		titolo.setForeground(Color.WHITE);
@@ -206,8 +197,8 @@ public class TavolaDaGioco extends JFrame{
 		pannelloCronologia.repaint();
 	} 
 	
-	public void creaPannelloPedine(int numplayers) {
-		pannelloTavola = new BoardPanel(numplayers);
+	public void creaPannelloPedine(int numplayers, Giocatore player) {
+		pannelloTavola = new BoardPanel(numplayers, player);
 		pannelloTavola.setBackground(new Color(30, 30, 30));
 	}
 	

@@ -1,4 +1,4 @@
-CommunityChest,Maturano i vostri fondi, ricevi 100€,RiceviSoldi,100
+CommunityChest,Maturano i vostri fondi: ricevi 100€,RiceviSoldi,100
 CommunityChest,Paga ticket ospedale: 100€,PagaSoldi,100
 CommunityChest,Ottieni 50€ vendendo le tue azioni,RiceviSoldi,50
 CommunityChest,Paga le tasse scolastiche: 50€,PagaSoldi,50
