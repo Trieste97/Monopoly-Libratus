@@ -75,7 +75,17 @@ public class TavolaDaGioco extends JFrame{
 		proponiScambio.setPreferredSize(new Dimension(100, 40));
 		proponiScambio.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				askBox.chiediConChiScambiare();
+				//askBox.chiediConChiScambiare();
+				askBox.chiediScambio();
+			}
+		});
+		
+		Button proponiVendita = new Button("Proponi vendita");
+		proponiVendita.setPreferredSize(new Dimension(100, 40));
+		proponiVendita.addActionListener(new ActionListener()  {
+			public void actionPerformed(ActionEvent e)  {
+				//askBox.chiediConChiScambiare();
+				askBox.chiediVendita();
 			}
 		});
 		
@@ -103,10 +113,11 @@ public class TavolaDaGioco extends JFrame{
 			}
 		});
 		
-		
-		
+				
 		box.add(Box.createVerticalStrut(50));
 		box.add(azioni);
+		box.add(Box.createVerticalStrut(10));
+		box.add(proponiVendita);
 		box.add(Box.createVerticalStrut(10));
 		box.add(proponiScambio);
 		box.add(Box.createVerticalStrut(10));
@@ -123,7 +134,10 @@ public class TavolaDaGioco extends JFrame{
 	}
 	
 	JLabel risultatoDadi = new JLabel("");
+	JLabel soldiDisponibili = new JLabel("");
 	public JPanel creaPannelloDadi() {
+		
+		Box box = Box.createVerticalBox();
 		pannelloDadi = new JPanel();
 		
 		Button tiraDadi = new Button("Tira i dadi");
@@ -133,22 +147,42 @@ public class TavolaDaGioco extends JFrame{
 				int numPosizioni = board.rollaDadi();
 				updateTabellone(numPosizioni);
 				settaNumeroDadiGrafico();
+				settaSoldiDisponibili();
 				board.tiraDadi();
 			}
 		});
 		
+		risultatoDadi.setForeground(Color.WHITE);
+		soldiDisponibili.setForeground(Color.WHITE);
+		
+		box.add(Box.createVerticalStrut(10));
+		box.add(tiraDadi);
+		box.add(Box.createVerticalStrut(10));
+		box.add(risultatoDadi);
+		box.add(Box.createVerticalStrut(10));
+		box.add(soldiDisponibili);
+		
+		
+		pannelloDadi.add(box);
+		pannelloDadi.setBackground(new Color(30, 30, 30));
+		/*
 		pannelloDadi.add(tiraDadi);
 		
 		risultatoDadi.setForeground(Color.WHITE);
 		pannelloDadi.add(risultatoDadi);
-		pannelloDadi.setBackground(new Color(30, 30, 30));
+		soldiDisponibili.setForeground(Color.WHITE);
+		pannelloDadi.add(soldiDisponibili);
+		pannelloDadi.setBackground(new Color(30, 30, 30));*/
 		return pannelloDadi;
 	}
 	
 	public void settaNumeroDadiGrafico() {
 		int dado1 = board.getDadi().getDado1();
 		int dado2 = board.getDadi().getDado2();
-		this.risultatoDadi.setText(dado1 + " - " + dado2);
+		this.risultatoDadi.setText("Dadi: " + dado1 + " - " + dado2);
+	}
+	public void settaSoldiDisponibili() {
+		this.soldiDisponibili.setText("Soldi: " + Integer.toString(board.getGiocatoreCorrente().getSoldi()));
 	}
 	
 	
@@ -206,4 +240,6 @@ public class TavolaDaGioco extends JFrame{
 		pannelloTavola.repaint(this.board.getGiocatoreCorrenteIndex(), numPosizioni);
 		
 	}
+	
+	
 }

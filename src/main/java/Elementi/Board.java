@@ -97,6 +97,7 @@ public class Board {
 		giocatoreCorrente.setPosizioneInTabella(position + numPlaces);
 		if(giocatoreCorrente.getPosizioneInTabella() < position)  {
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " passa dal via");
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " riceve 2000 euro");
 			
 			banca.pagaPassaggioStart(giocatoreCorrente);
 		}
@@ -113,15 +114,31 @@ public class Board {
 		}
 	}
 	
-	public void proponiScambio(Giocatore g)  {
-		
+	public void scambia(Casella casellaDaPrendere, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, Casella casellaDaLasciare)  {
+		giocatoreCheAccetta.getCasellePossedute().remove(casellaDaPrendere);
+		giocatoreCheFaPorposta.getCasellePossedute().add(casellaDaPrendere);
+		casellaDaPrendere.setProprietario(giocatoreCheFaPorposta);
+		giocatoreCheFaPorposta.getCasellePossedute().remove(casellaDaLasciare);
+		giocatoreCheAccetta.getCasellePossedute().add(casellaDaLasciare);
+		casellaDaLasciare.setProprietario(giocatoreCheAccetta);
+		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha scambiato " + 
+				casellaDaLasciare.getNome() + " con " + casellaDaPrendere.getNome());
+	}
+	
+	public void compraCasellaAvversaria(Casella casella, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta)  {
+		giocatoreCheAccetta.getCasellePossedute().remove(casella);
+		giocatoreCheFaPorposta.getCasellePossedute().add(casella);
+		casella.setProprietario(giocatoreCheFaPorposta);
+		giocatoreCheFaPorposta.diminuisciSoldi(casella.getPrezzoVendita());
+		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha acquistato " + casella.getNome());
 	}
 	
 	public void costruisci(String nome)  {
 		Casella cas = caselle.get(nome);
 		
 		if(cas == null)  {
-			System.out.println("Non è stato selezionato niente");
+			TavolaDaGioco.aggiungiACronologia("Non è stato selezionato niente".toUpperCase());
+//			System.out.println("Non è stato selezionato niente");
 			return;
 		}
 		
@@ -132,20 +149,25 @@ public class Board {
 			CasellaResidenziale casella = (CasellaResidenziale) cas;					
 			
 			if(casella.getNumeroCaseCostruite() + 1 > 5)  {
-				System.out.println("C'è già un albergo, impossibile costruire ancora qui");
+				TavolaDaGioco.aggiungiACronologia("C'è già un albergo, impossibile costruire ancora qui".toUpperCase());
+				//System.out.println("C'è già un albergo, impossibile costruire ancora qui");
 			} else if(giocatoreCorrente.getSoldi() < casella.getPrezzoCostruzioneCasa())  {
-				System.out.println("Soldi non sufficienti");
+				TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
+//				System.out.println("Soldi non sufficienti");
 			} else  if(!banca.checkDifferenzaCaseColore(cas, giocatoreCorrente))  {
-				System.out.println("Devi costruire prima sulle altre caselle");
+				TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
+//				System.out.println("Devi costruire prima sulle altre caselle");
 			} else  {
-				System.out.println("Casa costruita con successo");
+				TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
+//				System.out.println("Casa costruita con successo");
 				
 				casella.aggiungiCasa();
 				giocatoreCorrente.diminuisciSoldi(casella.getPrezzoCostruzioneCasa());
 			}
 			
 		} else  {
-			System.out.println("Non hai tutto il set del colore della casella scelta");
+			TavolaDaGioco.aggiungiACronologia("Non hai tutto il set del colore della casella scelta".toUpperCase());
+//			System.out.println("Non hai tutto il set del colore della casella scelta");
 		}
 	}
 	
