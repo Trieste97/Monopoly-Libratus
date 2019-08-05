@@ -1,0 +1,3 @@
+giocatore(you,11500).
+casella(d2,1800).
+proposta(idProposta,d2,you).

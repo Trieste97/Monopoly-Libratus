@@ -1,0 +1,2 @@
+accetto(IdProposta) | nonAccetto(IdProposta) :- proposta(IdProposta,_,_).
+:- accetto(IdProposta), proposta(IdProposta, Territorio, Giocatore), casella(Territorio, Prezzo), giocatore(Giocatore, Soldi), Soldi < Prezzo.

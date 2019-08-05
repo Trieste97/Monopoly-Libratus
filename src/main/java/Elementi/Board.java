@@ -4,12 +4,18 @@ package Elementi;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import AI.AIClass;
+import AI.Writer;
 import GUI.TavolaDaGioco;
 import Gioco.CreatoreCaselle;
 
 //singleton board
 public class Board {
 
+	Writer writer = new Writer();
+	AIClass ai = new AIClass();
+	
+	
 	ArrayList<Giocatore> giocatori;
 	HashMap<Integer, String> mappa;
 	HashMap<String, Casella> caselle;
@@ -241,8 +247,15 @@ public class Board {
 			
 			if(!casella.haProprietario())  {
 				//casella libera
-				
-				boolean vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
+
+				boolean vuoleComprare = false;
+//PRIMA AI
+				writer.writePropostaAcquisto(casella, giocatoreCorrente);
+				vuoleComprare = ai.propostaAcquisto();
+				System.out.println("Scelta Fatta: " + vuoleComprare);
+	
+//				DA SCOMMENTARE SE SI TOGLIE L'AI
+//				vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
 				
 				if(vuoleComprare)  {
 					banca.vendiCasella(giocatoreCorrente, casella);

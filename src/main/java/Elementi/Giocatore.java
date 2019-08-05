@@ -2,14 +2,23 @@ package Elementi;
 
 import java.util.ArrayList;
 
+import it.unical.mat.embasp.languages.Id;
+import it.unical.mat.embasp.languages.Param;
+
+//@Id("Giocatore")
 public class Giocatore {
 
+//	@Param(0)
 	String nome;
+//	@Param(2)
 	boolean inPrigione;
 	ArrayList<Casella> casellePossedute;
 	int posizioneInTabella;
+//	@Param(1)
 	int soldi;
+//	@Param(3)
 	int numTokensPrigione;
+//	@Param(4)
 	int numTurniPrigioneConsecutivi;
 	
 	public Giocatore(String nome) {

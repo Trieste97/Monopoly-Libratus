@@ -1,12 +1,22 @@
 package Elementi;
 
+import it.unical.mat.embasp.languages.Id;
+import it.unical.mat.embasp.languages.Param;
+
+//@Id("casella")
 public class Casella {
 
+//	@Param(2)
 	int prezzoVendita;
+//	@Param(3)
 	int prezzoTransito;
+//	@Param(4)
 	int prezzoIpoteca;
+//	@Param(0)
 	private String nome;
+//	@Param(5)
 	boolean ipotecata;
+//	@Param(1)
 	Giocatore proprietario;
 	
 	public Casella(int prezzoVendita, int prezzoTransito, int prezzoIpoteca, String nome) {
