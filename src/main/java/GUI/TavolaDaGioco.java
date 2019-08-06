@@ -109,7 +109,9 @@ public class TavolaDaGioco extends JFrame{
 		esciPrigione.setPreferredSize(new Dimension(100, 40));
 		esciPrigione.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				askBox.chiediComeUscirePrigione();
+				if(board.getGiocatoreCorrente().isInPrigione()) {
+					askBox.chiediComeUscirePrigione();
+				}
 			}
 		});
 		
@@ -135,6 +137,8 @@ public class TavolaDaGioco extends JFrame{
 	
 	JLabel risultatoDadi = new JLabel("");
 	JLabel soldiDisponibili = new JLabel("");
+	
+	boolean turnofinito = true;
 	public JPanel creaPannelloDadi() {
 		
 		Box box = Box.createVerticalBox();
@@ -144,11 +148,27 @@ public class TavolaDaGioco extends JFrame{
 		tiraDadi.setPreferredSize(new Dimension(100,  40));
 		tiraDadi.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				int numPosizioni = board.rollaDadi();
-				updateTabellone(numPosizioni);
-				settaNumeroDadiGrafico();
-				settaSoldiDisponibili();
-				board.tiraDadi();
+				if(turnofinito) {
+//					board.iniziaTurno();
+					int numPosizioni = board.rollaDadi();
+					updateTabellone(numPosizioni);
+					settaNumeroDadiGrafico();
+					settaSoldiDisponibili();
+					board.tiraDadi();
+					turnofinito = false;
+				}
+			}
+		});
+		
+		Button terminaTurno = new Button("Termina Turno");
+		terminaTurno.setPreferredSize(new Dimension(100,  40));
+		terminaTurno.addActionListener(new ActionListener()  {
+			public void actionPerformed(ActionEvent e)  {
+				if (!turnofinito) {
+					board.finisciTurno();
+					turnofinito = true;
+					board.iniziaTurnoGiocatoreSuccessivo();
+				}
 			}
 		});
 		
@@ -157,6 +177,8 @@ public class TavolaDaGioco extends JFrame{
 		
 		box.add(Box.createVerticalStrut(10));
 		box.add(tiraDadi);
+		box.add(Box.createVerticalStrut(10));
+		box.add(terminaTurno);
 		box.add(Box.createVerticalStrut(10));
 		box.add(risultatoDadi);
 		box.add(Box.createVerticalStrut(10));

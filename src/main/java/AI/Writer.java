@@ -31,5 +31,22 @@ public class Writer {
 
 	}
 	
+	public void writeUscitaPrigione(Giocatore giocatore) {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/uscitaPrigioneInstance", "UTF-8");
+			writer.println(Creator.creaGiocatore(giocatore));
+			writer.println(Creator.creaInPrigione(giocatore.getNome()));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 
 }

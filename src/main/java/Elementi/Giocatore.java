@@ -17,7 +17,7 @@ public class Giocatore {
 //	@Param(1)
 	int soldi;
 //	@Param(3)
-	int numTokensPrigione;
+	private int numTokensPrigione;
 //	@Param(4)
 	int numTurniPrigioneConsecutivi;
 	
@@ -27,7 +27,7 @@ public class Giocatore {
 		this.casellePossedute = new ArrayList<Casella>();
 		this.posizioneInTabella = 0;
 		this.soldi = CostantiGioco.SOLDI_INIZIALI;
-		this.numTokensPrigione = 0;
+		this.setNumTokensPrigione(0);
 		this.numTurniPrigioneConsecutivi = 0;
 	}
 	
@@ -80,14 +80,14 @@ public class Giocatore {
 		}
 	}
 	public void addTokenPrigione()  {
-		numTokensPrigione++;
+		setNumTokensPrigione(getNumTokensPrigione() + 1);
 	}
 	public boolean hasTokenPrigione()  {
-		return numTokensPrigione > 0;
+		return getNumTokensPrigione() > 0;
 	}
 	public void usaTokenPrigione()  {
-		if(numTokensPrigione > 0)  {
-			numTokensPrigione--;
+		if(getNumTokensPrigione() > 0)  {
+			setNumTokensPrigione(getNumTokensPrigione() - 1);
 			inPrigione = false;
 		}
 	}
@@ -124,5 +124,15 @@ public class Giocatore {
 	
 	public int getTurniPrigione()  {
 		return this.numTurniPrigioneConsecutivi;
+	}
+
+
+	public int getNumTokensPrigione() {
+		return numTokensPrigione;
+	}
+
+
+	public void setNumTokensPrigione(int numTokensPrigione) {
+		this.numTokensPrigione = numTokensPrigione;
 	}
 }

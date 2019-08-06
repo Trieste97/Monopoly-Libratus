@@ -1,2 +1,8 @@
+%Si può accettare o non accettare di acquistare una casella
 accetto(IdProposta) | nonAccetto(IdProposta) :- proposta(IdProposta,_,_).
-:- accetto(IdProposta), proposta(IdProposta, Territorio, Giocatore), casella(Territorio, Prezzo), giocatore(Giocatore, Soldi), Soldi < Prezzo.
+
+%Non è possibile accettare l'acquisto se non si hanno soldi a sufficienza
+:- accetto(IdProposta), proposta(IdProposta, Territorio, Giocatore), casella(Territorio,_, Prezzo,_,_,_), giocatore(Giocatore, Soldi,_,_,_,_), Soldi < Prezzo.
+
+%Si preferisce acquistare più caselle possibili per avere più proprietà
+:~ nonAccetto(X). [1:1]

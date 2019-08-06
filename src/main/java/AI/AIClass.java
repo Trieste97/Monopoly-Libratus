@@ -71,24 +71,42 @@ public class AIClass {
 	
 	
 	
+	String encodingResource = "";
+	String instanceResource = "";
+	Handler handler;
+	InputProgram  program;
+	Parser parser;
 	
-	
-	
+	public AIClass() {
+		// TODO Auto-generated constructor stub
+		handler = new DesktopHandler(new DLVDesktopService("lib/dlv.mingw.exe"));
+		program = new ASPInputProgram(); //forse può generare problemi: creare in ogni funzione uno nuovo
+		parser = new Parser();
+	}
 	
 	
 	public boolean propostaAcquisto() {
-		String encodingResource="encodings/propostaAcquisto";
-		String instanceResource="encodings/propostaAcquistoInstance";
-		Handler handler = new DesktopHandler(new DLVDesktopService("lib/dlv.mingw.exe"));
-		InputProgram  program = new ASPInputProgram();
+		encodingResource="encodings/propostaAcquisto";
+		instanceResource="encodings/propostaAcquistoInstance";
 		program.addFilesPath(encodingResource);
 		program.addFilesPath(instanceResource);
 		handler.addProgram(program);
 		Output o =  handler.startSync();
 		AnswerSets answers = (AnswerSets) o;
-		Parser parser = new Parser();
 		boolean esito = parser.parsePropostaAcquisto(answers);
-		System.out.println("Esito :" + esito);
+		return esito;
+		
+	}
+	
+	public String uscitaPrigione() {
+		encodingResource="encodings/uscitaPrigione";
+		instanceResource="encodings/uscitaPrigioneInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		String esito = parser.parseUscitaPrigione(answers);
 		return esito;
 		
 	}

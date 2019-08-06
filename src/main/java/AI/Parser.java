@@ -30,4 +30,29 @@ public class Parser {
 		return esito;
 
 	}
+	
+	
+	public String parseUscitaPrigione(AnswerSets answers) {
+		// TODO Auto-generated method stub
+		String esito = "";
+		int n = 0;
+		for(AnswerSet a: answers.getAnswersets()){
+			 System.out.println("AS n.: " + ++n + ": " + a);
+			 String as = a.toString();
+			 if(as.contains("token")) {
+				 esito = "token";
+				 System.out.println("TOKEN");
+			 }
+			 else if(as.contains("dadi")) {
+				 esito = "dadi";
+				 System.out.println("DADI");
+			 }
+			 else if (as.contains("paga")) {
+				 esito = "paga";
+				 System.out.println("PAGA");
+			}
+		}
+		return esito;
+
+	}
 }

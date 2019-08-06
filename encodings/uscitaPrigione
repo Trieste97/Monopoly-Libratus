@@ -1,0 +1,15 @@
+%Si può segliere se uscire di prigione con il token, pagando oppure tirando i dadi affinchè esca un numero doppio
+esci(Giocatore, token)|esci(Giocatore, dadi)|esci(Giocatore, paga):- inPrigione(Giocatore).
+
+%Non è possibile usare il token se non se ne ha almeno uno in possesso
+:-esci(Giocatore, token), inPrigione(Giocatore), giocatore(Giocatore,_,_,NumToken,_,_), NumToken<1.
+
+%Si preferisce soprattutto non pagare se si ha meno di 1000euro
+:~esci(Giocatore, paga), inPrigione(Giocatore), giocatore(Giocatore,Soldi,_,_,_,_), Soldi<1000. [1:2]
+
+%Non è possiile pagare se non si hano i soldi a sufficienza
+:-esci(Giocatore, paga), inPrigione(Giocatore), giocatore(Giocatore,Soldi,_,_,_,_), Soldi<51.
+
+%Si preferisce non pagare e soprattutto non usare i dadi (più turni senza giocare)
+:~esci(Giocatore, dadi). [2:1]
+:~esci(Giocatore, paga). [1:1]

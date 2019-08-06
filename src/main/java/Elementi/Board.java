@@ -71,12 +71,14 @@ public class Board {
 	}
 	
 	public void tiraDadi()  {
+
+		
 		if(getDadi().isDoppioNumero() && numDoppi == 2)  {
 			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo,\nGiocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
 			
 			giocatoreCorrente.setInPrigione(true);
 			giocatoreCorrente.setPosizioneInTabella(10);
-			finisciTurno();
+//			finisciTurno();
 			return;
 		} else if(getDadi().isDoppioNumero() && giocatoreCorrente.isInPrigione())  {
 			TavolaDaGioco.aggiungiACronologia("Numero doppio, Giocatore " + giocatoreCorrente.getNome() + " esce dalla prigione");
@@ -85,15 +87,16 @@ public class Board {
 			giocatoreCorrente.setInPrigione(false);
 		} else if(giocatoreCorrente.isInPrigione() && giocatoreCorrente.getTurniPrigione() > 2)  {
 			giocatoreCorrente.resetTurniPrigione();
-			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " esce di prigione pagando");
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " esce di prigione dopo 3 turni");
 			
-			finisciTurno();
+//			finisciTurno();
 			return;
 		} else if(giocatoreCorrente.isInPrigione())  {
+			
 			giocatoreCorrente.incrTurniPrigione();
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " non è uscito di prigione");
 			
-			finisciTurno();
+//			finisciTurno();
 			return;
 		}
 		
@@ -115,9 +118,10 @@ public class Board {
 		//controlla se fine turno
 		if(getDadi().isDoppioNumero())  {
 			numDoppi++;
-		} else  {
+		}/* else  {
 			finisciTurno();
-		}
+			
+		}*/
 	}
 	
 	public void scambia(Casella casellaDaPrendere, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, Casella casellaDaLasciare)  {
@@ -178,7 +182,9 @@ public class Board {
 	}
 	
 	public void esciDiPrigione(String modo)  {
-		if(modo.equals("Utilizza token"))  {
+		
+		
+		if(modo.equals("token"))  {
 			if(giocatoreCorrente.hasTokenPrigione())  {
 				giocatoreCorrente.usaTokenPrigione();
 				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha usato token prigione ed è ora libero");
@@ -187,8 +193,11 @@ public class Board {
 				System.out.println("Giocatore " + giocatoreCorrente.getNome() + " non ha token prigione");
 			}
 			
-		}  else  {
-			//TODO vedere quanto si paga per uscire di prigione
+		}
+		else if (modo.equals("paga")) {
+			giocatoreCorrente.diminuisciSoldi(50);
+			giocatoreCorrente.setInPrigione(false);
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha pagato per uscire di prigione");
 		}
 	}
 	
@@ -218,6 +227,12 @@ public class Board {
 	}
 	
 	public void gestisciPosizione(String position)  {
+//mia aggiunta		
+		if(position.equals("Jail")) {
+			giocatoreCorrente.setInPrigione(true);
+			System.out.println("Ho arrestato");
+		}
+		
 		if(position.equals("Start") || position.equals("FreeParking") || position.equals("Jail"))  {
 			return;
 		}
@@ -254,7 +269,7 @@ public class Board {
 				vuoleComprare = ai.propostaAcquisto();
 				System.out.println("Scelta Fatta: " + vuoleComprare);
 	
-//				DA SCOMMENTARE SE SI TOGLIE L'AI
+//				DA SCOMMENTARE SE SI TOGLIE L'AIz
 //				vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
 				
 				if(vuoleComprare)  {
@@ -324,5 +339,17 @@ public class Board {
 		return giocatoreCorrenteIndex;
 	}
 	
+	
+	public void iniziaTurnoGiocatoreSuccessivo() {
+		
+		if(giocatoreCorrente.isInPrigione()) {
+//SECONDA AI
+			writer.writeUscitaPrigione(giocatoreCorrente);
+			String modoUscita = ai.uscitaPrigione();
+			System.out.println("Scelta Fatta: " + modoUscita);
+			esciDiPrigione(modoUscita);
+		}
+		
+	}
 	
 }
