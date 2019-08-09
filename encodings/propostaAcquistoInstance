@@ -1,3 +1,3 @@
-giocatore(bot1,4140,false,0,0,14).
-casella(c3,banca,1600,120,800,false).
-proposta(idProposta,c3,bot1).
+giocatore(bot1,6070,false,0,0,19).
+casella(d3,banca,2000,160,1000,false).
+proposta(idProposta,d3,bot1).

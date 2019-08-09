@@ -1,0 +1,82 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Date le caselle avversarie scelgo quali sono interessanti per uno scambio/acquisto
+interessante(Casella)|nonInteressante(Casella):- casella(Casella, Avversario,_,_,_,_,_), avversario(Avversario,_,_,_,_,_).
+
+%numero delle caselle possedute dal giocatore corrente dello stesso colore
+numeroMieCaselleStessoColore(Colore, Numero):- giocatore(Proprietario,_,_,_,_,_), casella(Casella, Proprietario,Colore,_,_,_,_),
+	#count{ StessoColore, NomeCasella :casella(NomeCasella, Proprietario,StessoColore,_,_,_,_), StessoColore = Colore} = Numero.
+
+%colori posseduti dal giocatore corrente
+colorePosseduto(Colore):- giocatore(Proprietario,_,_,_,_,_), casella(Casella, Proprietario,Colore,_,_,_,_).
+
+%colori mancanti al giocatore corrente
+coloreMancante(Colore):- casella(Casella, Avversario, Colore,_,_,_,_), avversario(Avversario,_,_,_,_,_), not colorePosseduto(Colore).
+
+% numero caselle di altro colore che non possiede il giocatore corrente
+numeroMieCaselleStessoColore(Colore, 0):- coloreMancante(Colore).
+
+
+%definisco le caselle interessanti
+
+%Pago se considero non interessante una casella di cui ho già 2 caselle dello stesso colore
+:~nonInteressante(Casella), casella(Casella,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>1. [1:10]
+
+%Pago se considero interessante una casella di cui non ho almeno altre 2 caselle dello stesso colore
+:~interessante(Casella), casella(Casella,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero<2. [1:10]
+
+%Pago se considero le caslle come non interessanti
+:~nonInteressante(Casella). [1:9]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Date le caselle del giocatore corrente, scelgo quelle buone per effettuare uno scambio
+buonaPerScambio(Casella)|nonBuonaPerScambio(Casella):- casella(Casella, Giocatore,_,_,_,_,_), giocatore(Giocatore,_,_,_,_,_).
+
+%Preferirei considerare non buona per lo scambio una casella se ho almeno 2 caselle dello stesso suo colore
+:~buonaPerScambio(Casella), casella(Casella,_,Colore,_,_,_,_), numeroMieCaselleStessoColore(Colore, Numero), Numero>1. [1:10]
+
+%Preferirei non scambiare una casella che ha prezzo di transito alto
+:~buonaPerScambio(Casella), casella(Casella,_,Colore,_,PrezzoTransito,_,_), PrezzoTransito>200. [2:9]
+
+%Preferirei che la casella sia buona per lo scambio
+:~nonBuonaPerScambio(Casella). [1:9]
+
+
+%Numero delle caselle possedute dall avversario dello stesso colore
+numeroCaselleStessoColoreAvversario(Colore, Numero):- avversario(Proprietario,_,_,_,_,_), casella(Casella, Proprietario,Colore,_,_,_,_),
+    #count{ StessoColore, NomeCasella :casella(NomeCasella, Proprietario,StessoColore,_,_,_,_),	StessoColore = Colore} = Numero.
+
+%Preferirei non considerare buone per lo scambio le caselle che completano il set di colore avversario
+:~buonaPerScambio(Casella), casella(Casella,_,Colore,_,_,_,_), numeroCaselleStessoColoreAvversario(Colore, Numero), Numero>1. [1:8]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Valuta se chiedere scambio oppure acquistare la casella
+chiediScambio(Casella)|chiediAcquisto(Casella):- interessante(Casella).
+
+%Preferirei non chiedere un acquisto se ho meno di 1000 euro
+:~chiediAcquisto(Casella), giocatore(Giocatore, Soldi, _,_,_,_), Soldi<2000.[1:7]
+
+%Preferirei non scambiare ma acquistare
+:~chiediScambio(Casella). [1:5]
+
+%Preferirei non fare l acquisto se l avversario ha molti soldi
+:~chiediAcquisto(Casella), casella(Casella,Avversario,_,_,_,_,_), avversario(Avversario, Soldi, _,_,_,_), Soldi>5000. [1:6]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Elaboro le varie combinazioni di possibili proposte di scambio tra le caselle interessanti dell avversario
+%	e le caselle del giocatore corrente considerate buone per lo scambio
+propostaScambio(Casella1, Casella2):-chiediScambio(Casella1), casella(Casella2,Giocatore,_,_,_,_,_), giocatore(Giocatore,_,_,_,_,_), not nonBuonaPerScambio(Casella2).
+
+%Preferirei non chiedere scambio tra due caselle dello stesso colore
+:~propostaScambio(Casella1,Casella2), casella(Casella2, Giocatore, Colore,_,_,_,_), casella(Casella1, Avversario, Colore,_,_,_,_).[1:2]
+
+%Preferirei non scambiare due caselle se quella del giocatore corrente ha prezzo di transito maggiore di quella da prendere dall avversario
+:~propostaScambio(Casella1,Casella2), casella(Casella2, Giocatore, _,_, PrezzoTransito2,_,_), 
+	casella(Casella1, Avversario, _,_, PrezzoTransito1,_,_), PrezzoTransito1<PrezzoTransito2.[1:2]
+	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

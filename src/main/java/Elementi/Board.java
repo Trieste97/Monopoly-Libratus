@@ -266,7 +266,8 @@ public class Board {
 				boolean vuoleComprare = false;
 //PRIMA AI
 				writer.writePropostaAcquisto(casella, giocatoreCorrente);
-				vuoleComprare = ai.propostaAcquisto();
+				AIClass newAI = new AIClass();
+				vuoleComprare = newAI.propostaAcquisto();
 				System.out.println("Scelta Fatta: " + vuoleComprare);
 	
 //				DA SCOMMENTARE SE SI TOGLIE L'AIz
@@ -339,15 +340,51 @@ public class Board {
 		return giocatoreCorrenteIndex;
 	}
 	
+	public int getGiocatoreAvversarioIndex()  {
+		if(giocatoreCorrenteIndex == 0) {
+			return 1;
+		}
+		return 0;
+	}
+	
+	
+	private Casella getCasellaDaNome(String nome) {
+		// TODO Auto-generated method stub
+		return caselle.get(nome);
+	}
+	
+	
 	
 	public void iniziaTurnoGiocatoreSuccessivo() {
 		
 		if(giocatoreCorrente.isInPrigione()) {
 //SECONDA AI
 			writer.writeUscitaPrigione(giocatoreCorrente);
-			String modoUscita = ai.uscitaPrigione();
+			AIClass newAI = new AIClass();
+			String modoUscita = newAI.uscitaPrigione();
 			System.out.println("Scelta Fatta: " + modoUscita);
 			esciDiPrigione(modoUscita);
+		}
+		
+		
+//TERZA AI
+		
+		if(!giocatoreCorrente.getCaselleResidenziali().isEmpty() && 
+				!giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenziali().isEmpty()) {
+			
+			writer.writeGestioneProposte(giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
+					giocatoreCorrente.getCaselleResidenzialiOggetto(), 
+					giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenzialiOggetto());
+			AIClass newAI = new AIClass();
+			ArrayList<String> esito = newAI.gestioneProposte();
+			System.out.println("ESISTOOOOOOOOOOOOOOOOOOOOOOOOOO " + esito.get(0));
+			if(esito.get(0).equals("Scambio")){
+				scambia(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
+						getCasellaDaNome(esito.get(2)));
+			}
+			else if (esito.get(0).equals("Acquisto")){
+				compraCasellaAvversaria(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()));
+			}
 		}
 		
 	}

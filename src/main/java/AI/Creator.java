@@ -1,6 +1,7 @@
 package AI;
 
 import Elementi.Casella;
+import Elementi.CasellaResidenziale;
 import Elementi.Giocatore;
 
 public class Creator {
@@ -26,11 +27,47 @@ public class Creator {
 		return giocatore;
 	}
 	
+	public static String creaAvversario(Giocatore g) {
+		String giocatore = "avversario(";
+		giocatore = giocatore + g.getNome().toLowerCase();
+		giocatore = giocatore + ",";
+		giocatore = giocatore + g.getSoldi();
+		giocatore = giocatore + ",";
+		giocatore = giocatore + g.isInPrigione();
+		giocatore = giocatore + ",";
+		giocatore = giocatore + g.getNumTokensPrigione();
+		giocatore = giocatore + ",";
+		giocatore = giocatore + g.getTurniPrigione();
+		giocatore = giocatore + ",";
+		giocatore = giocatore + g.getPosizioneInTabella();
+		giocatore = giocatore + ").";
+		return giocatore;
+	}
+	
 	public static String creaCasella(Casella c) {
 		String casella = "casella(";
 		casella = casella + c.getNome().toLowerCase();
 		casella = casella + ",";
 		casella = casella + determinaProprietarioCasella(c);
+		casella = casella + ",";
+		casella = casella + c.getPrezzoVendita();
+		casella = casella + ",";
+		casella = casella + c.getPrezzoTransito();
+		casella = casella + ",";
+		casella = casella + c.getPrezzoIpoteca();
+		casella = casella + ",";
+		casella = casella + c.isIpotecata();
+		casella = casella + ").";
+		return casella;
+	}
+	
+	public static String creaCasellaResidenziale(CasellaResidenziale c) {
+		String casella = "casella(";
+		casella = casella + c.getNome().toLowerCase();
+		casella = casella + ",";
+		casella = casella + determinaProprietarioCasella(c);
+		casella = casella + ",";
+		casella = casella + c.getColore().toLowerCase();
 		casella = casella + ",";
 		casella = casella + c.getPrezzoVendita();
 		casella = casella + ",";

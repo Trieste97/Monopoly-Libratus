@@ -1,5 +1,7 @@
 package AI;
 
+import java.util.ArrayList;
+
 import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 import Elementi.Casella;
@@ -111,5 +113,17 @@ public class AIClass {
 		
 	}
 		
+	public ArrayList<String> gestioneProposte() {
+		encodingResource="encodings/gestioneProposte";
+		instanceResource="encodings/gestioneProposteInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		ArrayList<String> esito = parser.parseProposte(answers);
+		return esito;
+		
+	}
 	
 }

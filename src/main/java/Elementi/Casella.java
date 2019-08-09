@@ -19,6 +19,7 @@ public class Casella {
 //	@Param(1)
 	Giocatore proprietario;
 	
+	
 	public Casella(int prezzoVendita, int prezzoTransito, int prezzoIpoteca, String nome) {
 		super();
 		this.prezzoVendita = prezzoVendita;
@@ -83,5 +84,7 @@ public class Casella {
 	public void setIpotecata(boolean ipotecata) {
 		this.ipotecata = ipotecata;
 	}
+
+
 	
 }

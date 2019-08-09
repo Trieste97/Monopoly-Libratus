@@ -102,6 +102,17 @@ public class Giocatore {
 		
 		return listaCasRes;
 	}
+	public ArrayList<CasellaResidenziale> getCaselleResidenzialiOggetto()  {
+		ArrayList<CasellaResidenziale> listaCasRes = new ArrayList<CasellaResidenziale>();
+		
+		for(Casella c : casellePossedute)  {
+			if(c instanceof CasellaResidenziale)  {
+				listaCasRes.add((CasellaResidenziale) c);
+			}
+		}
+		
+		return listaCasRes;
+	}
 	public ArrayList<String> getCaselleNonIpotecate()  {
 		ArrayList<String> listaCas = new ArrayList<String>();
 		

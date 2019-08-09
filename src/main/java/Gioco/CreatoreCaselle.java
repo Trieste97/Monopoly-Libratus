@@ -81,6 +81,7 @@ public class CreatoreCaselle {
 							prezzoTransitoNumeroCase1, prezzoTransitoNumeroCase2, prezzoTransitoNumeroCase3,
 							prezzoTransitoNumeroCase4, prezzoTransitoHotel, prezzoCostruzioneCasa);
 					
+					
 					mappa.put(pos, casella.getNome());
 					caselle.put(casella.getNome(), casella);
 				}
