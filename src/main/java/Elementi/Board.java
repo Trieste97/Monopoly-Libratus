@@ -13,7 +13,7 @@ import Gioco.CreatoreCaselle;
 public class Board {
 
 	Writer writer = new Writer();
-	AIClass ai = new AIClass();
+	//AIClass ai = new AIClass();
 	
 	
 	ArrayList<Giocatore> giocatori;
@@ -148,7 +148,6 @@ public class Board {
 		
 		if(cas == null)  {
 			TavolaDaGioco.aggiungiACronologia("Non è stato selezionato niente".toUpperCase());
-//			System.out.println("Non è stato selezionato niente");
 			return;
 		}
 		
@@ -160,16 +159,12 @@ public class Board {
 			
 			if(casella.getNumeroCaseCostruite() + 1 > 5)  {
 				TavolaDaGioco.aggiungiACronologia("C'è già un albergo, impossibile costruire ancora qui".toUpperCase());
-				//System.out.println("C'è già un albergo, impossibile costruire ancora qui");
 			} else if(giocatoreCorrente.getSoldi() < casella.getPrezzoCostruzioneCasa())  {
 				TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
-//				System.out.println("Soldi non sufficienti");
 			} else  if(!banca.checkDifferenzaCaseColore(cas, giocatoreCorrente))  {
 				TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
-//				System.out.println("Devi costruire prima sulle altre caselle");
 			} else  {
 				TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
-//				System.out.println("Casa costruita con successo");
 				
 				casella.aggiungiCasa();
 				giocatoreCorrente.diminuisciSoldi(casella.getPrezzoCostruzioneCasa());
@@ -177,7 +172,6 @@ public class Board {
 			
 		} else  {
 			TavolaDaGioco.aggiungiACronologia("Non hai tutto il set del colore della casella scelta".toUpperCase());
-//			System.out.println("Non hai tutto il set del colore della casella scelta");
 		}
 	}
 	
@@ -230,7 +224,7 @@ public class Board {
 //mia aggiunta		
 		if(position.equals("Jail")) {
 			giocatoreCorrente.setInPrigione(true);
-			System.out.println("Ho arrestato");
+			System.out.println("Arrestato");
 		}
 		
 		if(position.equals("Start") || position.equals("FreeParking") || position.equals("Jail"))  {
@@ -265,10 +259,19 @@ public class Board {
 
 				boolean vuoleComprare = false;
 //PRIMA AI
-				writer.writePropostaAcquisto(casella, giocatoreCorrente);
-				AIClass newAI = new AIClass();
-				vuoleComprare = newAI.propostaAcquisto();
-				System.out.println("Scelta Fatta: " + vuoleComprare);
+				
+				try {
+					
+					writer.writePropostaAcquisto(casella, giocatoreCorrente);
+					AIClass newAI = new AIClass();
+					vuoleComprare = newAI.propostaAcquisto();
+					System.out.println("Scelta Fatta: " + vuoleComprare);
+					
+				} catch (Exception e) {
+
+					System.err.println("VALUTAZIOE ACQUISTO CASELLA FALLITA");
+				}
+				
 	
 //				DA SCOMMENTARE SE SI TOGLIE L'AIz
 //				vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
@@ -349,7 +352,7 @@ public class Board {
 	
 	
 	private Casella getCasellaDaNome(String nome) {
-		// TODO Auto-generated method stub
+		nome = nome.toUpperCase();
 		return caselle.get(nome);
 	}
 	
@@ -357,13 +360,21 @@ public class Board {
 	
 	public void iniziaTurnoGiocatoreSuccessivo() {
 		
-		if(giocatoreCorrente.isInPrigione()) {
 //SECONDA AI
-			writer.writeUscitaPrigione(giocatoreCorrente);
-			AIClass newAI = new AIClass();
-			String modoUscita = newAI.uscitaPrigione();
-			System.out.println("Scelta Fatta: " + modoUscita);
-			esciDiPrigione(modoUscita);
+		if(giocatoreCorrente.isInPrigione()) {
+			
+			try {
+				
+				writer.writeUscitaPrigione(giocatoreCorrente);
+				AIClass newAI = new AIClass();
+				String modoUscita = newAI.uscitaPrigione();
+				System.out.println("Scelta Fatta: " + modoUscita);
+				esciDiPrigione(modoUscita);
+				
+			} catch (Exception e) {
+				System.err.println("VALUTAZIOE USCITA PRIGIONE FALLITA");
+			}
+			
 		}
 		
 		
@@ -372,19 +383,27 @@ public class Board {
 		if(!giocatoreCorrente.getCaselleResidenziali().isEmpty() && 
 				!giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenziali().isEmpty()) {
 			
-			writer.writeGestioneProposte(giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
-					giocatoreCorrente.getCaselleResidenzialiOggetto(), 
-					giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenzialiOggetto());
-			AIClass newAI = new AIClass();
-			ArrayList<String> esito = newAI.gestioneProposte();
-			System.out.println("ESISTOOOOOOOOOOOOOOOOOOOOOOOOOO " + esito.get(0));
-			if(esito.get(0).equals("Scambio")){
-				scambia(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
-						getCasellaDaNome(esito.get(2)));
+			try {
+				
+				writer.writeGestioneProposte(giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
+						giocatoreCorrente.getCaselleResidenzialiOggetto(), 
+						giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenzialiOggetto());
+				AIClass newAI = new AIClass();
+				ArrayList<String> esito = newAI.gestioneProposte();
+				System.out.println("Proposte su caselle avversarie: " + esito.get(0));
+				if(esito.get(0).equals("Scambio")){
+					scambia(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
+							getCasellaDaNome(esito.get(2)));
+				}
+				else if (esito.get(0).equals("Acquisto")){
+					compraCasellaAvversaria(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()));
+				}
+				
+			} catch (Exception e) {
+				System.err.println("VALUTAZIOE GESTIONE SCAMBIO FALLITA");
 			}
-			else if (esito.get(0).equals("Acquisto")){
-				compraCasellaAvversaria(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()));
-			}
+			
+			
 		}
 		
 	}

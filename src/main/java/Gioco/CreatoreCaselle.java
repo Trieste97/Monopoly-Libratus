@@ -103,9 +103,6 @@ public class CreatoreCaselle {
 
 
 	public void stampa() {
-		/*for (Casella casella : getCaselle()) {
-			System.out.println(casella);
-		}*/
 		for (Casella casella : caselle.values()) {
 			System.out.println(casella);
 		}
@@ -120,18 +117,6 @@ public class CreatoreCaselle {
 	public void setCaselle(HashMap<String, Casella> caselle) {
 		this.caselle = caselle;
 	}
-
-
-
-	/*public ArrayList<Casella> getCaselle() {
-		return caselle;
-	}
-
-
-
-	public void setCaselle(ArrayList<Casella> caselle) {
-		this.caselle = caselle;
-	}*/
 
 
 

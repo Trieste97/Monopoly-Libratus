@@ -29,4 +29,21 @@ public class Atomo extends ArrayList<String>{
 	public void setNomeAtomo(String nomeAtomo) {
 		this.nomeAtomo = nomeAtomo;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String atomo = nomeAtomo + "(";
+		for (int i = 0; i < this.size(); i++) {
+			atomo = atomo + get(i);
+			if(i + 1 == this.size()) {
+				atomo = atomo + ")";
+			}
+			else {
+				atomo = atomo + ", ";
+			}
+			
+		}
+		return atomo;
+	}
 }
