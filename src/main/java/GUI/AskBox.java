@@ -29,7 +29,11 @@ public class AskBox extends JFrame  {
 	JComboBox<String> box4;
 	TextField spesa;
 	
-	Button confermButton;
+	Button confermButtonProponiVendita;
+	Button confermButtonProponiScambio;
+	Button confermButtonCostruisci;
+	Button confermButtonIpoteca;
+	Button confermButtonEsciPrigione;
 	
 	public AskBox(final Board board)  {
 		super("AAA");
@@ -44,7 +48,11 @@ public class AskBox extends JFrame  {
 		box2 = new JComboBox<String>();
 		box3 = new JComboBox<String>();
 		box4 = new JComboBox<String>();
-		confermButton = new Button("Conferma");
+		confermButtonProponiVendita = new Button("Conferma");
+		confermButtonProponiScambio = new Button("Conferma");
+		confermButtonCostruisci = new Button("Conferma");
+		confermButtonIpoteca = new Button("Conferma");
+		confermButtonEsciPrigione = new Button("Conferma");
 		spesa = new TextField();
 		
 		this.setContentPane(panel);
@@ -52,7 +60,11 @@ public class AskBox extends JFrame  {
 		this.add(box2);
 		this.add(box3);
 		this.add(box4);
-		this.add(confermButton);
+		this.add(confermButtonProponiVendita);
+		this.add(confermButtonProponiScambio);
+		this.add(confermButtonCostruisci);
+		this.add(confermButtonIpoteca);
+		this.add(confermButtonEsciPrigione);
 		this.add(spesa);
 	    this.pack();
 		this.board = board;
@@ -64,6 +76,11 @@ public class AskBox extends JFrame  {
 		box3.setVisible(false);
 		box4.setVisible(false);
 		spesa.setVisible(false);
+		confermButtonCostruisci.setVisible(true);
+		confermButtonProponiVendita.setVisible(false);
+		confermButtonProponiScambio.setVisible(false);
+		confermButtonIpoteca.setVisible(false);
+		confermButtonEsciPrigione.setVisible(false);
 		
 		box.removeAllItems();
 		ArrayList<String> caselle = board.getGiocatoreCorrente().getCaselleResidenziali();
@@ -72,7 +89,7 @@ public class AskBox extends JFrame  {
 			box.addItem(caselle.get(i));
 		}
 		
-		confermButton.addActionListener(new ActionListener()  {
+		confermButtonCostruisci.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				board.costruisci((String) box.getSelectedItem());
 			}
@@ -80,7 +97,7 @@ public class AskBox extends JFrame  {
 		
 		this.setVisible(true);
 		box.setVisible(true);
-		confermButton.setVisible(true);
+		confermButtonCostruisci.setVisible(true);
 	}
 	
 	public void chiediInfoIpoteca()  {
@@ -88,7 +105,12 @@ public class AskBox extends JFrame  {
 		box3.setVisible(false);
 		box4.setVisible(false);
 		spesa.setVisible(false);
-
+		confermButtonIpoteca.setVisible(true);
+		confermButtonProponiVendita.setVisible(false);
+		confermButtonProponiScambio.setVisible(false);
+		confermButtonCostruisci.setVisible(false);
+		confermButtonEsciPrigione.setVisible(false);
+		
 		
 		box.removeAllItems();
 		ArrayList<String> caselle = board.getGiocatoreCorrente().getCaselleNonIpotecate();
@@ -97,7 +119,7 @@ public class AskBox extends JFrame  {
 			box.addItem(caselle.get(i));
 		}
 		
-		confermButton.addActionListener(new ActionListener()  {
+		confermButtonIpoteca.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				board.ipoteca((String) box.getSelectedItem());
 			}
@@ -105,7 +127,7 @@ public class AskBox extends JFrame  {
 		
 		this.setVisible(true);
 		box.setVisible(true);
-		confermButton.setVisible(true);
+		confermButtonIpoteca.setVisible(true);
 	}
 	
 	public void chiediComeUscirePrigione()  {
@@ -113,12 +135,17 @@ public class AskBox extends JFrame  {
 		box3.setVisible(false);
 		box4.setVisible(false);
 		spesa.setVisible(false);
-	
+		confermButtonEsciPrigione.setVisible(true);
+		confermButtonProponiVendita.setVisible(false);
+		confermButtonProponiScambio.setVisible(false);
+		confermButtonCostruisci.setVisible(false);
+		confermButtonIpoteca.setVisible(false);
+		
 		box.removeAllItems();
 		box.addItem("Utilizza token");
 		box.addItem("Paga multa");
 		
-		confermButton.addActionListener(new ActionListener()  {
+		confermButtonEsciPrigione.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				board.esciDiPrigione((String) box.getSelectedItem());
 			}
@@ -126,41 +153,12 @@ public class AskBox extends JFrame  {
 		
 		this.setVisible(true);
 		box.setVisible(true);
-		confermButton.setVisible(true);
+		confermButtonEsciPrigione.setVisible(true);
 	}
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
@@ -170,6 +168,7 @@ public class AskBox extends JFrame  {
 	String metodo;
 	Giocatore gioc;
 	Casella casellaDaPrendere;
+	
 	public void chiediScambio()  {
 		
 		box3.setVisible(false);
@@ -177,6 +176,11 @@ public class AskBox extends JFrame  {
 		box2.removeAllItems();
 		box4.removeAllItems();
 		spesa.setVisible(false);
+		confermButtonProponiScambio.setVisible(true);
+		confermButtonProponiVendita.setVisible(false);
+		confermButtonEsciPrigione.setVisible(false);
+		confermButtonCostruisci.setVisible(false);
+		confermButtonIpoteca.setVisible(false);
 		
 		
 		int indiceGiocatoreAvversario = 0;
@@ -208,7 +212,7 @@ public class AskBox extends JFrame  {
 		}
 
 		
-		confermButton.addActionListener(new ActionListener()  {
+		confermButtonProponiScambio.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				
 				String nome = (String) box.getSelectedItem();
@@ -257,7 +261,7 @@ public class AskBox extends JFrame  {
 		box.setVisible(true);
 		box2.setVisible(true);
 		box4.setVisible(true);
-		confermButton.setVisible(true);
+		confermButtonProponiScambio.setVisible(true);
 	}
 
 	
@@ -267,7 +271,12 @@ public class AskBox extends JFrame  {
 			box3.setVisible(false);
 			box.removeAllItems();
 			box2.removeAllItems();
-			spesa.setText("Prezzo");
+			spesa.setText("1");
+			confermButtonProponiVendita.setVisible(true);
+			confermButtonProponiScambio.setVisible(false);
+			confermButtonEsciPrigione.setVisible(false);
+			confermButtonCostruisci.setVisible(false);
+			confermButtonIpoteca.setVisible(false);
 			
 			int indiceGiocatoreAvversario = 0;
 			boolean primaVolta = true;
@@ -294,7 +303,7 @@ public class AskBox extends JFrame  {
 		
 			
 					
-			confermButton.addActionListener(new ActionListener()  {
+			confermButtonProponiVendita.addActionListener(new ActionListener()  {
 				public void actionPerformed(ActionEvent e)  {
 					
 					String nome = (String) box.getSelectedItem();
@@ -323,6 +332,7 @@ public class AskBox extends JFrame  {
 								casellaDaPrendere.getProprietario().getNome());
 						if (avversarioAccettaOfferta) {
 							board.compraCasellaAvversaria(casellaDaPrendere, board.getGiocatoreCorrente(), gioc, spesaInt);
+							aggiornaDropDownAcquisto();
 						}
 						primoclick = false;
 					}
@@ -334,7 +344,7 @@ public class AskBox extends JFrame  {
 			box.setVisible(true);
 			box2.setVisible(true);
 			spesa.setVisible(true);
-			confermButton.setVisible(true);
+			confermButtonProponiVendita.setVisible(true);
 		}
 	
 	
@@ -394,7 +404,39 @@ public class AskBox extends JFrame  {
 			box4.addItem(casella.getNome());
 		}
 
+	}
+	
+	
+	private void aggiornaDropDownAcquisto() {
+
+		box4.setVisible(false);
+		box3.setVisible(false);
+		box.removeAllItems();
+		box2.removeAllItems();
+		spesa.setText("1");
 		
+		int indiceGiocatoreAvversario = 0;
+		boolean primaVolta = true;
+		for(Giocatore g : board.getGiocatori())  {
+			if(g == board.getGiocatoreCorrente())  {
+				if(primaVolta) {
+					indiceGiocatoreAvversario = 1;
+				}
+				primaVolta = false;
+				continue;
+			}
+			primaVolta = false;
+			box.addItem(g.getNome());
+		}
+
+		// NON SI POPOLA DINAMICAMENTE CAMBIANDO IL GIOCATORE
+		/*for (Casella nomeCasella : gioc.getCasellePossedute()) {
+			box2.addItem(nomeCasella.getNome());
+		}*/
+		
+		for (Casella nomeCasella : board.getGiocatori().get(indiceGiocatoreAvversario).getCasellePossedute()) {
+			box2.addItem(nomeCasella.getNome());
+		}
 
 	}
 	
