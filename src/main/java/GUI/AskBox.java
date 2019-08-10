@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Elementi.Board;
@@ -237,9 +238,18 @@ public class AskBox extends JFrame  {
 					}
 				}
 				
-				board.scambia(casellaDaPrendere, board.getGiocatoreCorrente(), gioc, casellaDaScambiare);
+					
+				boolean primoclick = true;
+				if (primoclick) {
+					boolean avversarioAccettaScambio = chiediSeAccettaScambio(casellaDaPrendere.getNome(), casellaDaScambiare.getNome(), 
+							casellaDaPrendere.getProprietario().getNome());
+					if (avversarioAccettaScambio) {
+						board.scambia(casellaDaPrendere, board.getGiocatoreCorrente(), gioc, casellaDaScambiare);
+						aggiornaDropDownScambio();
+					}
+					primoclick = false;
+				}
 			}
-			//aggiungere i tasti per accettare o rifiutare
 		});
 		
 		
@@ -251,13 +261,115 @@ public class AskBox extends JFrame  {
 	}
 
 	
-public void chiediVendita()  {
+	public void chiediVendita()  {
+			
+			box4.setVisible(false);
+			box3.setVisible(false);
+			box.removeAllItems();
+			box2.removeAllItems();
+			spesa.setText("Prezzo");
+			
+			int indiceGiocatoreAvversario = 0;
+			boolean primaVolta = true;
+			for(Giocatore g : board.getGiocatori())  {
+				if(g == board.getGiocatoreCorrente())  {
+					if(primaVolta) {
+						indiceGiocatoreAvversario = 1;
+					}
+					primaVolta = false;
+					continue;
+				}
+				primaVolta = false;
+				box.addItem(g.getNome());
+			}
+	
+			// NON SI POPOLA DINAMICAMENTE CAMBIANDO IL GIOCATORE
+			/*for (Casella nomeCasella : gioc.getCasellePossedute()) {
+				box2.addItem(nomeCasella.getNome());
+			}*/
+			
+			for (Casella nomeCasella : board.getGiocatori().get(indiceGiocatoreAvversario).getCasellePossedute()) {
+				box2.addItem(nomeCasella.getNome());
+			}
 		
-		box4.setVisible(false);
+			
+					
+			confermButton.addActionListener(new ActionListener()  {
+				public void actionPerformed(ActionEvent e)  {
+					
+					String nome = (String) box.getSelectedItem();
+					for(Giocatore g : board.getGiocatori())  {
+						if(nome.equals(g.getNome()))  {
+							gioc = g;
+							break;
+						}
+					}
+					
+					
+					String territorioString = (String) box2.getSelectedItem();
+					
+					for (Casella casella : gioc.getCasellePossedute()) {
+						if(casella.getNome().equals(territorioString)) {
+							casellaDaPrendere = casella;
+							break;
+						}
+					}
+					
+					
+					int spesaInt = Integer.parseInt(spesa.getText());
+					boolean primoclick = true;
+					if (primoclick) {
+						boolean avversarioAccettaOfferta = chiediSeAccettaOfferta(casellaDaPrendere.getNome(), spesaInt, 
+								casellaDaPrendere.getProprietario().getNome());
+						if (avversarioAccettaOfferta) {
+							board.compraCasellaAvversaria(casellaDaPrendere, board.getGiocatoreCorrente(), gioc, spesaInt);
+						}
+						primoclick = false;
+					}
+				}
+			});
+			
+			
+			this.setVisible(true);
+			box.setVisible(true);
+			box2.setVisible(true);
+			spesa.setVisible(true);
+			confermButton.setVisible(true);
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	public static boolean chiediSeAccettaScambio(String casellaDaPrendere, String casellaDaScambiare, String proprietarioCasellaDaPrendere)  {
+		int answer = JOptionPane.showConfirmDialog(new JFrame(), proprietarioCasellaDaPrendere+
+				", vuoi scambiare " + casellaDaPrendere + " con " + casellaDaScambiare + " ?");
+		if (answer == JOptionPane.YES_OPTION) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean chiediSeAccettaOfferta(String casellaDaPrendere, int prezzo, String proprietarioCasellaDaPrendere)  {
+		int answer = JOptionPane.showConfirmDialog(new JFrame(), proprietarioCasellaDaPrendere+
+				", vuoi vendere " + casellaDaPrendere + " per " + prezzo + " ?");
+		if (answer == JOptionPane.YES_OPTION) {
+			return true;
+		}
+		return false;
+	}
+	
+	private void aggiornaDropDownScambio() {
+		// TODO Auto-generated method stub
 		box3.setVisible(false);
 		box.removeAllItems();
 		box2.removeAllItems();
-		spesa.setText("Prezzo");
+		box4.removeAllItems();
+		spesa.setVisible(false);
+		
 		
 		int indiceGiocatoreAvversario = 0;
 		boolean primaVolta = true;
@@ -272,164 +384,19 @@ public void chiediVendita()  {
 			primaVolta = false;
 			box.addItem(g.getNome());
 		}
-
-		// NON SI POPOLA DINAMICAMENTE CAMBIANDO IL GIOCATORE
-		/*for (Casella nomeCasella : gioc.getCasellePossedute()) {
-			box2.addItem(nomeCasella.getNome());
-		}*/
 		
 		for (Casella nomeCasella : board.getGiocatori().get(indiceGiocatoreAvversario).getCasellePossedute()) {
 			box2.addItem(nomeCasella.getNome());
 		}
 	
 		
-				
-		confermButton.addActionListener(new ActionListener()  {
-			public void actionPerformed(ActionEvent e)  {
-				
-				String nome = (String) box.getSelectedItem();
-				System.out.println(nome);
-				for(Giocatore g : board.getGiocatori())  {
-					if(nome.equals(g.getNome()))  {
-						gioc = g;
-						break;
-					}
-				}
-				
-				
-				String territorioString = (String) box2.getSelectedItem();
-				System.out.println(territorioString );
-				
-				for (Casella casella : gioc.getCasellePossedute()) {
-					if(casella.getNome().equals(territorioString)) {
-						casellaDaPrendere = casella;
-						break;
-					}
-				}
-				
-				
-				int spesaInt = Integer.parseInt(spesa.getText());
-				System.out.println(spesaInt); 
-				board.compraCasellaAvversaria(casellaDaPrendere, board.getGiocatoreCorrente(), gioc);
-			}
-			//aggiungere i tasti per accettare o rifiutare
-		});
+		for (Casella casella : board.getGiocatoreCorrente().getCasellePossedute()) {
+			box4.addItem(casella.getNome());
+		}
+
 		
-		
-		this.setVisible(true);
-		box.setVisible(true);
-		box2.setVisible(true);
-		spesa.setVisible(true);
-		confermButton.setVisible(true);
+
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-/*
-	public void chiediConChiScambiare()  {
-		box2.setVisible(false);
-		box3.setVisible(false);
-		box4.setVisible(false);
 
-		box.removeAllItems();
-		
-		for(Giocatore g : board.getGiocatori())  {
-			if(g == board.getGiocatoreCorrente())  {
-				continue;
-			}
-			
-			box.addItem(g.getNome());
-		}
-
-		
-		nome = (String) box.getSelectedItem();
-		//Giocatore gioc = null;
-		
-		for(Giocatore g : board.getGiocatori())  {
-			if(nome.equals(g.getNome()))  {
-				gioc = g;
-				break;
-			}
-		}
-		
-		
-		box2.removeAllItems();
-
-		for (Casella nomeCasella : gioc.getCasellePossedute()) {
-			box2.addItem(nomeCasella.getNome());
-		}
-		
-		box2.setVisible(true);
-		//Casella casellaDaPrendere;
-		territorioString = (String) box2.getSelectedItem();
-		for (Casella casella : gioc.getCasellePossedute()) {
-			if(casella.getNome().equals(territorioString)) {
-				casellaDaPrendere = casella;
-			}
-		}
-		
-		box3.removeAllItems();
-
-		box3.addItem("Scambia con denaro");
-		box3.addItem("Scambia con terrritorio");
-		box3.setVisible(true);
-		
-				
-		confermButton.addActionListener(new ActionListener()  {
-			public void actionPerformed(ActionEvent e)  {
-				
-				metodo = (String) box3.getSelectedItem();
-				if(metodo.equals("Scambia con denaro")) {
-					board.compraCasellaAvversaria(casellaDaPrendere, board.getGiocatoreCorrente(), gioc);
-				}
-				else {
-					//segli la tua casella da scambiare e scambia
-					
-					box4.removeAllItems();
-					for (Casella casella : board.getGiocatoreCorrente().getCasellePossedute()) {
-						box4.addItem(casella.getNome());
-					}
-					box4.setVisible(true);
-					String nomeCasellaDaScambiare = (String) box3.getSelectedItem();
-					Casella casellaDaScambiare;
-					for (Casella casella : board.getGiocatoreCorrente().getCasellePossedute()) {
-						if(casella.getNome().equals(nomeCasellaDaScambiare)) {
-							casellaDaScambiare = casella;
-						}
-					}
-					//board.scambia();
-				}
-			}
-			//aggiungere i tasti per accettare o rifiutare
-		});
-		
-		this.setVisible(true);
-		box.setVisible(true);
-		confermButton.setVisible(true);
-	}*/
 }

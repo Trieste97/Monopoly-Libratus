@@ -135,11 +135,11 @@ public class Board {
 				casellaDaLasciare.getNome() + " con " + casellaDaPrendere.getNome());
 	}
 	
-	public void compraCasellaAvversaria(Casella casella, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta)  {
+	public void compraCasellaAvversaria(Casella casella, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, int prezzo)  {
 		giocatoreCheAccetta.getCasellePossedute().remove(casella);
 		giocatoreCheFaPorposta.getCasellePossedute().add(casella);
 		casella.setProprietario(giocatoreCheFaPorposta);
-		giocatoreCheFaPorposta.diminuisciSoldi(casella.getPrezzoVendita());
+		giocatoreCheFaPorposta.diminuisciSoldi(prezzo);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha acquistato " + casella.getNome());
 	}
 	
@@ -259,23 +259,26 @@ public class Board {
 
 				boolean vuoleComprare = false;
 //PRIMA AI
-				
-				try {
+				if (giocatoreCorrente.getNome().equals("BOT1")) {
 					
-					writer.writePropostaAcquisto(casella, giocatoreCorrente);
-					AIClass newAI = new AIClass();
-					vuoleComprare = newAI.propostaAcquisto();
-					System.out.println("Scelta Fatta: " + vuoleComprare);
-					
-				} catch (Exception e) {
-
-					System.err.println("VALUTAZIOE ACQUISTO CASELLA FALLITA");
-				}
-				
+					try {
+						
+						writer.writePropostaAcquisto(casella, giocatoreCorrente);
+						AIClass newAI = new AIClass();
+						vuoleComprare = newAI.propostaAcquisto();
+						System.out.println("Scelta Fatta: " + vuoleComprare);
+						
+					} catch (Exception e) {
 	
-//				DA SCOMMENTARE SE SI TOGLIE L'AIz
-//				vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
-				
+						System.err.println("VALUTAZIOE ACQUISTO CASELLA FALLITA");
+					}
+				}
+				else {
+	//				Se sei il giocatore normale gestisci la proposta
+					vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
+					
+				}
+	
 				if(vuoleComprare)  {
 					banca.vendiCasella(giocatoreCorrente, casella);
 					TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha acquistato " + casella.getNome());
@@ -361,7 +364,7 @@ public class Board {
 	public void iniziaTurnoGiocatoreSuccessivo() {
 		
 //SECONDA AI
-		if(giocatoreCorrente.isInPrigione()) {
+		if(giocatoreCorrente.isInPrigione() && giocatoreCorrente.getNome().equals("BOT1")) {
 			
 			try {
 				
@@ -380,7 +383,7 @@ public class Board {
 		
 //TERZA AI
 		
-		if(!giocatoreCorrente.getCaselleResidenziali().isEmpty() && 
+		if(giocatoreCorrente.getNome().equals("BOT1") && !giocatoreCorrente.getCaselleResidenziali().isEmpty() && 
 				!giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenziali().isEmpty()) {
 			
 			try {
@@ -392,11 +395,22 @@ public class Board {
 				ArrayList<String> esito = newAI.gestioneProposte();
 				System.out.println("Proposte su caselle avversarie: " + esito.get(0));
 				if(esito.get(0).equals("Scambio")){
-					scambia(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
-							getCasellaDaNome(esito.get(2)));
+					boolean scambioAccettato = false;
+					scambioAccettato = TavolaDaGioco.chiediSeVuoleScambiare(esito.get(1), esito.get(2), 
+							giocatori.get(getGiocatoreAvversarioIndex()).getNome());
+					if (scambioAccettato) {
+						scambia(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
+								getCasellaDaNome(esito.get(2)));
+					}
 				}
 				else if (esito.get(0).equals("Acquisto")){
-					compraCasellaAvversaria(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()));
+					boolean acquistoAccettato = false;
+					acquistoAccettato = TavolaDaGioco.chiediSeVuoleVendere(esito.get(1), getCasellaDaNome(esito.get(1)).getPrezzoVendita(), 
+							giocatori.get(getGiocatoreAvversarioIndex()).getNome());
+					if (acquistoAccettato) {
+						compraCasellaAvversaria(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()), 
+								getCasellaDaNome(esito.get(1)).getPrezzoVendita());
+					}
 				}
 				
 			} catch (Exception e) {

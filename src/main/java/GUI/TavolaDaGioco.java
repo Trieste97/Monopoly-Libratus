@@ -264,4 +264,16 @@ public class TavolaDaGioco extends JFrame{
 	}
 	
 	
+	public static boolean chiediSeVuoleScambiare(String casellaDaPrendere, String casellaDaScambiare, String proprietarioCasellaDaPrendere) {
+		// TODO Auto-generated method stub
+		return AskBox.chiediSeAccettaScambio(casellaDaPrendere, casellaDaScambiare, proprietarioCasellaDaPrendere);
+
+	}
+	
+	public static boolean chiediSeVuoleVendere(String casellaDaPrendere, int prezzo, String proprietarioCasellaDaPrendere) {
+		// TODO Auto-generated method stub
+		return AskBox.chiediSeAccettaOfferta(casellaDaPrendere, prezzo, proprietarioCasellaDaPrendere);
+
+	}
+	
 }
