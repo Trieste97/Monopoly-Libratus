@@ -165,6 +165,7 @@ public class TavolaDaGioco extends JFrame{
 		terminaTurno.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				if (!turnofinito) {
+					updateTabellone(0);
 					board.finisciTurno();
 					turnofinito = true;
 					board.iniziaTurnoGiocatoreSuccessivo();
@@ -262,7 +263,7 @@ public class TavolaDaGioco extends JFrame{
 		pannelloTavola.repaint(this.board.getGiocatoreCorrenteIndex(), numPosizioni);
 		
 	}
-	
+
 	
 	public static boolean chiediSeVuoleScambiare(String casellaDaPrendere, String casellaDaScambiare, String proprietarioCasellaDaPrendere) {
 		// TODO Auto-generated method stub

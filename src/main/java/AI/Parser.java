@@ -25,10 +25,6 @@ public class Parser {
 			 String as = a.toString();
 			 if(as.contains(accetto)) {
 				 esito = true;
-				 System.out.println("Accetta Scambio");
-			 }
-			 else {
-				 System.out.println("Rifiuta Scambio");
 			 }
 		}
 		return esito;
@@ -92,6 +88,37 @@ public class Parser {
 		return esito;
 
 	}
+	
+	
+	
+	public boolean parseDecisioneScambioAcquisto(AnswerSets answers) {
+
+		boolean esito = false;
+		int n = 0;
+		for(AnswerSet a: answers.getAnswersets()){
+			 System.out.println("AS n.: " + ++n + ": " + a);
+			 String as = a.toString();
+			 if(as.contains("accetto")) {
+				 System.out.println("ACCETTO SCAMBIO/ACQUISTO");
+				 esito = true;
+			 }
+			 else if(as.contains("rifiuto")) {
+				 System.out.println("RIFIUTO SCAMBIO/ACQUISTO");
+			 }
+		}
+		return esito;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	private void stampaAtomiconsiderati(ArrayList<Atomo> atomi) {
 		// TODO Auto-generated method stub

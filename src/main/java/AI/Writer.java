@@ -74,5 +74,54 @@ public class Writer {
 
 	}
 	
+	
+	public void writeDecisioneScambio(String casellaDaCedere, String casellaDaPrendere, Giocatore giocatore, Giocatore avversario) {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/decisioneScambioAcquistoInstance", "UTF-8");
+			writer.println(Creator.creaGiocatore(giocatore));
+			writer.println(Creator.creaAvversario(avversario));
+			for (CasellaResidenziale casellaResidenziale : giocatore.getCaselleResidenzialiOggetto()) {
+				writer.println(Creator.creaCasellaResidenziale(casellaResidenziale));
+			}
+			for (CasellaResidenziale casellaResidenziale : avversario.getCaselleResidenzialiOggetto()) {
+				writer.println(Creator.creaCasellaResidenziale(casellaResidenziale));
+			}
+			writer.println(Creator.creaScambio(casellaDaCedere, casellaDaPrendere));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void writeDecisioneAcquisto(String casellaDaCedere, String prezzo, Giocatore giocatore, Giocatore avversario) {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/decisioneScambioAcquistoInstance", "UTF-8");
+			writer.println(Creator.creaGiocatore(giocatore));
+			writer.println(Creator.creaAvversario(avversario));
+			for (CasellaResidenziale casellaResidenziale : giocatore.getCaselleResidenzialiOggetto()) {
+				writer.println(Creator.creaCasellaResidenziale(casellaResidenziale));
+			}
+			for (CasellaResidenziale casellaResidenziale : avversario.getCaselleResidenzialiOggetto()) {
+				writer.println(Creator.creaCasellaResidenziale(casellaResidenziale));
+			}
+			writer.println(Creator.creaAcquisto(casellaDaCedere, prezzo));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 
 }

@@ -54,14 +54,14 @@ numeroCaselleStessoColoreAvversario(Colore, Numero):- avversario(Proprietario,_,
 %Valuta se chiedere scambio oppure acquistare la casella
 chiediScambio(Casella)|chiediAcquisto(Casella):- interessante(Casella).
 
-%Preferirei non chiedere un acquisto se ho meno di 1000 euro
+%Preferirei non chiedere un acquisto se ho meno di 2000 euro
 :~chiediAcquisto(Casella), giocatore(Giocatore, Soldi, _,_,_,_), Soldi<2000.[1:7]
 
 %Preferirei non scambiare ma acquistare
 :~chiediScambio(Casella). [1:5]
 
 %Preferirei non fare l acquisto se l avversario ha molti soldi
-:~chiediAcquisto(Casella), casella(Casella,Avversario,_,_,_,_,_), avversario(Avversario, Soldi, _,_,_,_), Soldi>5000. [1:6]
+:~chiediAcquisto(Casella), casella(Casella,Avversario,_,_,_,_,_), avversario(Avversario, Soldi, _,_,_,_), Soldi>10000. [1:6]
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

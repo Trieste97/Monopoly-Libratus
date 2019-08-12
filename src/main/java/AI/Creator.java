@@ -109,4 +109,26 @@ public class Creator {
 		inPrigione  = inPrigione + ").";
 		return inPrigione;
 	}
+	
+	public static String creaScambio(String nomeCasellaDaCedere, String nomeCasellaDaPrendere) {
+		String scambio = "scambio(";
+		scambio = scambio + "idProposta";
+		scambio = scambio + ",";
+		scambio = scambio + nomeCasellaDaCedere.toLowerCase();
+		scambio = scambio + ",";
+		scambio = scambio + nomeCasellaDaPrendere.toLowerCase();
+		scambio  = scambio + ").";
+		return scambio ;
+	}
+	
+	public static String creaAcquisto(String nomeCasellaDaCedere, String prezzo) {
+		String scambio = "acquisto(";
+		scambio = scambio + "idProposta";
+		scambio = scambio + ",";
+		scambio = scambio + nomeCasellaDaCedere.toLowerCase();
+		scambio = scambio + ",";
+		scambio = scambio + prezzo;
+		scambio  = scambio + ").";
+		return scambio ;
+	}
 }

@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import AI.AIClass;
+import AI.Writer;
 import Elementi.Board;
 import Elementi.Casella;
 import Elementi.Giocatore;
@@ -245,11 +247,37 @@ public class AskBox extends JFrame  {
 					
 				boolean primoclick = true;
 				if (primoclick) {
-					boolean avversarioAccettaScambio = chiediSeAccettaScambio(casellaDaPrendere.getNome(), casellaDaScambiare.getNome(), 
-							casellaDaPrendere.getProprietario().getNome());
+					boolean avversarioAccettaScambio = false;
+// QUARTA AI
+					if (!board.getGiocatoreCorrente().getNome().equals("BOT1")) {
+						try {
+							Writer writer = new Writer();
+							//da vedere nell'ottica dell'altro giocatore perche ora il giocatore corrente è YOU
+							//casella da cedere di proprieta dell'avversario (BOT)
+							//casella da prendere di proprieta del giocatore
+							//avversario è quello che deve decidere sulla propoposta (BOT)
+							//giocatore è il giocatore corrente che ha appena instanziato la proposta di uno scambio/acquisto
+							writer.writeDecisioneScambio(casellaDaPrendere.getNome(), casellaDaScambiare.getNome(), 
+									board.getGiocatori().get(board.getGiocatoreAvversarioIndex()), board.getGiocatoreCorrente());
+							AIClass newAI = new AIClass();
+							avversarioAccettaScambio = newAI.decisioneScambioAcquisto();
+							System.out.println("Ho deciso se scambiare: " + avversarioAccettaScambio);
+							
+						} catch (Exception e1) {
+							System.err.println("VALUTAZIONE DECISIONE SCAMBIO FALLITA");
+						}
+					}
+					else {
+						avversarioAccettaScambio = chiediSeAccettaScambio(casellaDaPrendere.getNome(), casellaDaScambiare.getNome(), 
+								casellaDaPrendere.getProprietario().getNome());
+					}
 					if (avversarioAccettaScambio) {
 						board.scambia(casellaDaPrendere, board.getGiocatoreCorrente(), gioc, casellaDaScambiare);
 						aggiornaDropDownScambio();
+						avversarioAccetta();
+					}
+					else {
+						avversarioRifiuta();
 					}
 					primoclick = false;
 				}
@@ -328,11 +356,40 @@ public class AskBox extends JFrame  {
 					int spesaInt = Integer.parseInt(spesa.getText());
 					boolean primoclick = true;
 					if (primoclick) {
-						boolean avversarioAccettaOfferta = chiediSeAccettaOfferta(casellaDaPrendere.getNome(), spesaInt, 
-								casellaDaPrendere.getProprietario().getNome());
+						boolean avversarioAccettaOfferta = false;
+						
+						if (!board.getGiocatoreCorrente().getNome().equals("BOT1")) {
+							try {
+								Writer writer = new Writer();
+								//da vedere nell'ottica dell'altro giocatore perche ora il giocatore corrente è YOU
+								//casella da cedere di proprieta dell'avversario (BOT)
+								//casella da prendere di proprieta del giocatore
+								//avversario è quello che deve decidere sulla propoposta (BOT)
+								//giocatore è il giocatore corrente che ha appena instanziato la proposta di uno scambio/acquisto
+								writer.writeDecisioneAcquisto(casellaDaPrendere.getNome(), spesa.getText(), 
+										board.getGiocatori().get(board.getGiocatoreAvversarioIndex()), board.getGiocatoreCorrente());
+								AIClass newAI = new AIClass();
+								avversarioAccettaOfferta = newAI.decisioneScambioAcquisto();
+								System.out.println("Ho deciso se vendere: " + avversarioAccettaOfferta);
+								
+							} catch (Exception e1) {
+								System.err.println("VALUTAZIONE DECISIONE SCAMBIO FALLITA");
+							}
+						}
+						else {
+							avversarioAccettaOfferta = chiediSeAccettaOfferta(casellaDaPrendere.getNome(), spesaInt, 
+									casellaDaPrendere.getProprietario().getNome());
+						}
+						
+						
 						if (avversarioAccettaOfferta) {
 							board.compraCasellaAvversaria(casellaDaPrendere, board.getGiocatoreCorrente(), gioc, spesaInt);
 							aggiornaDropDownAcquisto();
+							
+							avversarioAccetta();
+						}
+						else {
+							avversarioRifiuta();
 						}
 						primoclick = false;
 					}
@@ -372,8 +429,19 @@ public class AskBox extends JFrame  {
 		return false;
 	}
 	
+	public static void avversarioAccetta()  {
+//		JOptionPane.showConfirmDialog(new JFrame(), "L'avversario accetta!");
+		JOptionPane.showMessageDialog(new JFrame(), "L'avversario accetta!");
+	}
+	public static void avversarioRifiuta()  {
+//		JOptionPane.showConfirmDialog(new JFrame(), "L'avversario rifiuta!");
+		JOptionPane.showMessageDialog(new JFrame(), "L'avversario rifiuta!");
+	}
+	
 	private void aggiornaDropDownScambio() {
 		// TODO Auto-generated method stub
+		
+		System.out.println("AGGIORNO LA DROPDOWN");
 		box3.setVisible(false);
 		box.removeAllItems();
 		box2.removeAllItems();

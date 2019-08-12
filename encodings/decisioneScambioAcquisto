@@ -1,0 +1,57 @@
+% data la proposta di uno scambio, si accetta o si rifiuta (Casella1 da cedere, Casella2 da prendere)
+accetto(Proposta)|rifiuto(Proposta):- scambio(Proposta, Casella1, Casella2).
+
+%data la proposta di un acquisto, si accetta o si rifiuta
+accetto(Proposta)|rifiuto(Proposta):- acquisto(Proposta, Casella1, Soldi).
+
+
+%Preferisco accettare se sono molti soldi
+:~rifiuto(Proposta), acquisto(Proposta, _, Soldi), Soldi>500. [1:10]
+
+%Preferisco accettare se il giocatore corrente ha pochi soldi
+:~rifiuto(_), giocatore(_,Soldi,_,_,_,_), Soldi<300. [1:10]
+
+%Preferisco rifiutare se il giocatore corrente ha tutto il set dello stesso colore della casella richiesta
+:~accetto(Proposta), scambio(Proposta,Casella1,_), casella(Casella1,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>2. [2:10]
+:~accetto(Proposta), acquisto(Proposta,Casella1,_), casella(Casella1,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>2. [2:10]
+
+
+%numero delle caselle possedute dal giocatore corrente dello stesso colore
+numeroMieCaselleStessoColore(Colore, Numero):- giocatore(Proprietario,_,_,_,_,_), casella(Casella, Proprietario,Colore,_,_,_,_),
+	#count{ StessoColore, NomeCasella :casella(NomeCasella, Proprietario,StessoColore,_,_,_,_), StessoColore = Colore} = Numero.
+%Preferisco accettare se completa il set di caselle dello stesso colore del giocatore corrente
+:~rifiuto(Proposta), scambio(Proposta,_, Casella2), casella(Casella2,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>1. [1:9]
+
+
+%Preferisco accettare se la casella è ipotecata
+:~rifiuto(Proposta), scambio(Proposta, Casella1, Casella2),casella(Casella1,_,_,_,_,_,Ipotecata1), Ipotecata1=true, 
+	casella(Casella2,_,_,_,_,_,Ipotecata2), Ipotecata2=false. [1:8]
+:~rifiuto(Proposta), acquisto(Proposta, Casella1, Soldi),casella(Casella1,_,_,_,_,_,Ipotecata), Ipotecata=true, Soldi>100. [1:8]
+
+%Prefersico non accettare lo scambio se la casella avversaria da prendere è ipotecata
+:~accetto(Proposta), scambio(Proposta,_,Casella2), casella(Casella2,_,_,_,_,_,Ipotecata), Ipotecata=true. [2:8]
+
+
+%Numero delle caselle possedute dall avversario dello stesso colore
+numeroCaselleStessoColoreAvversario(Colore, Numero):- avversario(Proprietario,_,_,_,_,_), casella(Casella, Proprietario,Colore,_,_,_,_),
+    #count{ StessoColore, NomeCasella :casella(NomeCasella, Proprietario,StessoColore,_,_,_,_),	StessoColore = Colore} = Numero.
+%Preferirei non accettare se completa il set di colore avversario
+:~accetto(Proposta), scambio(Proposta, Casella1,_), casella(Casella1,_,Colore,_,_,_,_), numeroCaselleStessoColoreAvversario(Colore, Numero), Numero>1. [1:7]
+:~accetto(Proposta), acquisto(Proposta, Casella1,_), casella(Casella1,_,Colore,_,_,_,_), numeroCaselleStessoColoreAvversario(Colore, Numero), Numero>1. [1:7]
+
+
+%Preferisco rifiutare se i soldi sono minori del prezzo di vendita della casella
+:~accetto(Proposta), acquisto(Proposta, Casella1, Soldi), casella(Casella1,_,Colore,PrezzoVendita,_,_,_), Soldi<PrezzoVendita. [1:6]
+
+
+%Preferisco accettare se la mia casella ha prezzo di transito basso
+:~rifiuto(Proposta), scambio(Proposta, Casella1, _), casella(Casella1,_,_,_,PrezzoTansito,_,_), PrezzoTansito<100. [2:5]
+:~rifiuto(Proposta), acquisto(Proposta, Casella1, _), casella(Casella1,_,_,_,PrezzoTansito,_,_), PrezzoTansito<100. [2:5]
+
+
+%Preferisco rifiutare lo scambio se la mia casella ha prezzo di transito superiore di quella avversaria da prendere
+:~accetto(Proposta), scambio(Proposta, Casella1, Casella2), casella(Casella1,_,_,_,PrezzoTansito1,_,_), casella(Casella2,_,_,_,PrezzoTansito2,_,_),
+	PrezzoTansito2<PrezzoTansito1. [1:5]
+
+%Preferirei rifiutare
+:~accetto(Proposta). [1:1]
