@@ -126,9 +126,8 @@ public class BoardPanel extends JPanel  {
 		}
 	}
 	
-	public void repaint(int idx, int places)  {
-		pedine.get(idx).avanza(places);
-		int newPos = pedine.get(idx).getCasella();
+	public void repaint(int idx, Giocatore player2)  {
+		int newPos = player2.getPosizioneInTabella();
 		if (newPos == 30)
 			newPos = 10;
 		pedine.get(idx).setPosizioneX(posizioniX.get(newPos));

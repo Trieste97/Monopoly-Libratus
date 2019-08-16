@@ -28,9 +28,9 @@ public class TavolaDaGioco extends JFrame{
 	JPanel pannelloComandi;
 	JPanel pannelloDadi;
 	static JPanel pannelloCronologia;
-	BoardPanel pannelloTavola;
+	static BoardPanel pannelloTavola;
 	AskBox askBox;
-	private Board board;
+	private static Board board;
 
 	public TavolaDaGioco(String title, Board board, int numPlayers, Giocatore player) {
 		super(title);
@@ -41,7 +41,7 @@ public class TavolaDaGioco extends JFrame{
 	    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		this.askBox = new AskBox(board);
-		this.board = board;
+		TavolaDaGioco.board = board;
 		init(numPlayers, player);
 	}
 	
@@ -75,8 +75,10 @@ public class TavolaDaGioco extends JFrame{
 		proponiScambio.setPreferredSize(new Dimension(100, 40));
 		proponiScambio.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				//askBox.chiediConChiScambiare();
-				askBox.chiediScambio();
+				if (!board.isAITurn())  {
+					//askBox.chiediConChiScambiare();
+					askBox.chiediScambio();
+				}
 			}
 		});
 		
@@ -84,8 +86,10 @@ public class TavolaDaGioco extends JFrame{
 		proponiVendita.setPreferredSize(new Dimension(100, 40));
 		proponiVendita.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				//askBox.chiediConChiScambiare();
-				askBox.chiediVendita();
+				if (!board.isAITurn())  {
+					//askBox.chiediConChiScambiare();
+					askBox.chiediVendita();
+				}
 			}
 		});
 		
@@ -93,7 +97,9 @@ public class TavolaDaGioco extends JFrame{
 		costruisci.setPreferredSize(new Dimension(100, 40));
 		costruisci.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				askBox.chiediInfoCostruzione();
+				if (!board.isAITurn())  {
+					askBox.chiediInfoCostruzione();
+				}
 			}
 		});
 		
@@ -101,7 +107,9 @@ public class TavolaDaGioco extends JFrame{
 		ipoteca.setPreferredSize(new Dimension(100, 40));
 		ipoteca.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				askBox.chiediInfoIpoteca();
+				if (!board.isAITurn())  {
+					askBox.chiediInfoIpoteca();
+				}
 			}
 		});
 		
@@ -109,8 +117,10 @@ public class TavolaDaGioco extends JFrame{
 		esciPrigione.setPreferredSize(new Dimension(100, 40));
 		esciPrigione.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				if(board.getGiocatoreCorrente().isInPrigione()) {
-					askBox.chiediComeUscirePrigione();
+				if (!board.isAITurn())  {
+					if(board.getGiocatoreCorrente().isInPrigione()) {
+						askBox.chiediComeUscirePrigione();
+					}
 				}
 			}
 		});
@@ -135,8 +145,8 @@ public class TavolaDaGioco extends JFrame{
 		pannelloComandi.setBackground(new Color(30, 30, 30));
 	}
 	
-	JLabel risultatoDadi = new JLabel("");
-	JLabel soldiDisponibili = new JLabel("");
+	static JLabel risultatoDadi = new JLabel("");
+	static JLabel soldiDisponibili = new JLabel("");
 	
 	boolean turnofinito = true;
 	public JPanel creaPannelloDadi() {
@@ -148,38 +158,36 @@ public class TavolaDaGioco extends JFrame{
 		tiraDadi.setPreferredSize(new Dimension(100,  40));
 		tiraDadi.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				if(turnofinito) {
-//					board.iniziaTurno();
-					int numPosizioni = board.rollaDadi();
-					updateTabellone(numPosizioni);
-					settaNumeroDadiGrafico();
-					settaSoldiDisponibili();
-					board.tiraDadi();
-					turnofinito = false;
+				if (!board.isAITurn())  {
+					board.rollaDadi();
 				}
 			}
 		});
 		
+		/*
 		Button terminaTurno = new Button("Termina Turno");
 		terminaTurno.setPreferredSize(new Dimension(100,  40));
 		terminaTurno.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				if (!turnofinito) {
-					updateTabellone(0);
-					board.finisciTurno();
-					turnofinito = true;
-					board.iniziaTurnoGiocatoreSuccessivo();
+				if (!board.isAITurn())  {
+					if (!turnofinito) {
+						updateTabellone(0);
+						board.finisciTurno();
+						turnofinito = true;
+						board.iniziaTurnoGiocatoreSuccessivo();
+					}
 				}
 			}
 		});
+		*/
 		
 		risultatoDadi.setForeground(Color.WHITE);
 		soldiDisponibili.setForeground(Color.WHITE);
 		
 		box.add(Box.createVerticalStrut(10));
 		box.add(tiraDadi);
-		box.add(Box.createVerticalStrut(10));
-		box.add(terminaTurno);
+		//box.add(Box.createVerticalStrut(10));
+		//box.add(terminaTurno);
 		box.add(Box.createVerticalStrut(10));
 		box.add(risultatoDadi);
 		box.add(Box.createVerticalStrut(10));
@@ -199,13 +207,13 @@ public class TavolaDaGioco extends JFrame{
 		return pannelloDadi;
 	}
 	
-	public void settaNumeroDadiGrafico() {
+	public static void settaNumeroDadiGrafico() {
 		int dado1 = board.getDadi().getDado1();
 		int dado2 = board.getDadi().getDado2();
-		this.risultatoDadi.setText("Dadi: " + dado1 + " - " + dado2);
+		risultatoDadi.setText("Dadi: " + dado1 + " - " + dado2);
 	}
-	public void settaSoldiDisponibili() {
-		this.soldiDisponibili.setText("Soldi: " + Integer.toString(board.getGiocatoreCorrente().getSoldi()));
+	public static void settaSoldiDisponibili() {
+		soldiDisponibili.setText("Soldi: " + Integer.toString(board.getGiocatoreCorrente().getSoldi()));
 	}
 	
 	
@@ -259,9 +267,8 @@ public class TavolaDaGioco extends JFrame{
 		pannelloTavola.setBackground(new Color(30, 30, 30));
 	}
 	
-	public void updateTabellone(int numPosizioni) {
-		pannelloTavola.repaint(this.board.getGiocatoreCorrenteIndex(), numPosizioni);
-		
+	public static void updateTabellone(Giocatore player) {
+		pannelloTavola.repaint(board.getGiocatoreCorrenteIndex(), player);
 	}
 
 	
@@ -277,4 +284,9 @@ public class TavolaDaGioco extends JFrame{
 
 	}
 	
+	public static void update(Giocatore player)  {
+		updateTabellone(player);
+		settaNumeroDadiGrafico();
+		settaSoldiDisponibili();
+	}
 }

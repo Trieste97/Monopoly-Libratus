@@ -17,6 +17,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Francesco Palazzo/Desktop/AI/EmbASP-3.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/giuse/Documents/EmbASP-3.1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

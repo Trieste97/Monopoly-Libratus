@@ -95,4 +95,8 @@ public class Pedina {
 	public int getCasella()  {
 		return casella;
 	}
+	
+	public void setCasella(int casella)  {
+		this.casella = casella;
+	}
 }

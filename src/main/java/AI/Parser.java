@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.sun.tools.doclets.formats.html.FrameOutputWriter;
+//import com.sun.tools.doclets.formats.html.FrameOutputWriter;
 
 import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;

@@ -72,6 +72,9 @@ public class Giocatore {
 		casellePossedute.remove(casella);
 	}
 	public void avanza(int numeroPassi)  {
+		if (this.inPrigione)  {
+			return;
+		}
 		posizioneInTabella = (posizioneInTabella + numeroPassi) % 40;
 	}
 	public void stampaCasellePossedute() {
@@ -86,7 +89,7 @@ public class Giocatore {
 		return getNumTokensPrigione() > 0;
 	}
 	public void usaTokenPrigione()  {
-		if(getNumTokensPrigione() > 0)  {
+		if(getNumTokensPrigione() > 0 && inPrigione)  {
 			setNumTokensPrigione(getNumTokensPrigione() - 1);
 			inPrigione = false;
 		}
@@ -145,5 +148,10 @@ public class Giocatore {
 
 	public void setNumTokensPrigione(int numTokensPrigione) {
 		this.numTokensPrigione = numTokensPrigione;
+	}
+	
+	//serve per ereditarietà
+	public int decidiCosaFare()  {
+		return -1;
 	}
 }

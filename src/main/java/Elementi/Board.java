@@ -43,8 +43,7 @@ public class Board {
 		this.numDoppi = 0;
 		
 		this.creaMappa();
-	}
-	
+	}	
 	private void creaMappa()  {
 		CreatoreCaselle creatore = new CreatoreCaselle();
 		
@@ -52,11 +51,9 @@ public class Board {
 		caselle = creatore.getCaselle();
 		banca = new Banca();
 	}
-	
 	public Giocatore getGiocatoreCorrente()  {
 		return giocatoreCorrente;
 	}
-	
 	public ArrayList<Giocatore> getGiocatori()  {
 		return giocatori;
 	}
@@ -64,40 +61,47 @@ public class Board {
 	//AZIONI GIOCATORE CORRENTE
 	
 	private int numPlaces;
-	public int rollaDadi() {
+	public void rollaDadi() {
 		numPlaces = getDadi().tiraDadi();
 		TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
-		return numPlaces;
+		boolean again = gestisciNumeroDadi();
+		TavolaDaGioco.update(giocatoreCorrente);
+		if (!again)  {
+			finisciTurno();
+			//gestione AI
+			do  {
+				int decisione = giocatoreCorrente.decidiCosaFare();
+				while (decisione > 0)  {
+					decisione = giocatoreCorrente.decidiCosaFare();
+				}
+				numPlaces = getDadi().tiraDadi();
+				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
+				again = gestisciNumeroDadi();
+				TavolaDaGioco.update(giocatoreCorrente);
+			} while (again);
+			finisciTurno();
+		} 
 	}
-	
-	public void tiraDadi()  {
 
-		
+	public boolean gestisciNumeroDadi()  {		
 		if(getDadi().isDoppioNumero() && numDoppi == 2)  {
 			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo,\nGiocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
-			
 			giocatoreCorrente.setInPrigione(true);
 			giocatoreCorrente.setPosizioneInTabella(10);
-//			finisciTurno();
-			return;
+			
+			return false;
 		} else if(getDadi().isDoppioNumero() && giocatoreCorrente.isInPrigione())  {
 			TavolaDaGioco.aggiungiACronologia("Numero doppio, Giocatore " + giocatoreCorrente.getNome() + " esce dalla prigione");
-			
 			giocatoreCorrente.resetTurniPrigione();
 			giocatoreCorrente.setInPrigione(false);
 		} else if(giocatoreCorrente.isInPrigione() && giocatoreCorrente.getTurniPrigione() > 2)  {
 			giocatoreCorrente.resetTurniPrigione();
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " esce di prigione dopo 3 turni");
-			
-//			finisciTurno();
-			return;
 		} else if(giocatoreCorrente.isInPrigione())  {
-			
 			giocatoreCorrente.incrTurniPrigione();
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " non è uscito di prigione");
 			
-//			finisciTurno();
-			return;
+			return false;
 		}
 		
 		int position = giocatoreCorrente.getPosizioneInTabella();
@@ -118,10 +122,9 @@ public class Board {
 		//controlla se fine turno
 		if(getDadi().isDoppioNumero())  {
 			numDoppi++;
-		}/* else  {
-			finisciTurno();
-			
-		}*/
+			return true;
+		}
+		return false;
 	}
 	
 	public void scambia(Casella casellaDaPrendere, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, Casella casellaDaLasciare)  {
@@ -134,7 +137,6 @@ public class Board {
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha scambiato " + 
 				casellaDaLasciare.getNome() + " con " + casellaDaPrendere.getNome());
 	}
-	
 	public void compraCasellaAvversaria(Casella casella, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, int prezzo)  {
 		giocatoreCheAccetta.getCasellePossedute().remove(casella);
 		giocatoreCheFaPorposta.getCasellePossedute().add(casella);
@@ -142,7 +144,6 @@ public class Board {
 		giocatoreCheFaPorposta.diminuisciSoldi(prezzo);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha acquistato " + casella.getNome());
 	}
-	
 	public void costruisci(String nome)  {
 		Casella cas = caselle.get(nome);
 		
@@ -174,7 +175,6 @@ public class Board {
 			TavolaDaGioco.aggiungiACronologia("Non hai tutto il set del colore della casella scelta".toUpperCase());
 		}
 	}
-	
 	public void esciDiPrigione(String modo)  {
 		
 		
@@ -194,7 +194,6 @@ public class Board {
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha pagato per uscire di prigione");
 		}
 	}
-	
 	public void ipoteca(String nomeCasella)  {
 		Casella cas = caselle.get(nomeCasella);
 		
@@ -208,7 +207,6 @@ public class Board {
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha ipotecato " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
 		}
 	}
-	
 	public void finisciTurno()  {
 		giocatoreCorrenteIndex++;
 		
@@ -221,12 +219,13 @@ public class Board {
 	}
 	
 	public void gestisciPosizione(String position)  {
-//mia aggiunta		
+//mia aggiunta
+		/*
 		if(position.equals("Jail")) {
 			giocatoreCorrente.setInPrigione(true);
 			System.out.println("Arrestato");
 		}
-		
+		*/
 		if(position.equals("Start") || position.equals("FreeParking") || position.equals("Jail"))  {
 			return;
 		}
@@ -296,8 +295,7 @@ public class Board {
 				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " paga a " + casella.getProprietario().getNome() + " " + importo + "€");
 			}
 		}
-	}
-	
+	}	
 	public void gestisciCartaPescata(String[] carta)  {
 		
 		TavolaDaGioco.aggiungiACronologia(carta[0]);
@@ -316,6 +314,7 @@ public class Board {
 			int prevPos = giocatoreCorrente.getPosizioneInTabella();
 			giocatoreCorrente.setPosizioneInTabella(val);
 			if(val == 10)  {
+				giocatoreCorrente.setPosizioneInTabella(10);
 				giocatoreCorrente.setInPrigione(true);
 				return;
 			}
@@ -333,34 +332,25 @@ public class Board {
 			giocatoreCorrente.addTokenPrigione();
 		}
 	}
-
 	public Dadi getDadi() {
 		return dadi;
 	}
-
 	public void setDadi(Dadi dadi) {
 		this.dadi = dadi;
 	}
-	
 	public int getGiocatoreCorrenteIndex()  {
 		return giocatoreCorrenteIndex;
 	}
-	
 	public int getGiocatoreAvversarioIndex()  {
 		if(giocatoreCorrenteIndex == 0) {
 			return 1;
 		}
 		return 0;
 	}
-	
-	
 	private Casella getCasellaDaNome(String nome) {
 		nome = nome.toUpperCase();
 		return caselle.get(nome);
 	}
-	
-	
-	
 	public void iniziaTurnoGiocatoreSuccessivo() {
 		
 //SECONDA AI
@@ -420,6 +410,10 @@ public class Board {
 			
 		}
 		
+	}
+	
+	public boolean isAITurn()  {
+		return giocatoreCorrente instanceof GiocatoreAI;
 	}
 	
 }
