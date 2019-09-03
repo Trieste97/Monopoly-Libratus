@@ -3,6 +3,7 @@ package AI;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@SuppressWarnings("serial")
 public class Atomo extends ArrayList<String>{
 
 	private String nomeAtomo;

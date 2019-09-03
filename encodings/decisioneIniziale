@@ -1,0 +1,15 @@
+%Posso fare 5 cose principalmente: tirare i dadi, proporre uno scambio, 
+%uscire di prigione (se ci sono), ipotecare qualcosa o costruire case
+decido(dadi) | decido(scambio) | decido(prigione) | decido(ipoteca) | decido(costruire).
+
+%Non posso uscire di prigione se non ci sono
+:- decido(prigione), giocatore(bot1,_,false,_,_,_,_,_).
+
+%Non posso costruire case se non ho almeno un set di caselle
+:- decido(costruire), giocatore(bot1,_,_,_,_,_,_,Sets), Sets < 1.
+
+%Preferisco non ipotecare niente se ho abbastanza soldi
+:~ decido(ipoteca), giocatore(bot1,Soldi,_,_,_,_,_,_), Soldi > 700. [1:2]
+
+%Preferisco non fare scambi se il mio avversario ha poche caselle.
+:~ decido(scambio), giocatore(you,_,_,_,_,_,N,_), N <= 2. [1:2]

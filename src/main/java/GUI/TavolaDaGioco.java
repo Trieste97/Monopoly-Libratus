@@ -213,7 +213,7 @@ public class TavolaDaGioco extends JFrame{
 		risultatoDadi.setText("Dadi: " + dado1 + " - " + dado2);
 	}
 	public static void settaSoldiDisponibili() {
-		soldiDisponibili.setText("Soldi: " + Integer.toString(board.getGiocatoreCorrente().getSoldi()));
+		soldiDisponibili.setText("Soldi: " + Integer.toString(board.getGiocatoreVero().getSoldi()));
 	}
 	
 	

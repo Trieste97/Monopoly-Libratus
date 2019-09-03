@@ -1,5 +1,7 @@
 package AI;
 
+import java.util.ArrayList;
+
 import Elementi.Casella;
 import Elementi.CasellaResidenziale;
 import Elementi.Giocatore;
@@ -8,6 +10,22 @@ public class Creator {
 
 	public Creator() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public static String creaDatiGiocatori(ArrayList<Giocatore> giocatori)  {
+		String players = "";
+		for (Giocatore g : giocatori)  {
+			players += "giocatore(" + g.getNome().toLowerCase() + ",";
+			players += g.getSoldi() + ",";
+			players += g.isInPrigione() + ",";
+			players += g.getNumTokensPrigione() + ",";
+			players += g.getTurniPrigione() + ",";
+			players += g.getPosizioneInTabella() + ",";
+			players += g.getNumCasellePossedute() + ",";
+			players += g.getNumSetsPosseduti() + ").\n";
+		}
+		
+		return players;
 	}
 	
 	public static String creaGiocatore(Giocatore g) {

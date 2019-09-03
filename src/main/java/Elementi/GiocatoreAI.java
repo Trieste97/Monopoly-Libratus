@@ -1,8 +1,13 @@
 package Elementi;
 
+import java.util.ArrayList;
+
+import AI.AIClass;
+import AI.Writer;
 
 public class GiocatoreAI extends Giocatore  {
 
+	Writer writer = new Writer();
 	public GiocatoreAI(String nome) {
 		super(nome);
 	}
@@ -16,8 +21,12 @@ public class GiocatoreAI extends Giocatore  {
 	 * - pagare/usare token se è in prigione (TODO)
 	*/
 	
-	public int decidiCosaFare()  {
-		return 0;
+	public int decidiCosaFare(ArrayList<Giocatore> giocatori)  {
+		writer.writeDecisioneIniziale(giocatori);
+		AIClass newAI = new AIClass();
+		int esito = newAI.decisioneIniziale();
+		System.out.println("Scelta Fatta: " + esito);
+		return esito;
 	}
 
 }

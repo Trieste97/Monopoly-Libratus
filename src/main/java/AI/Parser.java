@@ -1,8 +1,6 @@
 package AI;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 //import com.sun.tools.doclets.formats.html.FrameOutputWriter;
 
@@ -31,6 +29,41 @@ public class Parser {
 
 	}
 	
+	public int parseDecisioneIniziale(AnswerSets answers)  {
+		int esito = -1;
+		int n = 0;
+		for(AnswerSet a: answers.getAnswersets()){
+			 System.out.println("AS n.: " + ++n + ": " + a);
+			 String as = a.toString();
+			 if(as.contains("dadi")) {
+				 esito = 0;
+				 System.out.println("DADI");
+				 break;
+			 }
+			 else if(as.contains("scambio")) {
+				 esito = 1;
+				 System.out.println("SCAMBIO");
+				 break;
+			 }
+			 else if (as.contains("prigione")) {
+				 esito = 2;
+				 System.out.println("PRIGIONE");
+				 break;
+			 }
+			 else if (as.contains("ipoteca"))  {
+				 esito = 3;
+				 System.out.println("IPOTECA");
+				 break;
+			 }
+			 else if (as.contains("costruire"))  {
+				 esito = 4;
+				 System.out.println("COSTRUISCO");
+				 break;
+			 }
+		}
+		
+		return esito;
+	}
 	
 	public String parseUscitaPrigione(AnswerSets answers) {
 		// TODO Auto-generated method stub

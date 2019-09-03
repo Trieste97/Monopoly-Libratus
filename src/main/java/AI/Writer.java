@@ -15,6 +15,21 @@ public class Writer {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void writeDecisioneIniziale(ArrayList<Giocatore> giocatori)  {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/decisioneInizialeInstance", "UTF-8");
+			writer.println(Creator.creaDatiGiocatori(giocatori));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void writePropostaAcquisto(Casella casella, Giocatore giocatore) {
 		PrintWriter writer = null;
 		try {

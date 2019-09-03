@@ -70,9 +70,9 @@ public class Board {
 			finisciTurno();
 			//gestione AI
 			do  {
-				int decisione = giocatoreCorrente.decidiCosaFare();
+				int decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
 				while (decisione > 0)  {
-					decisione = giocatoreCorrente.decidiCosaFare();
+					decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
 				}
 				numPlaces = getDadi().tiraDadi();
 				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
@@ -414,6 +414,10 @@ public class Board {
 	
 	public boolean isAITurn()  {
 		return giocatoreCorrente instanceof GiocatoreAI;
+	}
+	
+	public Giocatore getGiocatoreVero()  {
+		return this.giocatori.get(0);
 	}
 	
 }
