@@ -162,6 +162,9 @@ public class Giocatore {
 	}
 	
 	public void aggiornaColoriPosseduti()  {
+		for(int i = 0; i < 8; i++)
+			this.coloriPosseduti[i] = 0;
+		
 		for(Casella c : casellePossedute)  {
 			if (c instanceof CasellaResidenziale)  {
 				CasellaResidenziale cas = (CasellaResidenziale) c;

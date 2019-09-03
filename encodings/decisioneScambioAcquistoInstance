@@ -1,10 +1,7 @@
-giocatore(bot1,5800,false,0,0,36).
-avversario(you,9450,true,0,0,10).
-casella(b2,bot1,lightblue,1000,60,500,false).
-casella(d3,bot1,orange,2000,160,1000,false).
-casella(e3,bot1,red,2400,200,1200,false).
-casella(f2,bot1,yellow,2600,220,1300,false).
-casella(b1,you,lightblue,1000,60,500,false).
-casella(c2,you,pink,1400,100,700,false).
-casella(d2,you,orange,1800,140,900,false).
-scambio(idProposta,d3,c2).
+giocatore(bot1,9400,false,0,0,26).
+avversario(you,11950,false,0,0,28).
+casella(b3,bot1,lightblue,1200,80,600,false).
+casella(d1,bot1,orange,1800,140,900,false).
+casella(f1,bot1,yellow,2600,220,1300,false).
+casella(c3,you,pink,1600,120,800,false).
+scambio(idProposta,b3,c3).

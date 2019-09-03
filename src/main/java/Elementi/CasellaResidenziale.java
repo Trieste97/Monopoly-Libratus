@@ -19,7 +19,7 @@ public class CasellaResidenziale extends Casella {
 			int prezzoTransitoNumeroCase3, int prezzoTransitoNumeroCase4, int prezzoTransitoHotel,
 			int prezzoCostruzioneCasa) {
 		
-		super(prezzoVendita, prezzoTransito, prezzoIpoteca, nome);
+		super(prezzoVendita, prezzoTransito, prezzoIpoteca, nome, colore);
 		this.colore = colore;
 		this.prezzoTransitoNumeroCase1 = prezzoTransitoNumeroCase1;
 		this.prezzoTransitoNumeroCase2 = prezzoTransitoNumeroCase2;
@@ -29,10 +29,6 @@ public class CasellaResidenziale extends Casella {
 		this.prezzoCostruzioneCasa = prezzoCostruzioneCasa;
 		this.numeroCaseCostruite = 0;
 	}
-	
-	
-	
-	
 	
 	public int getPrezzoTransitoNumeroCase1() {
 		return prezzoTransitoNumeroCase1;

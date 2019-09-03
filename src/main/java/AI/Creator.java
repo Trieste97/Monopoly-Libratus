@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Elementi.Casella;
 import Elementi.CasellaResidenziale;
 import Elementi.Giocatore;
+import Elementi.GiocatoreAI;
 
 public class Creator {
 
@@ -13,19 +14,25 @@ public class Creator {
 	}
 	
 	public static String creaDatiGiocatori(ArrayList<Giocatore> giocatori)  {
-		String players = "";
+		String data = "";
 		for (Giocatore g : giocatori)  {
-			players += "giocatore(" + g.getNome().toLowerCase() + ",";
-			players += g.getSoldi() + ",";
-			players += g.isInPrigione() + ",";
-			players += g.getNumTokensPrigione() + ",";
-			players += g.getTurniPrigione() + ",";
-			players += g.getPosizioneInTabella() + ",";
-			players += g.getNumCasellePossedute() + ",";
-			players += g.getNumSetsPosseduti() + ").\n";
+			data += "giocatore(" + g.getNome().toLowerCase() + ",";
+			data += g.getSoldi() + ",";
+			data += g.isInPrigione() + ",";
+			data += g.getNumTokensPrigione() + ",";
+			data += g.getTurniPrigione() + ",";
+			data += g.getPosizioneInTabella() + ",";
+			data += g.getNumCasellePossedute() + ",";
+			data += g.getNumSetsPosseduti() + ").\n";
+			
+			String temp = "casellaAvv";
+			if (g instanceof GiocatoreAI) temp = "casellaMia";
+			for (Casella c : g.getCasellePossedute())  {
+				data += temp + "(" + c.getNome().toLowerCase() + "," + c.getPrezzoVendita() + "," + c.getTipo() + ").\n";
+			}
 		}
 		
-		return players;
+		return data;
 	}
 	
 	public static String creaGiocatore(Giocatore g) {

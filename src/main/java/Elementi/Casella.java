@@ -15,10 +15,12 @@ public class Casella {
 	boolean ipotecata;
 //	@Param(1)
 	Giocatore proprietario;
+	String tipo;
 	
 	
-	public Casella(int prezzoVendita, int prezzoTransito, int prezzoIpoteca, String nome) {
+	public Casella(int prezzoVendita, int prezzoTransito, int prezzoIpoteca, String nome, String tipo) {
 		super();
+		this.tipo = tipo;
 		this.prezzoVendita = prezzoVendita;
 		this.prezzoTransito = prezzoTransito;
 		this.prezzoIpoteca = prezzoIpoteca;
@@ -27,6 +29,9 @@ public class Casella {
 	}
 	
 	
+	public String getTipo()  {
+		return tipo;
+	}
 	public int getPrezzoVendita() {
 		return prezzoVendita;
 	}

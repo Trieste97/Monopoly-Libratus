@@ -1,3 +1,6 @@
-giocatore(you,13550,false,0,0,12,1,0).
-giocatore(bot1,13800,false,0,0,9,1,0).
+giocatore(you,12000,false,0,0,18,2,0).
+casellaAvv(b3,1200,lightblue).
+casellaAvv(d2,1800,orange).
+giocatore(bot1,11000,true,0,0,10,1,0).
+casellaMia(t1,1500,society).
 

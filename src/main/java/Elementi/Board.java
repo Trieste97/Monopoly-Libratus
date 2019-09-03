@@ -68,10 +68,21 @@ public class Board {
 		TavolaDaGioco.update(giocatoreCorrente);
 		if (!again)  {
 			finisciTurno();
+			//giocatoreCorrente.setInPrigione(true);
 			//gestione AI
 			do  {
 				int decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
 				while (decisione > 0)  {
+					if (decisione == 2)  {
+						GiocatoreAI player = (GiocatoreAI) giocatoreCorrente;
+						String modo = player.voglioUscireDiPrigione();
+						if (modo.equals("dadi"))
+							break;
+						else
+							esciDiPrigione(modo);
+						
+						break;
+					}
 					decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
 				}
 				numPlaces = getDadi().tiraDadi();
@@ -189,7 +200,7 @@ public class Board {
 			
 		}
 		else if (modo.equals("paga")) {
-			giocatoreCorrente.diminuisciSoldi(50);
+			giocatoreCorrente.diminuisciSoldi(500);
 			giocatoreCorrente.setInPrigione(false);
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha pagato per uscire di prigione");
 		}
@@ -352,23 +363,6 @@ public class Board {
 		return caselle.get(nome);
 	}
 	public void iniziaTurnoGiocatoreSuccessivo() {
-		
-//SECONDA AI
-		if(giocatoreCorrente.isInPrigione() && giocatoreCorrente.getNome().equals("BOT1")) {
-			
-			try {
-				
-				writer.writeUscitaPrigione(giocatoreCorrente);
-				AIClass newAI = new AIClass();
-				String modoUscita = newAI.uscitaPrigione();
-				System.out.println("Scelta Fatta: " + modoUscita);
-				esciDiPrigione(modoUscita);
-				
-			} catch (Exception e) {
-				System.err.println("VALUTAZIOE USCITA PRIGIONE FALLITA");
-			}
-			
-		}
 		
 		
 //TERZA AI

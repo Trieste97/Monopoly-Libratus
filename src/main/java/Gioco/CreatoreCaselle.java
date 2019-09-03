@@ -85,8 +85,14 @@ public class CreatoreCaselle {
 					mappa.put(pos, casella.getNome());
 					caselle.put(casella.getNome(), casella);
 				}
-				else if(tipo.equals("Transportation") || tipo.equals("Infrastructure"))  {
-					casella = new Casella(prezzoVendita, prezzoTransito, prezzoVendita/2, nome);
+				else if(tipo.equals("Transportation"))  {
+					casella = new Casella(prezzoVendita, prezzoTransito, prezzoVendita/2, nome, "station");
+					
+					mappa.put(pos, nome);
+					caselle.put(nome, casella);
+				}
+				else if(tipo.equals("Infrastructure"))  {
+					casella = new Casella(prezzoVendita, prezzoTransito, prezzoVendita/2, nome, "society");
 					
 					mappa.put(pos, nome);
 					caselle.put(nome, casella);

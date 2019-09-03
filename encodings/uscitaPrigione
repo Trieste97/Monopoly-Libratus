@@ -4,8 +4,8 @@ esci(Giocatore, token)|esci(Giocatore, dadi)|esci(Giocatore, paga):- inPrigione(
 %Non è possibile usare il token se non se ne ha almeno uno in possesso
 :-esci(Giocatore, token), inPrigione(Giocatore), giocatore(Giocatore,_,_,NumToken,_,_), NumToken<1.
 
-%Si preferisce soprattutto non pagare se si ha meno di 1000euro
-:~esci(Giocatore, paga), inPrigione(Giocatore), giocatore(Giocatore,Soldi,_,_,_,_), Soldi<1000. [1:2]
+%Si preferisce soprattutto non pagare se si ha meno di 2000euro
+:~esci(Giocatore, paga), inPrigione(Giocatore), giocatore(Giocatore,Soldi,_,_,_,_), Soldi<2000. [1:2]
 
 %Non è possiile pagare se non si hano i soldi a sufficienza
 :-esci(Giocatore, paga), inPrigione(Giocatore), giocatore(Giocatore,Soldi,_,_,_,_), Soldi<51.

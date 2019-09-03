@@ -28,5 +28,13 @@ public class GiocatoreAI extends Giocatore  {
 		System.out.println("Scelta Fatta: " + esito);
 		return esito;
 	}
+	
+	public String voglioUscireDiPrigione()  {
+		writer.writeUscitaPrigione(this);
+		AIClass newAI = new AIClass();
+		String modoUscita = newAI.uscitaPrigione();
+		System.out.println("Scelta Fatta: " + modoUscita);
+		return modoUscita;
+	}
 
 }

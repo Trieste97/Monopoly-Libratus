@@ -1,15 +1,37 @@
-%Posso fare 5 cose principalmente: tirare i dadi, proporre uno scambio, 
-%uscire di prigione (se ci sono), ipotecare qualcosa o costruire case
+%Posso fare 5 cose principalmente: 
+%tirare i dadi;
+%proporre uno scambio;
+%uscire di prigione (se ci sono);
+%ipotecare qualcosa;
+%costruire case (se ho qualche set);
+
 decido(dadi) | decido(scambio) | decido(prigione) | decido(ipoteca) | decido(costruire).
 
 %Non posso uscire di prigione se non ci sono
 :- decido(prigione), giocatore(bot1,_,false,_,_,_,_,_).
 
+%Se sono in prigione, vorrei uscire se:
+%	ho tanti soldi e ci sono molte caselle libere
+%	non ci sono molti sets avversari
+:- decido(prigione), giocatore(you,_,_,_,_,_,N,Sets), giocatore(bot1,Soldi,_,_,_,_,M,_), X=N+M, X >= 23, Soldi < 2000, Sets >= 2.
+
 %Non posso costruire case se non ho almeno un set di caselle
 :- decido(costruire), giocatore(bot1,_,_,_,_,_,_,Sets), Sets < 1.
+
+%Non ha senso scambiare se entrambi i giocatori non hanno caselle
+:- decido(scambio), giocatore(you,_,_,_,_,_,0,_), giocatore(you,_,_,_,_,_,0,_).
 
 %Preferisco non ipotecare niente se ho abbastanza soldi
 :~ decido(ipoteca), giocatore(bot1,Soldi,_,_,_,_,_,_), Soldi > 700. [1:2]
 
-%Preferisco non fare scambi se il mio avversario ha poche caselle.
-:~ decido(scambio), giocatore(you,_,_,_,_,_,N,_), N <= 2. [1:2]
+%disabilitato per ora
+:- decido(ipoteca).
+
+%Scambio: 2 condizioni per la proposta di uno
+%	ho pochissime caselle e il mio avversario no
+% 	il mio avversario ha una casella che mi interessa
+%decido(scambio) :- giocatore(you,_,_,_,_,_,N,_), giocatore(bot1,Soldi,_,_,_,_,M,_), M < 2, N > 2, Soldi > 3000.
+%decido(scambio) :- casellaMia(_,_,Tipo), casellaAvv(_,_,Tipo).
+
+%disabilitato per ora
+:- decido(scambio).
