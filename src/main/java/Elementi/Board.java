@@ -73,7 +73,10 @@ public class Board {
 			do  {
 				int decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
 				while (decisione > 0)  {
-					if (decisione == 2)  {
+					if (decisione == 1)  {
+						String tmp = giocatoreCorrente.decidiCosaScambiare(this.giocatori);
+					}
+					else if (decisione == 2)  {
 						GiocatoreAI player = (GiocatoreAI) giocatoreCorrente;
 						String modo = player.voglioUscireDiPrigione();
 						if (modo.equals("dadi"))

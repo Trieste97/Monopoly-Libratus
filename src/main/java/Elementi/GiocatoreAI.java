@@ -29,6 +29,11 @@ public class GiocatoreAI extends Giocatore  {
 		return esito;
 	}
 	
+	public String decidiCosaScambiare(ArrayList<Giocatore> giocatori)  {
+		
+		return "";
+	}
+	
 	public String voglioUscireDiPrigione()  {
 		writer.writeUscitaPrigione(this);
 		AIClass newAI = new AIClass();
