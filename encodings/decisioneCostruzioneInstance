@@ -1,0 +1,4 @@
+giocatore(bot1,2010,false,0,0,20).
+set(brown,1000,false).
+set(lightblue,1500,false).
+

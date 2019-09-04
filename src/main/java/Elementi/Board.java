@@ -72,18 +72,37 @@ public class Board {
 			//gestione AI
 			do  {
 				int decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
+				decisione = 4;
 				while (decisione > 0)  {
+					GiocatoreAI player = (GiocatoreAI) giocatoreCorrente;
+					
+					//SCAMBIO
 					if (decisione == 1)  {
-						String tmp = giocatoreCorrente.decidiCosaScambiare(this.giocatori);
+						//non implementata ancora
+						break;
+						//String tmp = player.decidiCosaScambiare(this.giocatori);
 					}
+					
+					//ESCI PRIGIONE
 					else if (decisione == 2)  {
-						GiocatoreAI player = (GiocatoreAI) giocatoreCorrente;
 						String modo = player.voglioUscireDiPrigione();
 						if (modo.equals("dadi"))
 							break;
 						else
 							esciDiPrigione(modo);
 						
+						break;
+					}
+					
+					//IPOTECA
+					else if (decisione == 3)  {
+						//non implementata ancora
+						break;
+					}
+					
+					//COSTRUISCO
+					else if (decisione == 4)  {
+						player.decidiCosaCostruire(this);
 						break;
 					}
 					decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
@@ -94,7 +113,8 @@ public class Board {
 				TavolaDaGioco.update(giocatoreCorrente);
 			} while (again);
 			finisciTurno();
-		} 
+		}
+		getGiocatoreVero().setInPrigione(true);
 	}
 
 	public boolean gestisciNumeroDadi()  {		
@@ -141,15 +161,18 @@ public class Board {
 		return false;
 	}
 	
-	public void scambia(Casella casellaDaPrendere, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, Casella casellaDaLasciare)  {
-		giocatoreCheAccetta.getCasellePossedute().remove(casellaDaPrendere);
-		giocatoreCheFaPorposta.getCasellePossedute().add(casellaDaPrendere);
-		casellaDaPrendere.setProprietario(giocatoreCheFaPorposta);
-		giocatoreCheFaPorposta.getCasellePossedute().remove(casellaDaLasciare);
-		giocatoreCheAccetta.getCasellePossedute().add(casellaDaLasciare);
-		casellaDaLasciare.setProprietario(giocatoreCheAccetta);
-		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha scambiato " + 
-				casellaDaLasciare.getNome() + " con " + casellaDaPrendere.getNome());
+	public void scambia(int soldiToBot, int soldiToYou, String[] caselleToBot, String[] caselleToYou)  {
+		getGiocatoreBot().aumentaSoldi(soldiToBot);
+		getGiocatoreBot().diminuisciSoldi(soldiToYou);
+		getGiocatoreVero().aumentaSoldi(soldiToYou);
+		getGiocatoreVero().diminuisciSoldi(soldiToBot);
+		
+		for (String s : caselleToBot)  {
+			caselle.get(s).setProprietario(getGiocatoreBot());
+		}
+		for (String s : caselleToBot)  {
+			caselle.get(s).setProprietario(getGiocatoreVero());
+		}
 	}
 	public void compraCasellaAvversaria(Casella casella, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, int prezzo)  {
 		giocatoreCheAccetta.getCasellePossedute().remove(casella);
@@ -190,8 +213,6 @@ public class Board {
 		}
 	}
 	public void esciDiPrigione(String modo)  {
-		
-		
 		if(modo.equals("token"))  {
 			if(giocatoreCorrente.hasTokenPrigione())  {
 				giocatoreCorrente.usaTokenPrigione();
@@ -203,9 +224,13 @@ public class Board {
 			
 		}
 		else if (modo.equals("paga")) {
-			giocatoreCorrente.diminuisciSoldi(500);
-			giocatoreCorrente.setInPrigione(false);
-			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha pagato per uscire di prigione");
+			if(giocatoreCorrente.isInPrigione())  {
+				giocatoreCorrente.diminuisciSoldi(500);
+				giocatoreCorrente.setInPrigione(false);
+				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha pagato per uscire di prigione");
+			} else  {
+				System.out.println("Non sei in prigione");
+			}
 		}
 	}
 	public void ipoteca(String nomeCasella)  {
@@ -361,60 +386,16 @@ public class Board {
 		}
 		return 0;
 	}
-	private Casella getCasellaDaNome(String nome) {
-		nome = nome.toUpperCase();
-		return caselle.get(nome);
-	}
-	public void iniziaTurnoGiocatoreSuccessivo() {
-		
-		
-//TERZA AI
-		
-		if(giocatoreCorrente.getNome().equals("BOT1") && !giocatoreCorrente.getCaselleResidenziali().isEmpty() && 
-				!giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenziali().isEmpty()) {
-			
-			try {
-				
-				writer.writeGestioneProposte(giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
-						giocatoreCorrente.getCaselleResidenzialiOggetto(), 
-						giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenzialiOggetto());
-				AIClass newAI = new AIClass();
-				ArrayList<String> esito = newAI.gestioneProposte();
-				System.out.println("Proposte su caselle avversarie: " + esito.get(0));
-				if(esito.get(0).equals("Scambio")){
-					boolean scambioAccettato = false;
-					scambioAccettato = TavolaDaGioco.chiediSeVuoleScambiare(esito.get(1), esito.get(2), 
-							giocatori.get(getGiocatoreAvversarioIndex()).getNome());
-					if (scambioAccettato) {
-						scambia(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
-								getCasellaDaNome(esito.get(2)));
-					}
-				}
-				else if (esito.get(0).equals("Acquisto")){
-					boolean acquistoAccettato = false;
-					acquistoAccettato = TavolaDaGioco.chiediSeVuoleVendere(esito.get(1), getCasellaDaNome(esito.get(1)).getPrezzoVendita(), 
-							giocatori.get(getGiocatoreAvversarioIndex()).getNome());
-					if (acquistoAccettato) {
-						compraCasellaAvversaria(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()), 
-								getCasellaDaNome(esito.get(1)).getPrezzoVendita());
-					}
-				}
-				
-			} catch (Exception e) {
-				System.err.println("VALUTAZIOE GESTIONE SCAMBIO FALLITA");
-			}
-			
-			
-		}
-		
-	}
-	
 	public boolean isAITurn()  {
 		return giocatoreCorrente instanceof GiocatoreAI;
 	}
 	
 	public Giocatore getGiocatoreVero()  {
 		return this.giocatori.get(0);
+	}
+	
+	public GiocatoreAI getGiocatoreBot()  {
+		return (GiocatoreAI) this.giocatori.get(1);
 	}
 	
 }

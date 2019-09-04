@@ -182,4 +182,23 @@ public class Parser {
 
 	}
 
+	public String parseFaiPropostaScambio(AnswerSets answers) {
+		return "";
+	}
+
+	public ArrayList<String> parseDecidiCosaCostruire(AnswerSets answers) {
+		ArrayList<String> doveCostruire = new ArrayList<String>();
+		int n = 0;
+		for(AnswerSet a: answers.getAnswersets()){
+			 System.out.println("AS n.: " + ++n + ": " + a);
+			 String as = a.toString();
+			 if(as.contains("costruire(")) {
+				 System.out.println("COSTRUISCO");
+				 //TODO: parserizzare answer set di decisione costruzione
+			 }
+		}
+		
+		return doveCostruire;
+	}
+
 }

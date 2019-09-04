@@ -3,6 +3,7 @@ package Gioco;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Scanner;
 
 import Elementi.Casella;
@@ -124,6 +125,30 @@ public class CreatoreCaselle {
 		this.caselle = caselle;
 	}
 
-
+	public static void caricaNomiCaselle(HashSet<String> set)  {
+		try {
+			Scanner scanner = new Scanner(new File("src/main/resources/board.txt"));
+			
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				
+				if (line.isEmpty() || line.startsWith("//")) {
+					continue;
+				}
+				String[] informazioniCasella = line.split(",");
+				String tipo = informazioniCasella[0];
+				
+				if(!tipo.equals("Special"))  {
+					
+					String nome = informazioniCasella[1];
+					set.add(nome);
+					continue;
+				} 
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

@@ -135,14 +135,16 @@ public class Creator {
 		return inPrigione;
 	}
 	
-	public static String creaScambio(String nomeCasellaDaCedere, String nomeCasellaDaPrendere) {
-		String scambio = "scambio(";
-		scambio = scambio + "idProposta";
-		scambio = scambio + ",";
-		scambio = scambio + nomeCasellaDaCedere.toLowerCase();
-		scambio = scambio + ",";
-		scambio = scambio + nomeCasellaDaPrendere.toLowerCase();
-		scambio  = scambio + ").";
+	public static String creaScambio(int soldiToBot, int soldiToYou, String[] caselleToBot, String[] caselleToYou) {
+		String scambio = "";
+		scambio += "soldiToBot(" + soldiToBot + ").\n";
+		scambio += "soldiToYou(" + soldiToYou + ").\n";
+		for(String c : caselleToBot)  {
+			scambio += "casellaToBot(" + c.toLowerCase() + ").\n";
+		}
+		for(String c : caselleToYou)  {
+			scambio += "casellaToYou(" + c.toLowerCase() + ").\n";
+		}
 		return scambio ;
 	}
 	
@@ -155,5 +157,40 @@ public class Creator {
 		scambio = scambio + prezzo;
 		scambio  = scambio + ").";
 		return scambio ;
+	}
+	
+	public static String creaDatiSet(ArrayList<Casella> caselle)  {
+		
+		int[] coloriPosseduti = new int[8];
+		boolean[] caseMaxate = new boolean[8];
+		for(Casella c : caselle)  {
+			if (c instanceof CasellaResidenziale)  {
+				CasellaResidenziale cas = (CasellaResidenziale) c;
+				String col = cas.getColore();
+				
+				if(cas.isIpotecata())  {
+					continue;
+				}
+				if (col.equals("brown")) { coloriPosseduti[0] += 1; if(cas.caseMax()) caseMaxate[0] = true; }
+				else if (col.equals("lightblue")) { coloriPosseduti[1] += 1; if(cas.caseMax()) caseMaxate[1] = true; }
+				else if (col.equals("pink")) { coloriPosseduti[2] += 1; if(cas.caseMax()) caseMaxate[2] = true; }
+				else if (col.equals("orange")) { coloriPosseduti[3] += 1; if(cas.caseMax()) caseMaxate[3] = true; }
+				else if (col.equals("red")) { coloriPosseduti[4] += 1; if(cas.caseMax()) caseMaxate[4] = true; }
+				else if (col.equals("yellow")) { coloriPosseduti[5] += 1; if(cas.caseMax()) caseMaxate[5] = true; }
+				else if (col.equals("green")) { coloriPosseduti[6] += 1; if(cas.caseMax()) caseMaxate[6] = true; }
+				else if (col.equals("blue")) { coloriPosseduti[7] += 1; if(cas.caseMax()) caseMaxate[7] = true; }
+					
+			}
+		}
+		String data = "";
+		if (coloriPosseduti[0] == 2) data += "set(brown,1000," + caseMaxate[0] + ").\n";;
+		if (coloriPosseduti[1] == 3) data += "set(lightblue,1500," + caseMaxate[1] + ").\n";
+		else if (coloriPosseduti[2] == 3) data += "set(pink,3000," + caseMaxate[2] + ").\n";
+		else if (coloriPosseduti[3] == 3) data += "set(orange,3000," + caseMaxate[3] + ").\n";
+		else if (coloriPosseduti[4] == 3) data += "set(red,4500," + caseMaxate[4] + ").\n";
+		else if (coloriPosseduti[5] == 3) data += "set(yellow,4500," + caseMaxate[5] + ").\n";
+		else if (coloriPosseduti[6] == 3) data += "set(green,6000," + caseMaxate[6] + ").\n";
+		else if (coloriPosseduti[7] == 2) data += "set(blue,4000," + caseMaxate[7] + ").\n";
+		return data;
 	}
 }

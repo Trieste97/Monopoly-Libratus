@@ -1,7 +1,0 @@
-giocatore(bot1,9400,false,0,0,26).
-avversario(you,11950,false,0,0,28).
-casella(b3,bot1,lightblue,1200,80,600,false).
-casella(d1,bot1,orange,1800,140,900,false).
-casella(f1,bot1,yellow,2600,220,1300,false).
-casella(c3,you,pink,1600,120,800,false).
-scambio(idProposta,b3,c3).

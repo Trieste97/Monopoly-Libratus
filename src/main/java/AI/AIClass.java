@@ -143,7 +143,28 @@ public class AIClass {
 		return esito;
 		
 	}
-	
-	
-	
+
+	public String faiPropostaScambio() {
+		encodingResource="encodings/decisioneIniziale";
+		instanceResource="encodings/decisioneInizialeInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		String esito = parser.parseFaiPropostaScambio(answers);
+		return esito;
+	}
+
+	public ArrayList<String> decidiCosaCostruire() {
+		encodingResource="encodings/decisioneCostruzione";
+		instanceResource="encodings/decisioneCostruzioneInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		ArrayList<String> esito = parser.parseDecidiCosaCostruire(answers);
+		return esito;
+	}
 }

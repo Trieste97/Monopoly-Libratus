@@ -82,17 +82,6 @@ public class TavolaDaGioco extends JFrame{
 			}
 		});
 		
-		Button proponiVendita = new Button("Proponi vendita");
-		proponiVendita.setPreferredSize(new Dimension(100, 40));
-		proponiVendita.addActionListener(new ActionListener()  {
-			public void actionPerformed(ActionEvent e)  {
-				if (!board.isAITurn())  {
-					//askBox.chiediConChiScambiare();
-					askBox.chiediVendita();
-				}
-			}
-		});
-		
 		Button costruisci = new Button("Costruisci");
 		costruisci.setPreferredSize(new Dimension(100, 40));
 		costruisci.addActionListener(new ActionListener()  {
@@ -128,8 +117,6 @@ public class TavolaDaGioco extends JFrame{
 				
 		box.add(Box.createVerticalStrut(50));
 		box.add(azioni);
-		box.add(Box.createVerticalStrut(10));
-		box.add(proponiVendita);
 		box.add(Box.createVerticalStrut(10));
 		box.add(proponiScambio);
 		box.add(Box.createVerticalStrut(10));

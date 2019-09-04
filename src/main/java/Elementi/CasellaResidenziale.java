@@ -85,4 +85,8 @@ public class CasellaResidenziale extends Casella {
 		if(numeroCaseCostruite > 0)
 			numeroCaseCostruite--;
 	}
+	
+	public boolean caseMax()  {
+		return numeroCaseCostruite == 5;
+	}
 }
