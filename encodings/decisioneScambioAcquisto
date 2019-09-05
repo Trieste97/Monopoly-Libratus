@@ -1,3 +1,7 @@
+
+%%%%%ATTENZIONE si usa sempre valoreToBot(Tot). è un errore?
+
+
 %Data la proposta di uno scambio, si accetta o si rifiuta
 accetto | rifiuto.
 
