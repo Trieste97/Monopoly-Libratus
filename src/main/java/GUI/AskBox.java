@@ -65,7 +65,7 @@ public class AskBox extends JFrame  {
 				final ArrayList<String> temp = new ArrayList<String>();
 				temp.add(colore);
 				
-				Button btn = new Button("Compra case su set " + traduciColore(colore) + " al prezzo di " + prezzo);
+				Button btn = new Button("Compra case su set " + traduciColore(colore) + " al prezzo di " + prezzo + "€");
 				btn.addActionListener(new ActionListener()  {
 					public void actionPerformed(ActionEvent e)  {
 						board.costruisci(temp);

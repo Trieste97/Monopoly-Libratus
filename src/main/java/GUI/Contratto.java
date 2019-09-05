@@ -25,7 +25,7 @@ public class Contratto {
 	}
 	
 	private void init(String nome)  {
-		String path = "src/main/resources/" + nome + ".png";
+		String path = "src/main/resources/images/" + nome + ".png";
 		try {
 			image = ImageIO.read(new File(path));
 		} catch (IOException e) {

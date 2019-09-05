@@ -42,15 +42,15 @@ public class TavolaDaGioco extends JFrame{
 		this.setVisible(true);
 		this.askBox = new AskBox(board);
 		TavolaDaGioco.board = board;
-		init(numPlayers, player);
+		init(numPlayers, player, board);
 	}
 	
-	public void init(int numPlayers, Giocatore player) {
+	public void init(int numPlayers, Giocatore player, Board board) {
 		this.setPreferredSize(new Dimension(800,600));
 		panel = new JPanel();
 		panel.setBackground(new Color(30, 30, 30));
 		panel.setLayout(new BorderLayout());
-		creaPannelloPedine(numPlayers, player);
+		creaPannelloPedine(numPlayers, board);
 //		panel.add(new JLabel(pedina.getImmagine()), BorderLayout.CENTER);
 //		panel.add(new JLabel(immagineTavola), BorderLayout.CENTER);
 		panel.add(pannelloTavola, BorderLayout.CENTER);
@@ -249,8 +249,8 @@ public class TavolaDaGioco extends JFrame{
 		pannelloCronologia.repaint();
 	} 
 	
-	public void creaPannelloPedine(int numplayers, Giocatore player) {
-		pannelloTavola = new BoardPanel(numplayers, player);
+	public void creaPannelloPedine(int numplayers, Board board) {
+		pannelloTavola = new BoardPanel(numplayers, board);
 		pannelloTavola.setBackground(new Color(30, 30, 30));
 	}
 	

@@ -1,7 +1,10 @@
 package GUI;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,23 +15,27 @@ import java.util.Scanner;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import Elementi.Board;
 import Elementi.Casella;
+import Elementi.CasellaResidenziale;
 import Elementi.Giocatore;
 
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel  {
 
-	Giocatore player;
+	Board board;
 	Image tavola;
 	ArrayList<Pedina> pedine;
 	HashMap<String,Contratto> contratti;
 	ArrayList<Integer> posizioniX;
 	ArrayList<Integer> posizioniY;
 	
-	public BoardPanel(int numPlayers, Giocatore player)  {
-		this.player = player;
+	HashMap<String, Point> casePosizioni;
+	
+	public BoardPanel(int numPlayers, Board board)  {
+		this.board = board;
 		try {
-			tavola = ImageIO.read(new File("src/main/resources/immagineTavola.jpg"));
+			tavola = ImageIO.read(new File("src/main/resources/images/immagineTavola.jpg"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -54,6 +61,7 @@ public class BoardPanel extends JPanel  {
 		}
 		
 		inizializzaPosizioniContratti();
+		inizializzaPosizioniCase();
 	}
 	
 	public void inizializzaPosizioni()  {
@@ -82,7 +90,30 @@ public class BoardPanel extends JPanel  {
 		
 		scanner.close();
 	}
-	
+	public void inizializzaPosizioniCase()  {
+		casePosizioni = new HashMap<String,Point>();
+		
+		Scanner scanner = null;
+		try {
+			scanner = new Scanner(new File("src/main/resources/houses.txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			if (line.isEmpty() || line.startsWith("//")) {
+				continue;
+			}
+			
+			String[] data = line.split(",");
+			casePosizioni.put(data[0], new Point(Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+		}
+		
+		scanner.close();
+	}
 	public void inizializzaPosizioniContratti()  {
 		contratti.get("A1").setPosizioneXY(0,440);
 		contratti.get("A2").setPosizioneXY(90,440);
@@ -113,16 +144,34 @@ public class BoardPanel extends JPanel  {
 		contratti.get("T1").setPosizioneXY(360,640);
 		contratti.get("T2").setPosizioneXY(450,640);
 	}
-	
 	public void paintComponent(Graphics g)  {
 		super.paintComponent(g);
 		g.drawImage(tavola, 0, 0, this);
 		for(Pedina ped : pedine)  {
 			g.drawImage(ped.getImg(), ped.getPosizioneX(), ped.getPosizioneY(), this);
 		}
-		for(Casella c : player.getCasellePossedute())  {
+		for(Casella c : board.getGiocatoreVero().getCasellePossedute())  {
 			Contratto ct = contratti.get(c.getNome());
 			g.drawImage(ct.getImg(), ct.getPosizioneX(), ct.getPosizioneY(), this);
+		}
+		for(CasellaResidenziale c : board.getGiocatoreVero().getCaselleResidenzialiOggetto())  {
+			int numCase = c.getNumeroCaseCostruite();
+			int x = (int) casePosizioni.get(c.getNome()).getX();
+			int y = (int) casePosizioni.get(c.getNome()).getY();
+				
+			g.setColor(new Color(0, 255, 0));
+			g.setFont(new Font("Dialog", Font.BOLD, 20));
+			g.drawString(Integer.toString(numCase), x, y);
+		}
+		
+		for(CasellaResidenziale c : board.getGiocatoreBot().getCaselleResidenzialiOggetto())  {
+			int numCase = c.getNumeroCaseCostruite();
+			int x = (int) casePosizioni.get(c.getNome()).getX();
+			int y = (int) casePosizioni.get(c.getNome()).getY();
+				
+			g.setColor(new Color(255, 0, 0));
+			g.setFont(new Font("Dialog", Font.BOLD, 20));
+			g.drawString(Integer.toString(numCase), x, y);
 		}
 	}
 	

@@ -1,5 +1,5 @@
-giocatore(you,15000,false,0,0,10,0,0).
-giocatore(bot1,12000,false,0,0,4,2,1).
-casellaMia(a1,600,brown).
-casellaMia(a2,600,brown).
+giocatore(you,13500,true,0,2,12,1,0).
+casellaAvv(t1,1500,society).
+giocatore(bot1,13600,false,0,0,11,1,0).
+casellaMia(c1,1400,pink).
 

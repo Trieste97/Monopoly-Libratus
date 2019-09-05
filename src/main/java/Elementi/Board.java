@@ -49,9 +49,6 @@ public class Board {
 		mappa = creatore.caricaMappa();
 		caselle = creatore.getCaselle();
 		banca = new Banca();
-		
-		getGiocatoreVero().aggiungiCasella(caselle.get("A1"));
-		getGiocatoreVero().aggiungiCasella(caselle.get("A2"));
 	}
 	public Giocatore getGiocatoreCorrente()  {
 		return giocatoreCorrente;

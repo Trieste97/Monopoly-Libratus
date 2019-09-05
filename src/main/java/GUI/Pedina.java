@@ -25,7 +25,7 @@ public class Pedina {
 	}
 	
 	public void init(int num) {
-		String path = "src/main/resources/pedina";
+		String path = "src/main/resources/images/pedina";
 		
 		switch(num)  {
 			case 0: path += "1.png";
