@@ -1,5 +1,5 @@
 
-%%%%%ATTENZIONE si usa sempre valoreToBot(Tot). è un errore?
+%%%%%ATTENZIONE si usa sempre valoreToBot(Tot). è un errore? yes, corretto
 
 
 %Data la proposta di uno scambio, si accetta o si rifiuta
@@ -15,16 +15,16 @@ valoreToBot(Tot) :- netto3(X), soldiToBot(Y), Tot = X+Y.
 netto4(Netto) :- Netto = #sum{Prezzo, X:casella(X,_,_,Prezzo,_,_,false), casellaToYou(X)}.
 netto5(Netto) :- Netto = #sum{Prezzo, X:casella(X,_,_,Prezzo,_,_,true), casellaToYou(X)}.
 netto6(Tot) :- netto4(X), netto5(Y), Tot = X+Y.
-valoreToBot(Tot) :- netto6(X), soldiToYou(Y), Tot = X+Y.
+valoreToYou(Tot) :- netto6(X), soldiToYou(Y), Tot = X+Y.
 
 %Sono incentivato ad accettare se la differenza tra i due valori è positiva
-:~ rifiuto, valoreToBot(X), valoreToBot(Y), X > Y. [1:2]
+:~ rifiuto, valoreToBot(X), valoreToYou(Y), X > Y. [1:2]
 
 %Sono molto incentivato ad accettare se la differenza tra i due valori è alta
-:~ rifiuto, valoreToBot(X), valoreToBot(Y), Z = X - Y, Z > 400. [1:3]
-:~ rifiuto, valoreToBot(X), valoreToBot(Y), Z = X - Y, Z > 700. [1:3]
-:~ rifiuto, valoreToBot(X), valoreToBot(Y), Z = X - Y, Z > 1000. [1:3]
-:~ rifiuto, valoreToBot(X), valoreToBot(Y), Z = X - Y, Z > 1500. [1:3]
+:~ rifiuto, valoreToBot(X), valoreToYou(Y), Z = X - Y, Z > 400. [1:3]
+:~ rifiuto, valoreToBot(X), valoreToYou(Y), Z = X - Y, Z > 700. [1:3]
+:~ rifiuto, valoreToBot(X), valoreToYou(Y), Z = X - Y, Z > 1000. [1:3]
+:~ rifiuto, valoreToBot(X), valoreToYou(Y), Z = X - Y, Z > 1500. [1:3]
 
 %Preferisco rifiutare se il giocatore corrente ha tutto il set dello stesso colore della casella richiesta
 :~accetto, casella(Casella1,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>2. [2:10]
