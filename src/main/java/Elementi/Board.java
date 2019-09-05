@@ -4,7 +4,6 @@ package Elementi;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import AI.AIClass;
 import AI.Writer;
 import GUI.TavolaDaGioco;
 import Gioco.CreatoreCaselle;
@@ -43,8 +42,7 @@ public class Board {
 		this.numDoppi = 0;
 		
 		this.creaMappa();
-	}
-	
+	}	
 	private void creaMappa()  {
 		CreatoreCaselle creatore = new CreatoreCaselle();
 		
@@ -52,11 +50,9 @@ public class Board {
 		setCaselle(creatore.getCaselle());
 		banca = new Banca();
 	}
-	
 	public Giocatore getGiocatoreCorrente()  {
 		return giocatoreCorrente;
 	}
-	
 	public ArrayList<Giocatore> getGiocatori()  {
 		return giocatori;
 	}
@@ -64,40 +60,81 @@ public class Board {
 	//AZIONI GIOCATORE CORRENTE
 	
 	private int numPlaces;
-	public int rollaDadi() {
+	public void rollaDadi() {
 		numPlaces = getDadi().tiraDadi();
 		TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
-		return numPlaces;
+		boolean again = gestisciNumeroDadi();
+		TavolaDaGioco.update(giocatoreCorrente);
+		if (!again)  {
+			finisciTurno();
+			//giocatoreCorrente.setInPrigione(true);
+			//gestione AI
+			do  {
+				int decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
+				decisione = 4;
+				while (decisione > 0)  {
+					GiocatoreAI player = (GiocatoreAI) giocatoreCorrente;
+					
+					//SCAMBIO
+					if (decisione == 1)  {
+						//non implementata ancora
+						break;
+						//String tmp = player.decidiCosaScambiare(this.giocatori);
+					}
+					
+					//ESCI PRIGIONE
+					else if (decisione == 2)  {
+						String modo = player.voglioUscireDiPrigione();
+						if (modo.equals("dadi"))
+							break;
+						else
+							esciDiPrigione(modo);
+						
+						break;
+					}
+					
+					//IPOTECA
+					else if (decisione == 3)  {
+						//non implementata ancora
+						break;
+					}
+					
+					//COSTRUISCO
+					else if (decisione == 4)  {
+						this.costruisci(player.decidiCosaCostruire(this));
+						break;
+					}
+					decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
+				}
+				numPlaces = getDadi().tiraDadi();
+				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
+				again = gestisciNumeroDadi();
+				TavolaDaGioco.update(giocatoreCorrente);
+			} while (again);
+			finisciTurno();
+		}
+		getGiocatoreVero().setInPrigione(true);
 	}
-	
-	public void tiraDadi()  {
 
-		
+	public boolean gestisciNumeroDadi()  {		
 		if(getDadi().isDoppioNumero() && numDoppi == 2)  {
 			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo,\nGiocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
-			
 			giocatoreCorrente.setInPrigione(true);
 			giocatoreCorrente.setPosizioneInTabella(10);
-//			finisciTurno();
-			return;
+			
+			return false;
 		} else if(getDadi().isDoppioNumero() && giocatoreCorrente.isInPrigione())  {
 			TavolaDaGioco.aggiungiACronologia("Numero doppio, Giocatore " + giocatoreCorrente.getNome() + " esce dalla prigione");
-			
 			giocatoreCorrente.resetTurniPrigione();
 			giocatoreCorrente.setInPrigione(false);
 		} else if(giocatoreCorrente.isInPrigione() && giocatoreCorrente.getTurniPrigione() > 2)  {
 			giocatoreCorrente.resetTurniPrigione();
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " esce di prigione dopo 3 turni");
-			
-//			finisciTurno();
-			return;
 		} else if(giocatoreCorrente.isInPrigione())  {
-			
 			giocatoreCorrente.incrTurniPrigione();
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " non è uscito di prigione");
 			
-//			finisciTurno();
-			return;
+			return false;
 		}
 		
 		int position = giocatoreCorrente.getPosizioneInTabella();
@@ -118,23 +155,23 @@ public class Board {
 		//controlla se fine turno
 		if(getDadi().isDoppioNumero())  {
 			numDoppi++;
-		}/* else  {
-			finisciTurno();
-			
-		}*/
+			return true;
+		}
+		return false;
 	}
-	
-	public void scambia(Casella casellaDaPrendere, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, Casella casellaDaLasciare)  {
-		giocatoreCheAccetta.getCasellePossedute().remove(casellaDaPrendere);
-		giocatoreCheFaPorposta.getCasellePossedute().add(casellaDaPrendere);
-		casellaDaPrendere.setProprietario(giocatoreCheFaPorposta);
-		giocatoreCheFaPorposta.getCasellePossedute().remove(casellaDaLasciare);
-		giocatoreCheAccetta.getCasellePossedute().add(casellaDaLasciare);
-		casellaDaLasciare.setProprietario(giocatoreCheAccetta);
-		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha scambiato " + 
-				casellaDaLasciare.getNome() + " con " + casellaDaPrendere.getNome());
+	public void scambia(int soldiToBot, int soldiToYou, String[] caselleToBot, String[] caselleToYou)  {
+		getGiocatoreBot().aumentaSoldi(soldiToBot);
+		getGiocatoreBot().diminuisciSoldi(soldiToYou);
+		getGiocatoreVero().aumentaSoldi(soldiToYou);
+		getGiocatoreVero().diminuisciSoldi(soldiToBot);
+		
+		for (String s : caselleToBot)  {
+			caselle.get(s).setProprietario(getGiocatoreBot());
+		}
+		for (String s : caselleToBot)  {
+			caselle.get(s).setProprietario(getGiocatoreVero());
+		}
 	}
-	
 	public void compraCasellaAvversaria(Casella casella, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, int prezzo)  {
 		giocatoreCheAccetta.getCasellePossedute().remove(casella);
 		giocatoreCheFaPorposta.getCasellePossedute().add(casella);
@@ -142,8 +179,9 @@ public class Board {
 		giocatoreCheFaPorposta.diminuisciSoldi(prezzo);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha acquistato " + casella.getNome());
 	}
+//<<<<<<< HEAD
 	
-	public void costruisci(String nome)  {
+	/*public void costruisci(String nome)  {
 		Casella cas = getCaselle().get(nome);
 		
 		if(cas == null)  {
@@ -153,31 +191,34 @@ public class Board {
 		
 		boolean permesso = banca.checkPossedimentoColore(cas, giocatoreCorrente);
 
-		if(permesso)  {
+		if(permesso)  {*/
+//=======
+	public void costruisci(ArrayList<String> sets)  {
+		for(String colore : sets)  {
+			System.out.println(colore);
+			ArrayList<CasellaResidenziale> caselle = this.checkPossedimentoColore(colore, giocatoreCorrente);
+//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 			
-			CasellaResidenziale casella = (CasellaResidenziale) cas;					
-			
-			if(casella.getNumeroCaseCostruite() + 1 > 5)  {
-				TavolaDaGioco.aggiungiACronologia("C'è già un albergo, impossibile costruire ancora qui".toUpperCase());
-			} else if(giocatoreCorrente.getSoldi() < casella.getPrezzoCostruzioneCasa())  {
-				TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
-			} else  if(!banca.checkDifferenzaCaseColore(cas, giocatoreCorrente))  {
-				TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
-			} else  {
-				TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
+			if(caselle != null)  {
 				
-				casella.aggiungiCasa();
-				giocatoreCorrente.diminuisciSoldi(casella.getPrezzoCostruzioneCasa());
+				if(caselle.get(0).getNumeroCaseCostruite() + 1 > 5)  {
+					TavolaDaGioco.aggiungiACronologia("C'è già un albergo, impossibile costruire ancora qui".toUpperCase());
+				} else if(giocatoreCorrente.getSoldi() < caselle.get(0).getPrezzoCostruzioneCasa() * caselle.size())  {
+					TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
+				} else  {
+					TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
+					
+					for (CasellaResidenziale c : caselle)  {
+						c.aggiungiCasa();
+						giocatoreCorrente.diminuisciSoldi(c.getPrezzoCostruzioneCasa());
+					}
+					
+				}
+				
 			}
-			
-		} else  {
-			TavolaDaGioco.aggiungiACronologia("Non hai tutto il set del colore della casella scelta".toUpperCase());
-		}
+		}		
 	}
-	
 	public void esciDiPrigione(String modo)  {
-		
-		
 		if(modo.equals("token"))  {
 			if(giocatoreCorrente.hasTokenPrigione())  {
 				giocatoreCorrente.usaTokenPrigione();
@@ -189,12 +230,15 @@ public class Board {
 			
 		}
 		else if (modo.equals("paga")) {
-			giocatoreCorrente.diminuisciSoldi(50);
-			giocatoreCorrente.setInPrigione(false);
-			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha pagato per uscire di prigione");
+			if(giocatoreCorrente.isInPrigione())  {
+				giocatoreCorrente.diminuisciSoldi(500);
+				giocatoreCorrente.setInPrigione(false);
+				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha pagato per uscire di prigione");
+			} else  {
+				System.out.println("Non sei in prigione");
+			}
 		}
 	}
-	
 	public void ipoteca(String nomeCasella)  {
 		Casella cas = getCaselle().get(nomeCasella);
 		
@@ -208,7 +252,6 @@ public class Board {
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha ipotecato " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
 		}
 	}
-	
 	public void finisciTurno()  {
 		giocatoreCorrenteIndex++;
 		
@@ -219,14 +262,7 @@ public class Board {
 		numDoppi = 0;
 		giocatoreCorrente = giocatori.get( giocatoreCorrenteIndex );
 	}
-	
 	public void gestisciPosizione(String position)  {
-//mia aggiunta		
-		if(position.equals("Jail")) {
-			giocatoreCorrente.setInPrigione(true);
-			System.out.println("Arrestato");
-		}
-		
 		if(position.equals("Start") || position.equals("FreeParking") || position.equals("Jail"))  {
 			return;
 		}
@@ -258,25 +294,13 @@ public class Board {
 				//casella libera
 
 				boolean vuoleComprare = false;
-//PRIMA AI
+				
 				if (giocatoreCorrente.getNome().equals("BOT1")) {
-					
-					try {
-						
-						writer.writePropostaAcquisto(casella, giocatoreCorrente);
-						AIClass newAI = new AIClass();
-						vuoleComprare = newAI.propostaAcquisto();
-						System.out.println("Scelta Fatta: " + vuoleComprare);
-						
-					} catch (Exception e) {
-	
-						System.err.println("VALUTAZIOE ACQUISTO CASELLA FALLITA");
-					}
+					vuoleComprare = getGiocatoreBot().decidiSeComprareCasella(casella, getGiocatoreBot());
 				}
 				else {
-	//				Se sei il giocatore normale gestisci la proposta
+				//Se sei il giocatore normale gestisci la proposta
 					vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
-					
 				}
 	
 				if(vuoleComprare)  {
@@ -296,8 +320,7 @@ public class Board {
 				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " paga a " + casella.getProprietario().getNome() + " " + importo + "€");
 			}
 		}
-	}
-	
+	}	
 	public void gestisciCartaPescata(String[] carta)  {
 		
 		TavolaDaGioco.aggiungiACronologia(carta[0]);
@@ -316,6 +339,7 @@ public class Board {
 			int prevPos = giocatoreCorrente.getPosizioneInTabella();
 			giocatoreCorrente.setPosizioneInTabella(val);
 			if(val == 10)  {
+				giocatoreCorrente.setPosizioneInTabella(10);
 				giocatoreCorrente.setInPrigione(true);
 				return;
 			}
@@ -333,104 +357,87 @@ public class Board {
 			giocatoreCorrente.addTokenPrigione();
 		}
 	}
-
 	public Dadi getDadi() {
 		return dadi;
 	}
-
 	public void setDadi(Dadi dadi) {
 		this.dadi = dadi;
 	}
-	
 	public int getGiocatoreCorrenteIndex()  {
 		return giocatoreCorrenteIndex;
 	}
-	
 	public int getGiocatoreAvversarioIndex()  {
 		if(giocatoreCorrenteIndex == 0) {
 			return 1;
 		}
 		return 0;
 	}
+//<<<<<<< HEAD
 	
 	
-	private Casella getCasellaDaNome(String nome) {
+	/*private Casella getCasellaDaNome(String nome) {
 		nome = nome.toUpperCase();
-		return getCaselle().get(nome);
+		return getCaselle().get(nome);*/
+//=======
+	public boolean isAITurn()  {
+		return giocatoreCorrente instanceof GiocatoreAI;
+//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 	}
-	
-	
-	
-	public void iniziaTurnoGiocatoreSuccessivo() {
-		
-//SECONDA AI
-		if(giocatoreCorrente.isInPrigione() && giocatoreCorrente.getNome().equals("BOT1")) {
-			
-			try {
-				
-				writer.writeUscitaPrigione(giocatoreCorrente);
-				AIClass newAI = new AIClass();
-				String modoUscita = newAI.uscitaPrigione();
-				System.out.println("Scelta Fatta: " + modoUscita);
-				esciDiPrigione(modoUscita);
-				
-			} catch (Exception e) {
-				System.err.println("VALUTAZIOE USCITA PRIGIONE FALLITA");
+	public Giocatore getGiocatoreVero()  {
+		return this.giocatori.get(0);
+	}
+	public GiocatoreAI getGiocatoreBot()  {
+		return (GiocatoreAI) this.giocatori.get(1);
+	}
+	public ArrayList<CasellaResidenziale> checkPossedimentoColore(String colore, Giocatore giocatore)  {
+		ArrayList<CasellaResidenziale> caselle = new ArrayList<CasellaResidenziale>();
+		for(Casella c : giocatore.getCasellePossedute())  {
+			if(!(c instanceof CasellaResidenziale))  {
+				continue;
 			}
 			
+			CasellaResidenziale cr = (CasellaResidenziale) c;
+			String col2 = cr.getColore();
+			if(colore.equals(col2))  {
+				caselle.add(cr);
+			}
+//<<<<<<< HEAD
+			
+			
+//		} 
+//=======
+		}
+//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
+		
+//<<<<<<< HEAD
+		
+
+		
+//	}
+
+	/*public HashMap<String, Casella> getCaselle() {
+		return caselle;
+	} Funzione ricopiata sotto perchè utilizzata
+
+	public void setCaselle(HashMap<String, Casella> caselle) {
+		this.caselle = caselle; Funzione ricopiata sotto perchè utilizzata
+*/
+//=======
+		if(caselle.size() == 3)  {
+			return caselle;
+		} else if(caselle.size() == 2 && (colore.equals("brown") || colore.equals("blue")))  {
+			return caselle;
 		}
 		
-		
-//TERZA AI
-		
-		if(giocatoreCorrente.getNome().equals("BOT1") && !giocatoreCorrente.getCaselleResidenziali().isEmpty() && 
-				!giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenziali().isEmpty()) {
-			
-			try {
-				
-				writer.writeGestioneProposte(giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
-						giocatoreCorrente.getCaselleResidenzialiOggetto(), 
-						giocatori.get(getGiocatoreAvversarioIndex()).getCaselleResidenzialiOggetto());
-				AIClass newAI = new AIClass();
-				ArrayList<String> esito = newAI.gestioneProposte();
-				System.out.println("Proposte su caselle avversarie: " + esito.get(0));
-				if(esito.get(0).equals("Scambio")){
-					boolean scambioAccettato = false;
-					scambioAccettato = TavolaDaGioco.chiediSeVuoleScambiare(esito.get(1), esito.get(2), 
-							giocatori.get(getGiocatoreAvversarioIndex()).getNome());
-					if (scambioAccettato) {
-						scambia(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()),
-								getCasellaDaNome(esito.get(2)));
-					}
-				}
-				else if (esito.get(0).equals("Acquisto")){
-					boolean acquistoAccettato = false;
-					acquistoAccettato = TavolaDaGioco.chiediSeVuoleVendere(esito.get(1), getCasellaDaNome(esito.get(1)).getPrezzoVendita(), 
-							giocatori.get(getGiocatoreAvversarioIndex()).getNome());
-					if (acquistoAccettato) {
-						compraCasellaAvversaria(getCasellaDaNome(esito.get(1)), giocatoreCorrente, giocatori.get(getGiocatoreAvversarioIndex()), 
-								getCasellaDaNome(esito.get(1)).getPrezzoVendita());
-					}
-				}
-				
-			} catch (Exception e) {
-				System.err.println("VALUTAZIOE GESTIONE SCAMBIO FALLITA");
-			}
-			
-			
-		} 
-		
-		
-
-		
+		return null;
+//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 	}
-
+	
+	
 	public HashMap<String, Casella> getCaselle() {
 		return caselle;
 	}
-
 	public void setCaselle(HashMap<String, Casella> caselle) {
 		this.caselle = caselle;
 	}
-	
 }

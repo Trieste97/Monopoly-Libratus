@@ -9,11 +9,42 @@ import Elementi.Board;
 import Elementi.Casella;
 import Elementi.CasellaResidenziale;
 import Elementi.Giocatore;
+import Elementi.GiocatoreAI;
 
 public class Writer {
 
 	public Writer() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void writeDecisioneIniziale(ArrayList<Giocatore> giocatori)  {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/decisioneInizialeInstance", "UTF-8");
+			writer.println(Creator.creaDatiGiocatori(giocatori));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeFaiPropostaScambio(ArrayList<Giocatore> giocatori)  {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/faiPropostaScambioInstance", "UTF-8");
+			writer.println(Creator.creaDatiGiocatori(giocatori));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void writePropostaAcquisto(Casella casella, Giocatore giocatore) {
@@ -76,19 +107,19 @@ public class Writer {
 	}
 	
 	
-	public void writeDecisioneScambio(String casellaDaCedere, String casellaDaPrendere, Giocatore giocatore, Giocatore avversario) {
+	public void writeDecisioneScambio(Board board, int soldiToBot, int soldiToYou, String[] caselleToBot, String[] caselleToYou) {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter("encodings/decisioneScambioAcquistoInstance", "UTF-8");
-			writer.println(Creator.creaGiocatore(giocatore));
-			writer.println(Creator.creaAvversario(avversario));
-			for (CasellaResidenziale casellaResidenziale : giocatore.getCaselleResidenzialiOggetto()) {
+			writer.println(Creator.creaGiocatore(board.getGiocatoreBot()));
+			writer.println(Creator.creaAvversario(board.getGiocatoreVero()));
+			for (CasellaResidenziale casellaResidenziale : board.getGiocatoreBot().getCaselleResidenzialiOggetto()) {
 				writer.println(Creator.creaCasellaResidenziale(casellaResidenziale));
 			}
-			for (CasellaResidenziale casellaResidenziale : avversario.getCaselleResidenzialiOggetto()) {
+			for (CasellaResidenziale casellaResidenziale : board.getGiocatoreVero().getCaselleResidenzialiOggetto()) {
 				writer.println(Creator.creaCasellaResidenziale(casellaResidenziale));
 			}
-			writer.println(Creator.creaScambio(casellaDaCedere, casellaDaPrendere));
+			writer.println(Creator.creaScambio(soldiToBot, soldiToYou, caselleToBot, caselleToYou));
 			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -123,7 +154,8 @@ public class Writer {
 		}
 
 	}
-	
+//<<<<<<< HEAD
+/*	
 	public void writeCostruzioneCasa(Giocatore giocatore, Board board) {
 		PrintWriter writer = null;
 		try {
@@ -147,5 +179,22 @@ public class Writer {
 
 	}
 	
+=======*/
+//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 
+	public void writeDecidiCosaCostruire(GiocatoreAI giocatoreAI) {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/decisioneCostruzioneInstance", "UTF-8");
+			writer.println(Creator.creaGiocatore(giocatoreAI));
+			writer.println(Creator.creaDatiSet(giocatoreAI.getCasellePossedute()));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}	
 }

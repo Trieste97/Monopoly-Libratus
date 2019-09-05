@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Elementi.Board;
 import Elementi.Giocatore;
+import Elementi.GiocatoreAI;
 import GUI.TavolaDaGioco;
 
 
@@ -17,7 +18,7 @@ public class Main {
 		final Giocatore player = new Giocatore("YOU");
 		giocatori.add(player);
 		for(int i = 1; i < numPlayers; i++)  {
-			Giocatore bot = new Giocatore("BOT" + String.valueOf(i));
+			Giocatore bot = new GiocatoreAI("BOT" + String.valueOf(i));
 			giocatori.add(bot);
 		}
 		

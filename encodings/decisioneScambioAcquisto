@@ -1,26 +1,37 @@
-% data la proposta di uno scambio, si accetta o si rifiuta (Casella1 da cedere, Casella2 da prendere)
-accetto(Proposta)|rifiuto(Proposta):- scambio(Proposta, Casella1, Casella2).
+%Data la proposta di uno scambio, si accetta o si rifiuta
+accetto | rifiuto.
 
-%data la proposta di un acquisto, si accetta o si rifiuta
-accetto(Proposta)|rifiuto(Proposta):- acquisto(Proposta, Casella1, Soldi).
+%Calcolo il valore totale che ricevo (prezzo vendita caselle + soldi)
+netto1(Netto) :- Netto = #sum{Prezzo, X:casella(X,_,_,Prezzo,_,_,false), casellaToBot(X)}.
+netto2(Netto) :- Netto = #sum{Prezzo, X:casella(X,_,_,Prezzo,_,_,true), casellaToBot(X)}.
+netto3(Tot) :- netto1(X), netto2(Y), Tot = X+Y.
+valoreToBot(Tot) :- netto3(X), soldiToBot(Y), Tot = X+Y.
 
+%Calcolo il valore totale che do:
+netto4(Netto) :- Netto = #sum{Prezzo, X:casella(X,_,_,Prezzo,_,_,false), casellaToYou(X)}.
+netto5(Netto) :- Netto = #sum{Prezzo, X:casella(X,_,_,Prezzo,_,_,true), casellaToYou(X)}.
+netto6(Tot) :- netto4(X), netto5(Y), Tot = X+Y.
+valoreToBot(Tot) :- netto6(X), soldiToYou(Y), Tot = X+Y.
 
-%Preferisco accettare se sono molti soldi
-:~rifiuto(Proposta), acquisto(Proposta, _, Soldi), Soldi>500. [1:10]
+%Sono incentivato ad accettare se la differenza tra i due valori è positiva
+:~ rifiuto, valoreToBot(X), valoreToBot(Y), X > Y. [1:2]
 
-%Preferisco accettare se il giocatore corrente ha pochi soldi
-:~rifiuto(_), giocatore(_,Soldi,_,_,_,_), Soldi<300. [1:10]
+%Sono molto incentivato ad accettare se la differenza tra i due valori è alta
+:~ rifiuto, valoreToBot(X), valoreToBot(Y), Z = X - Y, Z > 400. [1:3]
+:~ rifiuto, valoreToBot(X), valoreToBot(Y), Z = X - Y, Z > 700. [1:3]
+:~ rifiuto, valoreToBot(X), valoreToBot(Y), Z = X - Y, Z > 1000. [1:3]
+:~ rifiuto, valoreToBot(X), valoreToBot(Y), Z = X - Y, Z > 1500. [1:3]
 
 %Preferisco rifiutare se il giocatore corrente ha tutto il set dello stesso colore della casella richiesta
-:~accetto(Proposta), scambio(Proposta,Casella1,_), casella(Casella1,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>2. [2:10]
-:~accetto(Proposta), acquisto(Proposta,Casella1,_), casella(Casella1,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>2. [2:10]
+:~accetto, casella(Casella1,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>2. [2:10]
+:~accetto, casella(Casella1,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>2. [2:10]
 
 
 %numero delle caselle possedute dal giocatore corrente dello stesso colore
 numeroMieCaselleStessoColore(Colore, Numero):- giocatore(Proprietario,_,_,_,_,_), casella(Casella, Proprietario,Colore,_,_,_,_),
 	#count{ StessoColore, NomeCasella :casella(NomeCasella, Proprietario,StessoColore,_,_,_,_), StessoColore = Colore} = Numero.
 %Preferisco accettare se completa il set di caselle dello stesso colore del giocatore corrente
-:~rifiuto(Proposta), scambio(Proposta,_, Casella2), casella(Casella2,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>1. [1:9]
+:~rifiuto, casella(Casella2,_,Colore,_,_,_,_),numeroMieCaselleStessoColore(Colore, Numero), Numero>1. [1:9]
 
 
 %Preferisco accettare se la casella è ipotecata

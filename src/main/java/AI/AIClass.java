@@ -2,19 +2,13 @@ package AI;
 
 import java.util.ArrayList;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
-import Elementi.Casella;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
 import it.unical.mat.embasp.base.Output;
 import it.unical.mat.embasp.languages.asp.ASPInputProgram;
-import it.unical.mat.embasp.languages.asp.ASPMapper;
-import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv.desktop.DLVDesktopService;
-import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 
 public class AIClass {
 
@@ -31,6 +25,17 @@ public class AIClass {
 		parser = new Parser();
 	}
 	
+	public int decisioneIniziale()  {
+		encodingResource="encodings/decisioneIniziale";
+		instanceResource="encodings/decisioneInizialeInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		int esito = parser.parseDecisioneIniziale(answers);
+		return esito;
+	}
 	
 	public boolean propostaAcquisto() {
 		encodingResource="encodings/propostaAcquisto";
@@ -83,6 +88,7 @@ public class AIClass {
 		return esito;
 		
 	}
+/*<<<<<<< HEAD
 	
 	public boolean costruzioneCasa() {
 		encodingResource="encodings/costruzioneCasa";
@@ -99,4 +105,30 @@ public class AIClass {
 	
 	
 	
+=======
+*/
+	public String faiPropostaScambio() {
+		encodingResource="encodings/decisioneIniziale";
+		instanceResource="encodings/decisioneInizialeInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		String esito = parser.parseFaiPropostaScambio(answers);
+		return esito;
+	}
+
+	public ArrayList<String> decidiCosaCostruire() {
+		encodingResource="encodings/decisioneCostruzione";
+		instanceResource="encodings/decisioneCostruzioneInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		ArrayList<String> esito = parser.parseDecidiCosaCostruire(answers);
+		return esito;
+	}
+//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 }

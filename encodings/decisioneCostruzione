@@ -1,0 +1,22 @@
+%Avendo a disposizione i dati giocatore nel formato:
+%giocatore(nome,soldi,prigione,numtokens,numturniprigione,posizione)
+%e i dati dei set posseduti nel formato:
+%set(colore,costo costruzione set di case, maxato).
+
+%Posso decidere se costruire o meno sui sets
+costruire(Colore) | nonCostruire(Colore) :- set(Colore,_,_).
+
+%Non posso costruire se non ho abbastanza soldi
+:- costruire(Colore), set(Colore, Costo,_), giocatore(_,Soldi,_,_,_,_), Costo > Soldi.
+:- giocatore(_,Soldi,_,_,_,_), #sum{Costo, Colore:set(Colore,Costo,_), costruire(Colore)} > Soldi.
+
+%Non posso costruire se il set è già maxato
+:- costruire(Colore), set(Colore,_,true).
+
+%Costruisco solo se mi avanzano abbastanza soldi dopo la spesa di costruzione
+:~ costruire(Colore), set(Colore,_,_). [2:1]
+diff(X,Colore) :- nonCostruire(Colore), set(Colore,Costo,_), giocatore(_,Soldi,_,_,_,_), X = Soldi-Costo.
+:~ nonCostruire(Colore), diff(X,Colore), X > 700. [3:1]
+:~ nonCostruire(Colore), diff(X,Colore), X > 1200. [1:1]
+
+%TODO: tenere in considerazione il costo totale della costruzione
