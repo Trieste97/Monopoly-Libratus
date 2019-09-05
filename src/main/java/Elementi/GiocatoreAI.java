@@ -62,5 +62,13 @@ public class GiocatoreAI extends Giocatore  {
 		ArrayList<String> esito = newAI.decidiCosaCostruire();
 		return esito;
 	}
+	
+	public boolean decidiSeComprareCasella(Casella casella, GiocatoreAI bot)  {
+		writer.writePropostaAcquisto(casella, bot);
+		AIClass newAI = new AIClass();
+		boolean vuoleComprare = newAI.propostaAcquisto();
+		System.out.println("Scelta Fatta: " + vuoleComprare);
+		return vuoleComprare;
+	}
 
 }

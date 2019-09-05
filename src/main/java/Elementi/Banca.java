@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import GUI.TavolaDaGioco;
 
 public class Banca {
-
-	final int numHotels = 12;
-	final int numCase = 32;	
 	
 	public Banca()  {
 		
@@ -72,36 +69,7 @@ public class Banca {
 		casella.setProprietario(vincitoreAsta);
 		
 		TavolaDaGioco.aggiungiACronologia("Giocatore " + vincitoreAsta.getNome() + " si aggiudica " + casella.getNome() + " per " + posta);
-	}
-	
-	public boolean checkPossedimentoColore(Casella casella, Giocatore giocatore)  {
-		
-		if(!(casella instanceof CasellaResidenziale))  {
-			return false;
-		}
-		
-		int numUguali = 0;
-		String col1 = ((CasellaResidenziale) casella).getColore();
-		for(Casella c : giocatore.getCasellePossedute())  {
-			if(!(c instanceof CasellaResidenziale))  {
-				continue;
-			}
-			
-			String col2 = ((CasellaResidenziale) c).getColore();
-			if(col1.equals(col2))  {
-				numUguali++;
-			}
-		}
-		
-		if(numUguali == 3)  {
-			return true;
-		} else if(numUguali == 2 && (col1.equals("brown") || col1.equals("blue")))  {
-			return true;
-		}
-		
-		return false;
-	}
-	
+	}	
 	public boolean checkDifferenzaCaseColore(Casella casella, Giocatore giocatore)  {
 		
 		CasellaResidenziale casellaRes = (CasellaResidenziale) casella;

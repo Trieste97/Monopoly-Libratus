@@ -196,4 +196,18 @@ public class Giocatore {
 	public int decidiCosaFare(ArrayList<Giocatore> giocatori)  {
 		return -1;
 	}
+	
+	public ArrayList<String> getSetsEPrezzi()  {
+		ArrayList<String> sets = new ArrayList<String>();
+		if (this.coloriPosseduti[0] == 2) sets.add("brown,1000");
+		if (this.coloriPosseduti[1] == 3) sets.add("lightblue,1500");
+		if (this.coloriPosseduti[2] == 3) sets.add("pink,3000");
+		if (this.coloriPosseduti[3] == 3) sets.add("orange,3000");
+		if (this.coloriPosseduti[4] == 3) sets.add("red,4500");
+		if (this.coloriPosseduti[5] == 3) sets.add("yellow,4500");
+		if (this.coloriPosseduti[6] == 3) sets.add("green,6000");
+		if (this.coloriPosseduti[7] == 2) sets.add("blue,4000");
+		
+		return sets;
+	}
 }

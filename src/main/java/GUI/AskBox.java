@@ -58,9 +58,39 @@ public class AskBox extends JFrame  {
 	}
 	
 	public void chiediInfoCostruzione()  {
-		//TODO
+		if(board.getGiocatoreVero().getNumSetsPosseduti() > 0)  {
+			for(String coloreEPrezzo : board.getGiocatoreVero().getSetsEPrezzi())  {
+				String colore = coloreEPrezzo.split(",")[0];
+				String prezzo = coloreEPrezzo.split(",")[1];
+				final ArrayList<String> temp = new ArrayList<String>();
+				temp.add(colore);
+				
+				Button btn = new Button("Compra case su set " + traduciColore(colore) + " al prezzo di " + prezzo);
+				btn.addActionListener(new ActionListener()  {
+					public void actionPerformed(ActionEvent e)  {
+						board.costruisci(temp);
+					}
+				});
+				this.add(btn);
+			}
+			this.setVisible(true);
+		}
+		else  {
+			JLabel label = new JLabel("Non hai set di colori completi per costruire");
+			this.add(label);
+			this.setVisible(true);
+		}
 	}
-	
+	public String traduciColore(String col)  {
+		if (col.equals("brown")) return "A";
+		else if (col.equals("lightblue")) return "B";
+		else if (col.equals("pink")) return "C";
+		else if (col.equals("orange")) return "D";
+		else if (col.equals("red")) return "E";
+		else if (col.equals("yellow")) return "F";
+		else if (col.equals("green")) return "G";
+		else return "H";
+	}
 	public void chiediInfoIpoteca()  {
 		panel.removeAll();
 		
@@ -84,7 +114,6 @@ public class AskBox extends JFrame  {
 		this.add(confermButtonIpoteca);
 		this.setVisible(true);
 	}
-	
 	public void chiediComeUscirePrigione()  {
 		panel.removeAll();
 		
@@ -106,8 +135,7 @@ public class AskBox extends JFrame  {
 		this.add(token);
 		this.add(paga);
 		this.setVisible(true);
-	}
-	
+	}	
 	public void chiediScambio()  {
 		panel.removeAll();
 		
@@ -202,43 +230,7 @@ public class AskBox extends JFrame  {
 				}
 			}
 		});
-		/*
-					if (!board.getGiocatoreCorrente().getNome().equals("BOT1")) {
-						try {
-							Writer writer = new Writer();
-							//da vedere nell'ottica dell'altro giocatore perche ora il giocatore corrente è YOU
-							//casella da cedere di proprieta dell'avversario (BOT)
-							//casella da prendere di proprieta del giocatore
-							//avversario è quello che deve decidere sulla propoposta (BOT)
-							//giocatore è il giocatore corrente che ha appena instanziato la proposta di uno scambio/acquisto
-							writer.writeDecisioneScambio(casellaDaPrendere.getNome(), casellaDaScambiare.getNome(), 
-									board.getGiocatori().get(board.getGiocatoreAvversarioIndex()), board.getGiocatoreCorrente());
-							AIClass newAI = new AIClass();
-							avversarioAccettaScambio = newAI.decisioneScambioAcquisto();
-							System.out.println("Ho deciso se scambiare: " + avversarioAccettaScambio);
-							
-						} catch (Exception e1) {
-							System.err.println("VALUTAZIONE DECISIONE SCAMBIO FALLITA");
-						}
-					}
-					else {
-						avversarioAccettaScambio = chiediSeAccettaScambio(casellaDaPrendere.getNome(), casellaDaScambiare.getNome(), 
-								casellaDaPrendere.getProprietario().getNome());
-					}
-					if (avversarioAccettaScambio) {
-						board.scambia(casellaDaPrendere, board.getGiocatoreCorrente(), gioc, casellaDaScambiare);
-						aggiornaDropDownScambio();
-						avversarioAccetta();
-					}
-					else {
-						avversarioRifiuta();
-					}
-					primoclick = false;
-				}
-			}
-		});*/
 	}	
-	
 	public static boolean chiediSeAccettaScambio(String casellaDaPrendere, String casellaDaScambiare, String proprietarioCasellaDaPrendere)  {
 		int answer = JOptionPane.showConfirmDialog(new JFrame(), proprietarioCasellaDaPrendere+
 				", vuoi scambiare " + casellaDaPrendere + " con " + casellaDaScambiare + " ?");
@@ -246,8 +238,7 @@ public class AskBox extends JFrame  {
 			return true;
 		}
 		return false;
-	}
-	
+	}	
 	public static boolean chiediSeAccettaOfferta(String casellaDaPrendere, int prezzo, String proprietarioCasellaDaPrendere)  {
 		int answer = JOptionPane.showConfirmDialog(new JFrame(), proprietarioCasellaDaPrendere+
 				", vuoi vendere " + casellaDaPrendere + " per " + prezzo + " ?");
@@ -256,7 +247,6 @@ public class AskBox extends JFrame  {
 		}
 		return false;
 	}
-	
 	public static void avversarioAccetta()  {
 //		JOptionPane.showConfirmDialog(new JFrame(), "L'avversario accetta!");
 		JOptionPane.showMessageDialog(new JFrame(), "L'avversario accetta!");

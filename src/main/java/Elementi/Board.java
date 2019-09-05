@@ -4,7 +4,6 @@ package Elementi;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import AI.AIClass;
 import AI.Writer;
 import GUI.TavolaDaGioco;
 import Gioco.CreatoreCaselle;
@@ -50,6 +49,9 @@ public class Board {
 		mappa = creatore.caricaMappa();
 		caselle = creatore.getCaselle();
 		banca = new Banca();
+		
+		getGiocatoreVero().aggiungiCasella(caselle.get("A1"));
+		getGiocatoreVero().aggiungiCasella(caselle.get("A2"));
 	}
 	public Giocatore getGiocatoreCorrente()  {
 		return giocatoreCorrente;
@@ -102,7 +104,7 @@ public class Board {
 					
 					//COSTRUISCO
 					else if (decisione == 4)  {
-						player.decidiCosaCostruire(this);
+						this.costruisci(player.decidiCosaCostruire(this));
 						break;
 					}
 					decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
@@ -160,7 +162,6 @@ public class Board {
 		}
 		return false;
 	}
-	
 	public void scambia(int soldiToBot, int soldiToYou, String[] caselleToBot, String[] caselleToYou)  {
 		getGiocatoreBot().aumentaSoldi(soldiToBot);
 		getGiocatoreBot().diminuisciSoldi(soldiToYou);
@@ -181,36 +182,29 @@ public class Board {
 		giocatoreCheFaPorposta.diminuisciSoldi(prezzo);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha acquistato " + casella.getNome());
 	}
-	public void costruisci(String nome)  {
-		Casella cas = caselle.get(nome);
-		
-		if(cas == null)  {
-			TavolaDaGioco.aggiungiACronologia("Non è stato selezionato niente".toUpperCase());
-			return;
-		}
-		
-		boolean permesso = banca.checkPossedimentoColore(cas, giocatoreCorrente);
-
-		if(permesso)  {
+	public void costruisci(ArrayList<String> sets)  {
+		for(String colore : sets)  {
+			System.out.println(colore);
+			ArrayList<CasellaResidenziale> caselle = this.checkPossedimentoColore(colore, giocatoreCorrente);
 			
-			CasellaResidenziale casella = (CasellaResidenziale) cas;					
-			
-			if(casella.getNumeroCaseCostruite() + 1 > 5)  {
-				TavolaDaGioco.aggiungiACronologia("C'è già un albergo, impossibile costruire ancora qui".toUpperCase());
-			} else if(giocatoreCorrente.getSoldi() < casella.getPrezzoCostruzioneCasa())  {
-				TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
-			} else  if(!banca.checkDifferenzaCaseColore(cas, giocatoreCorrente))  {
-				TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
-			} else  {
-				TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
+			if(caselle != null)  {
 				
-				casella.aggiungiCasa();
-				giocatoreCorrente.diminuisciSoldi(casella.getPrezzoCostruzioneCasa());
+				if(caselle.get(0).getNumeroCaseCostruite() + 1 > 5)  {
+					TavolaDaGioco.aggiungiACronologia("C'è già un albergo, impossibile costruire ancora qui".toUpperCase());
+				} else if(giocatoreCorrente.getSoldi() < caselle.get(0).getPrezzoCostruzioneCasa() * caselle.size())  {
+					TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
+				} else  {
+					TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
+					
+					for (CasellaResidenziale c : caselle)  {
+						c.aggiungiCasa();
+						giocatoreCorrente.diminuisciSoldi(c.getPrezzoCostruzioneCasa());
+					}
+					
+				}
+				
 			}
-			
-		} else  {
-			TavolaDaGioco.aggiungiACronologia("Non hai tutto il set del colore della casella scelta".toUpperCase());
-		}
+		}		
 	}
 	public void esciDiPrigione(String modo)  {
 		if(modo.equals("token"))  {
@@ -256,15 +250,7 @@ public class Board {
 		numDoppi = 0;
 		giocatoreCorrente = giocatori.get( giocatoreCorrenteIndex );
 	}
-	
 	public void gestisciPosizione(String position)  {
-//mia aggiunta
-		/*
-		if(position.equals("Jail")) {
-			giocatoreCorrente.setInPrigione(true);
-			System.out.println("Arrestato");
-		}
-		*/
 		if(position.equals("Start") || position.equals("FreeParking") || position.equals("Jail"))  {
 			return;
 		}
@@ -296,25 +282,13 @@ public class Board {
 				//casella libera
 
 				boolean vuoleComprare = false;
-//PRIMA AI
+				
 				if (giocatoreCorrente.getNome().equals("BOT1")) {
-					
-					try {
-						
-						writer.writePropostaAcquisto(casella, giocatoreCorrente);
-						AIClass newAI = new AIClass();
-						vuoleComprare = newAI.propostaAcquisto();
-						System.out.println("Scelta Fatta: " + vuoleComprare);
-						
-					} catch (Exception e) {
-	
-						System.err.println("VALUTAZIOE ACQUISTO CASELLA FALLITA");
-					}
+					vuoleComprare = getGiocatoreBot().decidiSeComprareCasella(casella, getGiocatoreBot());
 				}
 				else {
-	//				Se sei il giocatore normale gestisci la proposta
+				//Se sei il giocatore normale gestisci la proposta
 					vuoleComprare = giocatoreCorrente.getSoldi() >= casella.getPrezzoVendita() && TavolaDaGioco.chiediSeVuoleComprare(casella);
-					
 				}
 	
 				if(vuoleComprare)  {
@@ -389,13 +363,33 @@ public class Board {
 	public boolean isAITurn()  {
 		return giocatoreCorrente instanceof GiocatoreAI;
 	}
-	
 	public Giocatore getGiocatoreVero()  {
 		return this.giocatori.get(0);
 	}
-	
 	public GiocatoreAI getGiocatoreBot()  {
 		return (GiocatoreAI) this.giocatori.get(1);
+	}
+	public ArrayList<CasellaResidenziale> checkPossedimentoColore(String colore, Giocatore giocatore)  {
+		ArrayList<CasellaResidenziale> caselle = new ArrayList<CasellaResidenziale>();
+		for(Casella c : giocatore.getCasellePossedute())  {
+			if(!(c instanceof CasellaResidenziale))  {
+				continue;
+			}
+			
+			CasellaResidenziale cr = (CasellaResidenziale) c;
+			String col2 = cr.getColore();
+			if(colore.equals(col2))  {
+				caselle.add(cr);
+			}
+		}
+		
+		if(caselle.size() == 3)  {
+			return caselle;
+		} else if(caselle.size() == 2 && (colore.equals("brown") || colore.equals("blue")))  {
+			return caselle;
+		}
+		
+		return null;
 	}
 	
 }

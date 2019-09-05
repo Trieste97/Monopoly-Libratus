@@ -179,7 +179,6 @@ public class Parser {
 			}
 		}
 		return atomiDaIsolare;
-
 	}
 
 	public String parseFaiPropostaScambio(AnswerSets answers) {
@@ -188,16 +187,12 @@ public class Parser {
 
 	public ArrayList<String> parseDecidiCosaCostruire(AnswerSets answers) {
 		ArrayList<String> doveCostruire = new ArrayList<String>();
-		int n = 0;
 		for(AnswerSet a: answers.getAnswersets()){
-			 System.out.println("AS n.: " + ++n + ": " + a);
 			 String as = a.toString();
-			 if(as.contains("costruire(")) {
-				 System.out.println("COSTRUISCO");
-				 //TODO: parserizzare answer set di decisione costruzione
+			 for(Atomo att : parseAtomi(as, "costruire"))  {
+				 doveCostruire.add(att.toString().substring(10).replace(")",""));
 			 }
 		}
-		
 		return doveCostruire;
 	}
 
