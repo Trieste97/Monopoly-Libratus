@@ -18,7 +18,7 @@ public class Board {
 	
 	ArrayList<Giocatore> giocatori;
 	HashMap<Integer, String> mappa;
-	HashMap<String, Casella> caselle;
+	private HashMap<String, Casella> caselle;
 	
 	MazzoCarte mazzo;
 	
@@ -49,7 +49,7 @@ public class Board {
 		CreatoreCaselle creatore = new CreatoreCaselle();
 		
 		mappa = creatore.caricaMappa();
-		caselle = creatore.getCaselle();
+		setCaselle(creatore.getCaselle());
 		banca = new Banca();
 	}
 	
@@ -144,7 +144,7 @@ public class Board {
 	}
 	
 	public void costruisci(String nome)  {
-		Casella cas = caselle.get(nome);
+		Casella cas = getCaselle().get(nome);
 		
 		if(cas == null)  {
 			TavolaDaGioco.aggiungiACronologia("Non è stato selezionato niente".toUpperCase());
@@ -196,7 +196,7 @@ public class Board {
 	}
 	
 	public void ipoteca(String nomeCasella)  {
-		Casella cas = caselle.get(nomeCasella);
+		Casella cas = getCaselle().get(nomeCasella);
 		
 		if(cas == null)  {
 			System.out.println("Non è stato selezionato niente");
@@ -252,7 +252,7 @@ public class Board {
 			
 		} else  {
 			//capitato su una casella, se libera può acquistarla, altrimenti deve pagare la rendita
-			Casella casella = caselle.get(position);
+			Casella casella = getCaselle().get(position);
 			
 			if(!casella.haProprietario())  {
 				//casella libera
@@ -356,7 +356,7 @@ public class Board {
 	
 	private Casella getCasellaDaNome(String nome) {
 		nome = nome.toUpperCase();
-		return caselle.get(nome);
+		return getCaselle().get(nome);
 	}
 	
 	
@@ -420,6 +420,17 @@ public class Board {
 			
 		}
 		
+		
+
+		
+	}
+
+	public HashMap<String, Casella> getCaselle() {
+		return caselle;
+	}
+
+	public void setCaselle(HashMap<String, Casella> caselle) {
+		this.caselle = caselle;
 	}
 	
 }

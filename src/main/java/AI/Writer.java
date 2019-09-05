@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import Elementi.Board;
 import Elementi.Casella;
 import Elementi.CasellaResidenziale;
 import Elementi.Giocatore;
@@ -112,6 +113,29 @@ public class Writer {
 				writer.println(Creator.creaCasellaResidenziale(casellaResidenziale));
 			}
 			writer.println(Creator.creaAcquisto(casellaDaCedere, prezzo));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void writeCostruzioneCasa(Giocatore giocatore, Board board) {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/costruzioneCasaInstance", "UTF-8");
+			writer.println(Creator.creaGiocatore(giocatore));
+
+			for (Casella casella : board.getCaselle().values()) {
+				if(casella instanceof CasellaResidenziale) {
+					writer.println(Creator.creaCasellaResidenzialePerCasa((CasellaResidenziale) casella));
+					
+				}
+			}
 			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

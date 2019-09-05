@@ -18,61 +18,6 @@ import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 
 public class AIClass {
 
-/*	private static String encodingResource="encodings/propostaAcquisto";
-	private static String instanceResource="encodings/propostaAcquistoInstance";
-	private static Handler handler;
-	
-						
-	public static void main(String[] args) {
-		
-		handler = new DesktopHandler(new DLVDesktopService("lib/dlv.mingw.exe"));
-		
-		InputProgram  program = new ASPInputProgram();
-		program.addFilesPath(encodingResource);
-		program.addFilesPath(instanceResource);
-		handler.addProgram(program);
-		
-/*		try {
-			ASPMapper.getInstance().registerClass(Casella.class);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-//fine commento		
-		Output o =  handler.startSync();
-		
-		AnswerSets answers = (AnswerSets) o;
-		Parser parser = new Parser();
-		int n = 0;
-		parser.parsePropostaAcquisto(answers); // passa tutti gli anwersets, se vuoi passarne solo 1, mettilo nel for
-		/*for(AnswerSet a:answers.getAnswersets()){
-			 System.out.println("AS n.: " + ++n + ": " + a);
-			try {
-
-				for(Object obj:a.getAtoms()){
-//a					if(obj instanceof Casella)  {
-//a						Casella cas = (Casella) obj;
-//a						System.out.print(cas.getNome() + " ");
-//a					}
-					System.out.println(obj);
-					System.out.println("ciao");
-				}
-				System.out.println();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} 			
-		}*/
-//	}
-
-
-	
-	
-	
-	
-	
-	
-	
-	
 	String encodingResource = "";
 	String instanceResource = "";
 	Handler handler;
@@ -135,6 +80,19 @@ public class AIClass {
 		Output o =  handler.startSync();
 		AnswerSets answers = (AnswerSets) o;
 		boolean esito = parser.parseDecisioneScambioAcquisto(answers);
+		return esito;
+		
+	}
+	
+	public boolean costruzioneCasa() {
+		encodingResource="encodings/costruzioneCasa";
+		instanceResource="encodings/costruzioneCasaInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		boolean esito = parser.parseCostruzioneCasa(answers);
 		return esito;
 		
 	}

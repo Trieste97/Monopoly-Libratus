@@ -131,4 +131,21 @@ public class Creator {
 		scambio  = scambio + ").";
 		return scambio ;
 	}
+	
+	public static String creaCasellaResidenzialePerCasa(CasellaResidenziale c) {
+		String casella = "casella(";
+		casella = casella + c.getNome().toLowerCase();
+		casella = casella + ",";
+		casella = casella + determinaProprietarioCasella(c);
+		casella = casella + ",";
+		casella = casella + c.getColore().toLowerCase();
+		casella = casella + ",";
+		casella = casella + c.getPrezzoCostruzioneCasa();
+		casella = casella + ",";
+		casella = casella + c.getNumeroCaseCostruite();
+		casella = casella + ",";
+		casella = casella + c.isIpotecata();
+		casella = casella + ").";
+		return casella;
+	}
 }
