@@ -70,5 +70,13 @@ public class GiocatoreAI extends Giocatore  {
 		System.out.println("Scelta Fatta: " + vuoleComprare);
 		return vuoleComprare;
 	}
+	
+	public String decidiCosaIpotecare(GiocatoreAI bot)  {
+		writer.writeDecidiCosaIpotecare(bot);
+		AIClass newAI = new AIClass();
+		String daIpotecare = newAI.decidiCosaIpotecare();
+		System.out.println("Scelta Fatta: " + daIpotecare);
+		return daIpotecare;
+	}
 
 }

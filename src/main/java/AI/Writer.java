@@ -154,33 +154,6 @@ public class Writer {
 		}
 
 	}
-//<<<<<<< HEAD
-/*	
-	public void writeCostruzioneCasa(Giocatore giocatore, Board board) {
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter("encodings/costruzioneCasaInstance", "UTF-8");
-			writer.println(Creator.creaGiocatore(giocatore));
-
-			for (Casella casella : board.getCaselle().values()) {
-				if(casella instanceof CasellaResidenziale) {
-					writer.println(Creator.creaCasellaResidenzialePerCasa((CasellaResidenziale) casella));
-					
-				}
-			}
-			writer.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-	
-=======*/
-//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 
 	public void writeDecidiCosaCostruire(GiocatoreAI giocatoreAI) {
 		PrintWriter writer = null;
@@ -197,4 +170,20 @@ public class Writer {
 			e.printStackTrace();
 		}
 	}	
+	
+	public void writeDecidiCosaIpotecare(GiocatoreAI bot)  {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/decisioneIpotecaInstance", "UTF-8");
+			writer.println(Creator.creaGiocatore(bot));
+			writer.println(Creator.creaDatiPerIpoteca(bot.getCaselleNonIpotecate()));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

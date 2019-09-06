@@ -1,18 +1,9 @@
-giocatore(you,10420,true,0,0,31,3,0).
-casellaAvv(d3,2000,orange).
-casellaAvv(c2,1400,pink).
-casellaAvv(g1,3000,green).
-giocatore(bot1,130,false,0,0,33,12,0).
+giocatore(you,14000,true,0,1,8,1,0).
+casellaAvv(b2,1000,lightblue).
+giocatore(bot1,1000,false,0,0,0,5,2).
+casellaMia(b1,1000,lightblue).
 casellaMia(b2,1000,lightblue).
-casellaMia(s2,2000,station).
-casellaMia(s3,2000,station).
-casellaMia(a2,600,brown).
-casellaMia(c3,1600,pink).
-casellaMia(t2,1500,society).
+casellaMia(b3,1200,lightblue).
 casellaMia(h1,3500,blue).
-casellaMia(d1,1800,orange).
-casellaMia(e2,2200,red).
-casellaMia(g3,3200,green).
-casellaMia(c1,1400,pink).
-casellaMia(f2,2600,yellow).
+casellaMia(h2,4000,blue).
 

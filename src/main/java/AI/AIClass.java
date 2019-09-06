@@ -88,25 +88,6 @@ public class AIClass {
 		return esito;
 		
 	}
-/*<<<<<<< HEAD
-	
-	public boolean costruzioneCasa() {
-		encodingResource="encodings/costruzioneCasa";
-		instanceResource="encodings/costruzioneCasaInstance";
-		program.addFilesPath(encodingResource);
-		program.addFilesPath(instanceResource);
-		handler.addProgram(program);
-		Output o =  handler.startSync();
-		AnswerSets answers = (AnswerSets) o;
-		boolean esito = parser.parseCostruzioneCasa(answers);
-		return esito;
-		
-	}
-	
-	
-	
-=======
-*/
 	public String faiPropostaScambio() {
 		encodingResource="encodings/decisioneIniziale";
 		instanceResource="encodings/decisioneInizialeInstance";
@@ -130,5 +111,16 @@ public class AIClass {
 		ArrayList<String> esito = parser.parseDecidiCosaCostruire(answers);
 		return esito;
 	}
-//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
+	
+	public String decidiCosaIpotecare()  {
+		encodingResource="encodings/decisioneIpoteca";
+		instanceResource="encodings/decisioneIpotecaInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		String daIpotecare = parser.parseDecidiCosaIpotecare(answers);
+		return daIpotecare;
+	}
 }

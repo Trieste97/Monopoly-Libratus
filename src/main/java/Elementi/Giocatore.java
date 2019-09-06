@@ -123,12 +123,12 @@ public class Giocatore {
 		
 		return listaCasRes;
 	}
-	public ArrayList<String> getCaselleNonIpotecate()  {
-		ArrayList<String> listaCas = new ArrayList<String>();
+	public ArrayList<Casella> getCaselleNonIpotecate()  {
+		ArrayList<Casella> listaCas = new ArrayList<Casella>();
 		
 		for(Casella c : casellePossedute)  {
 			if(!c.isIpotecata())  {
-				listaCas.add(c.getNome());
+				listaCas.add(c);
 			}
 		}
 		

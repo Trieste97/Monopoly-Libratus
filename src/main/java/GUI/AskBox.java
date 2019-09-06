@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.JComboBox;
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 
 import Elementi.Board;
 import Elementi.Casella;
+import Elementi.CasellaResidenziale;
 import Elementi.Giocatore;
 import Gioco.CreatoreCaselle;
 
@@ -55,8 +57,7 @@ public class AskBox extends JFrame  {
 	    this.pack();
 		this.board = board;
 		this.setVisible(false);
-	}
-	
+	}	
 	public void chiediInfoCostruzione()  {
 		if(board.getGiocatoreVero().getNumSetsPosseduti() > 0)  {
 			for(String coloreEPrezzo : board.getGiocatoreVero().getSetsEPrezzi())  {
@@ -91,6 +92,16 @@ public class AskBox extends JFrame  {
 		else if (col.equals("green")) return "G";
 		else return "H";
 	}
+	public int calcolaPrezzoVenditaColore(String col)  {
+		if (col.equals("brown")) return 500;
+		else if (col.equals("lightblue")) return 750;
+		else if (col.equals("pink")) return 1500;
+		else if (col.equals("orange")) return 1500;
+		else if (col.equals("red")) return 2250;
+		else if (col.equals("yellow")) return 2250;
+		else if (col.equals("green")) return 3000;
+		else return 2000;
+	}
 	public void chiediInfoIpoteca()  {
 		panel.removeAll();
 		
@@ -98,20 +109,42 @@ public class AskBox extends JFrame  {
 		
 		Button confermButtonIpoteca;
 		confermButtonIpoteca = new Button("Conferma");
+		this.add(box);
+		this.add(confermButtonIpoteca);
 		
-		ArrayList<String> caselle = board.getGiocatoreCorrente().getCaselleNonIpotecate();
-		for(int i = 0; i < caselle.size(); i++)  {
-			box.addItem(caselle.get(i));
+		ArrayList<Casella> caselle = board.getGiocatoreCorrente().getCaselleNonIpotecate();
+		Set<String> sets = new HashSet<String>();
+		for(Casella c : caselle)  {
+			if (c instanceof CasellaResidenziale)  {
+				CasellaResidenziale cas = (CasellaResidenziale) c;
+				if (cas.getNumeroCaseCostruite() > 0)  {
+					sets.add(cas.getColore());
+					continue;
+				}
+			}
+			box.addItem(c.getNome());
+		}
+		
+		for(final String colore : sets)  {
+			Button btn = new Button("Vendi 1 casa (per casella) del set " + 
+				traduciColore(colore) + " al prezzo di " + calcolaPrezzoVenditaColore(colore) + "€");
+			
+			btn.addActionListener(new ActionListener()  {
+				public void actionPerformed(ActionEvent e)  {
+					board.vendiCase(colore);
+					TavolaDaGioco.update(board.getGiocatoreVero());
+				}
+			});
+			this.add(btn);
 		}
 		
 		confermButtonIpoteca.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
 				board.ipoteca((String) box.getSelectedItem());
+				TavolaDaGioco.update(board.getGiocatoreVero());
 			}
 		});
 		
-		this.add(box);
-		this.add(confermButtonIpoteca);
 		this.setVisible(true);
 	}
 	public void chiediComeUscirePrigione()  {

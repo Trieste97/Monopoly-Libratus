@@ -213,4 +213,9 @@ public class Parser {
 		return doveCostruire;
 	}
 
+	public String parseDecidiCosaIpotecare(AnswerSets answers) {
+		String daIpotecare = "";
+		return daIpotecare;
+	}
+
 }

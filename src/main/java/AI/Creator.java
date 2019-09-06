@@ -1,6 +1,7 @@
 package AI;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Elementi.Casella;
 import Elementi.CasellaResidenziale;
@@ -159,23 +160,6 @@ public class Creator {
 		return scambio ;
 	}
 	
-//<<<<<<< HEAD
-/*	public static String creaCasellaResidenzialePerCasa(CasellaResidenziale c) {
-		String casella = "casella(";
-		casella = casella + c.getNome().toLowerCase();
-		casella = casella + ",";
-		casella = casella + determinaProprietarioCasella(c);
-		casella = casella + ",";
-		casella = casella + c.getColore().toLowerCase();
-		casella = casella + ",";
-		casella = casella + c.getPrezzoCostruzioneCasa();
-		casella = casella + ",";
-		casella = casella + c.getNumeroCaseCostruite();
-		casella = casella + ",";
-		casella = casella + c.isIpotecata();
-		casella = casella + ").";
-		return casella;
-=======*/
 	public static String creaDatiSet(ArrayList<Casella> caselle)  {
 		
 		int[] coloriPosseduti = new int[8];
@@ -209,6 +193,33 @@ public class Creator {
 		else if (coloriPosseduti[6] == 3) data += "set(green,6000," + caseMaxate[6] + ").\n";
 		else if (coloriPosseduti[7] == 2) data += "set(blue,4000," + caseMaxate[7] + ").\n";
 		return data;
-//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
+	}
+	
+	public static String creaDatiPerIpoteca(ArrayList<Casella> caselle)  {
+		String data = "";
+		HashMap<String, Integer> setsToAdd = new HashMap<String,Integer>();
+		
+		for(Casella c : caselle)  {
+			if(c instanceof CasellaResidenziale)  {
+				CasellaResidenziale cas  = (CasellaResidenziale) c;
+				if (cas.getNumeroCaseCostruite() > 0)  {
+					String col = cas.getColore();
+					if (setsToAdd.containsKey(col))  {
+						setsToAdd.replace(col, setsToAdd.get(col) + cas.getPrezzoCostruzioneCasa()/2);
+					} else  {
+						setsToAdd.put(col, cas.getPrezzoCostruzioneCasa()/2);
+					}
+				} else  {
+					data += "casellaRes(" + c.getNome() + "," + c.getPrezzoVendita() + ").\n";
+				}
+			} else  {
+				data += "casella(" + c.getNome() + "," + c.getPrezzoVendita() + ").\n";
+			}
+		}
+		
+		for(String col : setsToAdd.keySet())  {
+			data += "set(" + col + "," + setsToAdd.get(col) + ").\n";
+		}
+		return data;
 	}
 }

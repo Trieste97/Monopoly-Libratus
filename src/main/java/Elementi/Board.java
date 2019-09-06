@@ -71,7 +71,6 @@ public class Board {
 			//gestione AI
 			do  {
 				int decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
-				decisione = 4;
 				while (decisione > 0)  {
 					GiocatoreAI player = (GiocatoreAI) giocatoreCorrente;
 					
@@ -95,8 +94,15 @@ public class Board {
 					
 					//IPOTECA
 					else if (decisione == 3)  {
-						//non implementata ancora
-						break;
+						//può ritornare il colore (=> vendere una casa per casella del set
+						//o il nome di una casella
+						String daIpotecare = player.decidiCosaIpotecare(getGiocatoreBot());
+						
+						if (isColore(daIpotecare))  {
+							this.vendiCase(daIpotecare);
+						} else  {
+							this.ipoteca(daIpotecare);
+						}
 					}
 					
 					//COSTRUISCO
@@ -115,7 +121,6 @@ public class Board {
 		}
 		getGiocatoreVero().setInPrigione(true);
 	}
-
 	public boolean gestisciNumeroDadi()  {		
 		if(getDadi().isDoppioNumero() && numDoppi == 2)  {
 			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo,\nGiocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
@@ -179,25 +184,9 @@ public class Board {
 		giocatoreCheFaPorposta.diminuisciSoldi(prezzo);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha acquistato " + casella.getNome());
 	}
-//<<<<<<< HEAD
-	
-	/*public void costruisci(String nome)  {
-		Casella cas = getCaselle().get(nome);
-		
-		if(cas == null)  {
-			TavolaDaGioco.aggiungiACronologia("Non è stato selezionato niente".toUpperCase());
-			return;
-		}
-		
-		boolean permesso = banca.checkPossedimentoColore(cas, giocatoreCorrente);
-
-		if(permesso)  {*/
-//=======
 	public void costruisci(ArrayList<String> sets)  {
 		for(String colore : sets)  {
-			System.out.println(colore);
 			ArrayList<CasellaResidenziale> caselle = this.checkPossedimentoColore(colore, giocatoreCorrente);
-//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 			
 			if(caselle != null)  {
 				
@@ -206,7 +195,7 @@ public class Board {
 				} else if(giocatoreCorrente.getSoldi() < caselle.get(0).getPrezzoCostruzioneCasa() * caselle.size())  {
 					TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
 				} else  {
-					TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
+					//TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
 					
 					for (CasellaResidenziale c : caselle)  {
 						c.aggiungiCasa();
@@ -250,6 +239,14 @@ public class Board {
 			giocatoreCorrente.aumentaSoldi(cas.getPrezzoIpoteca());
 			cas.setIpotecata(true);
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha ipotecato " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
+		}
+	}
+	public void vendiCase(String colore)  {
+		for(CasellaResidenziale c : getGiocatoreCorrente().getCaselleResidenzialiOggetto())  {
+			if (c.getColore().equals(colore))  {
+				c.rimuoviCasa();
+				getGiocatoreCorrente().aumentaSoldi(c.getPrezzoCostruzioneCasa()/2);
+			}
 		}
 	}
 	public void finisciTurno()  {
@@ -372,16 +369,9 @@ public class Board {
 		}
 		return 0;
 	}
-//<<<<<<< HEAD
-	
-	
-	/*private Casella getCasellaDaNome(String nome) {
-		nome = nome.toUpperCase();
-		return getCaselle().get(nome);*/
-//=======
+
 	public boolean isAITurn()  {
 		return giocatoreCorrente instanceof GiocatoreAI;
-//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 	}
 	public Giocatore getGiocatoreVero()  {
 		return this.giocatori.get(0);
@@ -401,28 +391,7 @@ public class Board {
 			if(colore.equals(col2))  {
 				caselle.add(cr);
 			}
-//<<<<<<< HEAD
-			
-			
-//		} 
-//=======
 		}
-//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
-		
-//<<<<<<< HEAD
-		
-
-		
-//	}
-
-	/*public HashMap<String, Casella> getCaselle() {
-		return caselle;
-	} Funzione ricopiata sotto perchè utilizzata
-
-	public void setCaselle(HashMap<String, Casella> caselle) {
-		this.caselle = caselle; Funzione ricopiata sotto perchè utilizzata
-*/
-//=======
 		if(caselle.size() == 3)  {
 			return caselle;
 		} else if(caselle.size() == 2 && (colore.equals("brown") || colore.equals("blue")))  {
@@ -430,7 +399,6 @@ public class Board {
 		}
 		
 		return null;
-//>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 	}
 	
 	
@@ -439,5 +407,10 @@ public class Board {
 	}
 	public void setCaselle(HashMap<String, Casella> caselle) {
 		this.caselle = caselle;
+	}
+	public boolean isColore(String col)  {
+		return col.equals("brown") || col.equals("lightblue") || col.equals("pink") || 
+				col.equals("orange") || col.equals("red") || col.equals("yellow") || 
+				col.equals("green") || col.equals("blue");
 	}
 }
