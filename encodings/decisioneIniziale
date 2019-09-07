@@ -13,13 +13,13 @@ decido(dadi) | decido(scambio) | decido(prigione) | decido(ipoteca) | decido(cos
 
 %SCAMBIO
 %Non si può scambiare se entrambi i giocatori non hanno caselle
-:- decido(scambio), giocatore(you,_,_,_,_,_,0,_), giocatore(you,_,_,_,_,_,0,_).
+:- decido(scambio), giocatore(you,_,_,_,_,_,0,_), giocatore(bot1,_,_,_,_,_,0,_).
 
 %2 condizioni per la proposta di uno scambio
 %	ho pochissime caselle e il mio avversario no
 % 	il mio avversario ha una casella che mi interessa
-:~ decido(scambio), giocatore(bot1,Soldi,_,_,_,_,M,_), M > 2. [2:4]
-:~ decido(scambio), giocatore(you,_,_,_,_,_,N,_), giocatore(bot1,Soldi,_,_,_,_,M,_), X=M+2, N <= X. [3:4]
+:~ decido(scambio), giocatore(bot1,Soldi,_,_,_,_,M,_), M > 2. [2:4] 	%%Non mi piace
+:~ decido(scambio), giocatore(you,_,_,_,_,_,N,_), giocatore(bot1,Soldi,_,_,_,_,M,_), X=M+2, N <= X. [3:4] %%%Non mi piace
 :~ decido(scambio), giocatore(bot1,Soldi,_,_,_,_,M,_), Soldi < 3000. [3:4]
 :~ decido(scambio), casellaMia(_,_,Tipo1), casellaAvv(_,_,Tipo2), Tipo1 != Tipo2. [3:4]
 

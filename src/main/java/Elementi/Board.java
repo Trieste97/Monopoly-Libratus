@@ -72,9 +72,17 @@ public class Board {
 			//gestione AI
 			do  {
 				int decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
+				GiocatoreAI player = null;
+				if(decisione != -1) {
+					player = (GiocatoreAI) giocatoreCorrente;
+					player.setBoard(this);
+					player.proposteDaFare(giocatori.get(getGiocatoreAvversarioIndex()));
+					if(player.inPrigione) {
+						String modo = player.voglioUscireDiPrigione();
+						esciDiPrigione(modo);
+					}
+				}
 				while (decisione > 0)  {
-					GiocatoreAI player = (GiocatoreAI) giocatoreCorrente;
-					
 					//SCAMBIO
 					if (decisione == 1)  {
 						//non implementata ancora
@@ -120,7 +128,6 @@ public class Board {
 			} while (again);
 			finisciTurno();
 		}
-		getGiocatoreVero().setInPrigione(true);
 	}
 	public boolean gestisciNumeroDadi()  {		
 		if(getDadi().isDoppioNumero() && numDoppi == 2)  {
@@ -414,4 +421,22 @@ public class Board {
 				col.equals("orange") || col.equals("red") || col.equals("yellow") || 
 				col.equals("green") || col.equals("blue");
 	}
+	
+	public Casella getCasellaDaNome(String nome) {
+		nome = nome.toUpperCase();
+		return caselle.get(nome);
+	}
+	
+	public void scambia(Casella casellaDaPrendere, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, Casella casellaDaLasciare)  {
+		giocatoreCheAccetta.getCasellePossedute().remove(casellaDaPrendere);
+		giocatoreCheFaPorposta.getCasellePossedute().add(casellaDaPrendere);
+		casellaDaPrendere.setProprietario(giocatoreCheFaPorposta);
+		giocatoreCheFaPorposta.getCasellePossedute().remove(casellaDaLasciare);
+		giocatoreCheAccetta.getCasellePossedute().add(casellaDaLasciare);
+		casellaDaLasciare.setProprietario(giocatoreCheAccetta);
+		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha scambiato " + 
+				casellaDaLasciare.getNome() + " con " + casellaDaPrendere.getNome());
+	}
+	
+	
 }

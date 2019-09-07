@@ -100,14 +100,14 @@ public class Parser {
 			 System.out.println("AS n.: " + ++n + ": " + a);
 			 String as = a.toString();
 			 if(as.contains("chiediAcquisto")) {
-				 System.out.println("ACQUISTO");
+				 System.out.println("ACQUISTO COMPA");
 				 esito.add("Acquisto");
 				 ArrayList<Atomo> atomi = parseAtomi(as, "chiediAcquisto");
 				 stampaAtomiconsiderati(atomi);
 				 esito.add(atomi.get(0).get(0));
 			 }
 			 else if(as.contains("propostaScambio")) {
-				 System.out.println("SCAMBIO");
+				 System.out.println("SCAMBIO COMPA");
 				 esito.add("Scambio");
 				 ArrayList<Atomo> atomi = parseAtomi(as, "propostaScambio");
 				 stampaAtomiconsiderati(atomi);
@@ -115,7 +115,7 @@ public class Parser {
 				 esito.add(atomi.get(0).get(1));
 			 }
 			 else{
-				 System.out.println("NIENTE");
+				 System.out.println("NIENTE COMPA");
 				 esito.add("Niente");
 			 }
 		}
