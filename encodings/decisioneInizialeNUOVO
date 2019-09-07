@@ -1,0 +1,29 @@
+%Posso fare principalmente: 
+%tirare i dadi;
+%ipotecare qualcosa;
+%costruire case (se ho qualche set);
+
+decido(dadi) | decido(ipoteca) | decido(costruire).
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%DADI
+%Gli assegno un peso iniziale
+:~ decido(dadi). [1:9]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%COSTRUIRE
+%Non posso costruire case se non ho almeno un set di caselle
+:- decido(costruire), giocatore(bot1,_,_,_,_,_,_,Sets), Sets < 1.
+
+%Se ho almeno un set e parecchi soldi mi conviene costruire
+:~ decido(costruire), giocatore(bot1,Soldi,_,_,_,_,_,Sets), Sets > 0, Soldi < 2300. [1:8]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%IPOTECA
+%Non posso ipotecare se non ho caselle
+:- decido(ipoteca), giocatore(bot1,_,_,_,_,_,M,_), M=0.
+
+%Preferisco non ipotecare niente se ho abbastanza soldi
+:~ decido(ipoteca), giocatore(bot1,Soldi,_,_,_,_,_,_), Soldi > 500. [1:10]

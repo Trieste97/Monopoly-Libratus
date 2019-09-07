@@ -82,27 +82,9 @@ public class Board {
 						esciDiPrigione(modo);
 					}
 				}
-				while (decisione > 0)  {
-					//SCAMBIO
-					if (decisione == 1)  {
-						//non implementata ancora
-						break;
-						//String tmp = player.decidiCosaScambiare(this.giocatori);
-					}
-					
-					//ESCI PRIGIONE
-					else if (decisione == 2)  {
-						String modo = player.voglioUscireDiPrigione();
-						if (modo.equals("dadi"))
-							break;
-						else
-							esciDiPrigione(modo);
-						
-						break;
-					}
-					
+				while (decisione != 0)  {
 					//IPOTECA
-					else if (decisione == 3)  {
+					if (decisione == 1)  {
 						//può ritornare il colore (=> vendere una casa per casella del set
 						//o il nome di una casella
 						Pair<Boolean,String> daIpotecare = player.decidiCosaIpotecare(getGiocatoreBot());
@@ -112,10 +94,11 @@ public class Board {
 						} else  {
 							this.ipoteca(daIpotecare.getValue());
 						}
+						break;
 					}
 					
 					//COSTRUISCO
-					else if (decisione == 4)  {
+					else if (decisione == 2)  {
 						this.costruisci(player.decidiCosaCostruire(this));
 						break;
 					}

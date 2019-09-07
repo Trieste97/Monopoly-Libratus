@@ -39,27 +39,14 @@ public class Parser {
 			 if(as.contains("dadi")) {
 				 esito = 0;
 				 System.out.println("DADI");
-				 break;
-			 }
-			 else if(as.contains("scambio")) {
-				 esito = 1;
-				 System.out.println("SCAMBIO");
-				 break;
-			 }
-			 else if (as.contains("prigione")) {
-				 esito = 2;
-				 System.out.println("PRIGIONE");
-				 break;
 			 }
 			 else if (as.contains("ipoteca"))  {
-				 esito = 3;
+				 esito = 1;
 				 System.out.println("IPOTECA");
-				 break;
 			 }
 			 else if (as.contains("costruire"))  {
-				 esito = 4;
+				 esito = 2;
 				 System.out.println("COSTRUISCO");
-				 break;
 			 }
 		}
 		

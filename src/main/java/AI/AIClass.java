@@ -27,7 +27,7 @@ public class AIClass {
 	}
 	
 	public int decisioneIniziale()  {
-		encodingResource="encodings/decisioneIniziale";
+		encodingResource="encodings/decisioneInizialeNUOVO";
 		instanceResource="encodings/decisioneInizialeInstance";
 		program.addFilesPath(encodingResource);
 		program.addFilesPath(instanceResource);
