@@ -87,7 +87,7 @@ public class Parser {
 			}
 		}
 		return esito;
-
+ 
 	}
 	
 	public ArrayList<String> parseProposte(AnswerSets answers) {
