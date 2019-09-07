@@ -1,9 +1,5 @@
-giocatore(you,14000,true,0,1,8,1,0).
+giocatore(you,14000,true,0,1,20,1,0).
 casellaAvv(b2,1000,lightblue).
-giocatore(bot1,1000,false,0,0,0,5,2).
-casellaMia(b1,1000,lightblue).
-casellaMia(b2,1000,lightblue).
-casellaMia(b3,1200,lightblue).
-casellaMia(h1,3500,blue).
-casellaMia(h2,4000,blue).
+giocatore(bot1,16000,false,0,0,0,1,0).
+casellaMia(s1,2000,station).
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import it.unical.mat.embasp.languages.asp.AnswerSet;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
+import javafx.util.Pair;
 
 public class Parser {
 
@@ -213,9 +214,21 @@ public class Parser {
 		return doveCostruire;
 	}
 
-	public String parseDecidiCosaIpotecare(AnswerSets answers) {
-		String daIpotecare = "";
-		return daIpotecare;
+	public Pair<Boolean,String> parseDecidiCosaIpotecare(AnswerSets answers) {
+		boolean vendi = true;
+		String casellaOSet = "";
+		for(AnswerSet a: answers.getAnswersets()){
+			 String as = a.toString();
+			 for(Atomo att : parseAtomi(as, "vendi"))  {
+				 casellaOSet = att.toString().substring(6).replace(")","").toUpperCase();
+			 }
+			 for(Atomo att : parseAtomi(as, "ipoteca"))  {
+				 casellaOSet = att.toString().substring(8).replace(")","").toUpperCase();
+				 vendi = false;
+			 }
+		}
+		System.out.print(casellaOSet);
+		return new Pair<Boolean,String>(vendi,casellaOSet);
 	}
 
 }

@@ -210,10 +210,10 @@ public class Creator {
 						setsToAdd.put(col, cas.getPrezzoCostruzioneCasa()/2);
 					}
 				} else  {
-					data += "casellaRes(" + c.getNome() + "," + c.getPrezzoVendita() + ").\n";
+					data += "casellaRes(" + c.getNome().toLowerCase() + "," + c.getPrezzoVendita() + ").\n";
 				}
 			} else  {
-				data += "casella(" + c.getNome() + "," + c.getPrezzoVendita() + ").\n";
+				data += "casella(" + c.getNome().toLowerCase() + "," + c.getPrezzoVendita() + ").\n";
 			}
 		}
 		

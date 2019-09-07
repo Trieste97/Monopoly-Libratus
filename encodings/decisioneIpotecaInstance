@@ -1,4 +1,3 @@
-giocatore(bot1,1000,false,0,0,0).
-set(lightblue,750).
-set(blue,2000).
+giocatore(bot1,15000,false,0,0,0).
+casella(s1,2000).
 

@@ -9,6 +9,7 @@ import it.unical.mat.embasp.languages.asp.ASPInputProgram;
 import it.unical.mat.embasp.languages.asp.AnswerSets;
 import it.unical.mat.embasp.platforms.desktop.DesktopHandler;
 import it.unical.mat.embasp.specializations.dlv.desktop.DLVDesktopService;
+import javafx.util.Pair;
 
 public class AIClass {
 
@@ -112,7 +113,7 @@ public class AIClass {
 		return esito;
 	}
 	
-	public String decidiCosaIpotecare()  {
+	public Pair<Boolean,String> decidiCosaIpotecare()  {
 		encodingResource="encodings/decisioneIpoteca";
 		instanceResource="encodings/decisioneIpotecaInstance";
 		program.addFilesPath(encodingResource);
@@ -120,7 +121,6 @@ public class AIClass {
 		handler.addProgram(program);
 		Output o =  handler.startSync();
 		AnswerSets answers = (AnswerSets) o;
-		String daIpotecare = parser.parseDecidiCosaIpotecare(answers);
-		return daIpotecare;
+		return parser.parseDecidiCosaIpotecare(answers);
 	}
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import AI.Writer;
 import GUI.TavolaDaGioco;
 import Gioco.CreatoreCaselle;
+import javafx.util.Pair;
 
 //singleton board
 public class Board {
@@ -96,12 +97,12 @@ public class Board {
 					else if (decisione == 3)  {
 						//può ritornare il colore (=> vendere una casa per casella del set
 						//o il nome di una casella
-						String daIpotecare = player.decidiCosaIpotecare(getGiocatoreBot());
+						Pair<Boolean,String> daIpotecare = player.decidiCosaIpotecare(getGiocatoreBot());
 						
-						if (isColore(daIpotecare))  {
-							this.vendiCase(daIpotecare);
+						if (daIpotecare.getKey())  {
+							this.vendiCase(daIpotecare.getValue());
 						} else  {
-							this.ipoteca(daIpotecare);
+							this.ipoteca(daIpotecare.getValue());
 						}
 					}
 					

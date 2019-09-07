@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import AI.AIClass;
 import AI.Writer;
+import javafx.util.Pair;
 
 public class GiocatoreAI extends Giocatore  {
 
@@ -71,11 +72,11 @@ public class GiocatoreAI extends Giocatore  {
 		return vuoleComprare;
 	}
 	
-	public String decidiCosaIpotecare(GiocatoreAI bot)  {
+	public Pair<Boolean,String> decidiCosaIpotecare(GiocatoreAI bot)  {
 		writer.writeDecidiCosaIpotecare(bot);
 		AIClass newAI = new AIClass();
-		String daIpotecare = newAI.decidiCosaIpotecare();
-		System.out.println("Scelta Fatta: " + daIpotecare);
+		Pair<Boolean,String> daIpotecare = newAI.decidiCosaIpotecare();
+		System.out.println("Scelta Fatta: " + daIpotecare.getValue());
 		return daIpotecare;
 	}
 
