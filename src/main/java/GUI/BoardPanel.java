@@ -159,7 +159,7 @@ public class BoardPanel extends JPanel  {
 			int x = (int) casePosizioni.get(c.getNome()).getX();
 			int y = (int) casePosizioni.get(c.getNome()).getY();
 				
-			g.setColor(new Color(0, 255, 0));
+			g.setColor(new Color(0, 191, 255));
 			g.setFont(new Font("Dialog", Font.BOLD, 20));
 			g.drawString(Integer.toString(numCase), x, y);
 		}
@@ -169,7 +169,7 @@ public class BoardPanel extends JPanel  {
 			int x = (int) casePosizioni.get(c.getNome()).getX();
 			int y = (int) casePosizioni.get(c.getNome()).getY();
 				
-			g.setColor(new Color(255, 0, 0));
+			g.setColor(new Color(0, 255, 0));
 			g.setFont(new Font("Dialog", Font.BOLD, 20));
 			g.drawString(Integer.toString(numCase), x, y);
 		}
