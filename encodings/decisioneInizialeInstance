@@ -1,4 +1,16 @@
+<<<<<<< HEAD
 giocatore(you,13800,false,0,0,9,1,0).
 casellaAvv(b3,1200,lightblue).
 giocatore(bot1,15000,false,0,0,0,0,0).
+=======
+giocatore(you,7000,false,0,0,27,5,0).
+casellaAvv(a2,600,brown).
+casellaAvv(b3,1200,lightblue).
+casellaAvv(c3,1600,pink).
+casellaAvv(d3,2000,orange).
+casellaAvv(f2,2600,yellow).
+giocatore(bot1,14800,false,0,0,11,2,0).
+casellaMia(b2,1000,lightblue).
+casellaMia(c1,1400,pink).
+>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
 

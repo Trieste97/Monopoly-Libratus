@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 giocatore(bot1,15000,false,0,0,8).
 casella(b2,banca,1000,60,500,false).
 proposta(idProposta,b2,bot1).
+=======
+giocatore(bot1,16200,false,0,0,11).
+casella(c1,banca,1400,100,700,false).
+proposta(idProposta,c1,bot1).
+>>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
