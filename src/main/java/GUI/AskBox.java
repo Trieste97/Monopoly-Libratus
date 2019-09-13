@@ -169,7 +169,7 @@ public class AskBox extends JFrame  {
 		this.add(paga);
 		this.setVisible(true);
 	}	
-	public void chiediScambio()  {
+	/*public void chiediScambio()  {
 		panel.removeAll();
 		
 		Button confermButtonProponiScambio;
@@ -263,7 +263,7 @@ public class AskBox extends JFrame  {
 				}
 			}
 		});
-	}	
+	}*/
 	public static boolean chiediSeAccettaScambio(String casellaDaPrendere, String casellaDaScambiare, String proprietarioCasellaDaPrendere)  {
 		int answer = JOptionPane.showConfirmDialog(new JFrame(), proprietarioCasellaDaPrendere+
 				", vuoi scambiare " + casellaDaPrendere + " con " + casellaDaScambiare + " ?");
@@ -287,5 +287,50 @@ public class AskBox extends JFrame  {
 	public static void avversarioRifiuta()  {
 //		JOptionPane.showConfirmDialog(new JFrame(), "L'avversario rifiuta!");
 		JOptionPane.showMessageDialog(new JFrame(), "L'avversario rifiuta!");
-	}	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
