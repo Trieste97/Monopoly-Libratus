@@ -191,64 +191,7 @@ public class AskBox extends JFrame {
 		this.setVisible(true);
 	}
 
-	/*
-	 * public void chiediScambio() { panel.removeAll();
-	 * 
-	 * Button confermButtonProponiScambio; confermButtonProponiScambio = new
-	 * Button("Conferma"); String text = "<html><pre>Caselle tue:<br/>";
-	 * 
-	 * int count = 0; for(Casella c :
-	 * board.getGiocatoreVero().getCasellePossedute()) { if (++count > 4) { text +=
-	 * "<br/>"; count = 0; } text += c.getNome() + ","; } text = text.substring(0,
-	 * text.length()-1); text += "<br/>";
-	 * 
-	 * text += "Soldi avversario: </pre><b>" + board.getGiocatoreBot().getSoldi() +
-	 * "</b><pre><br/>"; text += "Caselle avversario: <br/>"; count = 0; for(Casella
-	 * c : board.getGiocatoreBot().getCasellePossedute()) { if (++count > 4) { text
-	 * += "<br/>"; count = 0; } text += c.getNome() + ","; } text =
-	 * text.substring(0, text.length()-1); text += "<br/>";
-	 * 
-	 * JLabel label = new JLabel(text + "</pre></html>");
-	 * 
-	 * Box box = Box.createVerticalBox(); JLabel soldiDare = new
-	 * JLabel("Soldi da dare:"); final JTextField soldiDaDare = new JTextField("0");
-	 * JLabel caselleDare = new JLabel("Caselle da dare: (separare con virgola)");
-	 * final JTextField caselleDaDare = new JTextField(20);
-	 * 
-	 * JLabel soldiRicevere = new JLabel("Soldi da ricevere"); final JTextField
-	 * soldiDaRicevere = new JTextField("0"); JLabel caselleRicevere = new
-	 * JLabel("Caselle da ricevere: (separare con virgola)"); final JTextField
-	 * caselleDaRicevere = new JTextField(20);
-	 * 
-	 * box.add(soldiDare); box.add(soldiDaDare); box.add(caselleDare);
-	 * box.add(caselleDaDare); box.add(soldiRicevere); box.add(soldiDaRicevere);
-	 * box.add(caselleRicevere); box.add(caselleDaRicevere); this.add(box);
-	 * this.add(label); this.add(confermButtonProponiScambio);
-	 * this.setVisible(true); confermButtonProponiScambio.addActionListener(new
-	 * ActionListener() { public void actionPerformed(ActionEvent e) {
-	 * 
-	 * try { //controllo validità scambio int soldiToBot =
-	 * Integer.parseInt(soldiDaDare.getText()); int soldiToYou =
-	 * Integer.parseInt(soldiDaRicevere.getText());
-	 * 
-	 * if(soldiToBot < 0 || soldiToYou < 0) { throw new
-	 * Exception("Scambio non valido"); } String caselleToBot_ =
-	 * caselleDaDare.getText(); String caselleToYou_ = caselleDaRicevere.getText();
-	 * 
-	 * String[] caselleToBot = caselleToBot_.split(","); String[] caselleToYou =
-	 * caselleToYou_.split(",");
-	 * 
-	 * for (String c : caselleToBot) { if (!nomiCaselleEsistenti.contains(c)) {
-	 * throw new Exception("Scambio non valido"); } }
-	 * 
-	 * for (String c : caselleToYou) { if (!nomiCaselleEsistenti.contains(c)) {
-	 * throw new Exception("Scambio non valido"); } }
-	 * 
-	 * boolean accettato = board.getGiocatoreBot().chiediSeAccettaScambio(board,
-	 * soldiToBot, soldiToYou, caselleToBot, caselleToYou); if(accettato) {
-	 * board.scambia(soldiToBot, soldiToYou, caselleToBot, caselleToYou); } }
-	 * catch(Exception ex) { System.err.println("Scambio non valido"); } } }); }
-	 */
+
 	public static boolean chiediSeAccettaScambio(String casellaDaPrendere, String casellaDaScambiare,
 			String proprietarioCasellaDaPrendere) {
 		int answer = JOptionPane.showConfirmDialog(new JFrame(), proprietarioCasellaDaPrendere + ", vuoi scambiare "
@@ -284,40 +227,6 @@ public class AskBox extends JFrame {
 		JOptionPane.showMessageDialog(new JFrame(), "Offerta Non Valida!");
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -384,6 +293,12 @@ public class AskBox extends JFrame {
 
 				String caselleToBot = caselleDaDare.getText();
 				String caselleToYou = caselleDaRicevere.getText();
+				if(caselleToYou.equals("")) {
+					caselleToYou = "Casella non selezionata";
+				}
+				if(caselleToBot.equals("")) {
+					caselleToBot = "Casella non selezionata";
+				}
 
 				if (casellePresentiGiocatore.contains(caselleToBot) && casellePresentiBot.contains(caselleToYou)) {
 					Casella casellaDaScambiare = board.getCasellaDaNome(caselleToBot);
@@ -408,6 +323,106 @@ public class AskBox extends JFrame {
 			}
 		});
 	}
+	
+
+	
+	
+	public void chiediVendita() {
+		panel.removeAll();
+
+		String text = "<html><pre>Soldi a disposizione:<br/>";
+		Button confermButtonProponiScambio;
+		confermButtonProponiScambio = new Button("Conferma");
+
+		casellePresentiBot.clear();
+
+		text += board.getGiocatoreCorrente().getSoldi();
+		text += "<br/>";
+
+		text += "Caselle avversario: <br/>";
+		int count = 0;
+		for (String c : board.getGiocatoreBot().getCaselleResidenziali()) {
+			if (++count > 4) {
+				text += "<br/>";
+				count = 0;
+			}
+			text += c + ",";
+			casellePresentiBot.add(c);
+		}
+		text = text.substring(0, text.length() - 1);
+		text += "<br/>";
+
+		JLabel label = new JLabel(text + "</pre></html>");
+
+		Box box = Box.createVerticalBox();
+		JLabel caselleDare = new JLabel("Soldi da dare: ");
+		final JTextField caselleDaDare = new JTextField(20);
+
+		JLabel caselleRicevere = new JLabel("Casella da ricevere: ");
+		final JTextField caselleDaRicevere = new JTextField(20);
+
+		box.add(caselleDare);
+		box.add(caselleDaDare);
+		box.add(caselleRicevere);
+		box.add(caselleDaRicevere);
+		this.add(box);
+		this.add(label);
+		this.add(confermButtonProponiScambio);
+		this.setVisible(true);
+		temp = this;
+		
+		confermButtonProponiScambio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				String soldiDaDare = caselleDaDare.getText();
+				String caselleToYou = caselleDaRicevere.getText();
+
+				if(caselleToYou.equals("")) {
+					caselleToYou = "Casella non selezionata";
+				}
+				if(soldiDaDare.equals("")) {
+					soldiDaDare = "0";
+				}
+				int soldi = Integer.parseInt(soldiDaDare);
+				
+				if (casellePresentiBot.contains(caselleToYou) && soldi>=0) {
+					Casella casellaDaPrendere = board.getCasellaDaNome(caselleToYou);
+
+					boolean accettato = board.getGiocatoreBot().chiediSeAccettaVendita(caselleToYou, soldiDaDare, 
+							board.getGiocatori().get(board.getGiocatoreAvversarioIndex()),
+							board.getGiocatoreCorrente());
+					if (accettato) {
+						board.compraCasellaAvversaria(casellaDaPrendere, board.getGiocatoreCorrente(),
+								board.getGiocatori().get(board.getGiocatoreAvversarioIndex()), soldi);
+						
+						temp.setVisible(false);
+						avversarioAccetta();
+					}
+					else {
+						temp.setVisible(false);
+						avversarioRifiuta();
+					}
+				} else {
+					offertaNonValida();
+				}
+			}
+		});
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 

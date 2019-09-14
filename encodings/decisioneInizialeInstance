@@ -1,13 +1,5 @@
-giocatore(you,12150,false,0,0,3,3,0).
-casellaAvv(c2,1400,pink).
-casellaAvv(b3,1200,lightblue).
-casellaAvv(a2,600,brown).
-giocatore(bot1,600,false,0,0,5,7,0).
-casellaMia(d1,1800,orange).
-casellaMia(e2,2200,red).
-casellaMia(f1,2600,yellow).
-casellaMia(g3,3200,green).
-casellaMia(g1,3000,green).
-casellaMia(s1,2000,station).
-casellaMia(h2,4000,blue).
+giocatore(you,16000,false,0,0,8,1,0).
+casellaAvv(b2,1000,lightblue).
+giocatore(bot1,13700,false,0,0,11,1,0).
+casellaMia(c1,1400,pink).
 
