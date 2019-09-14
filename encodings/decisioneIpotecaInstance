@@ -1,20 +1,8 @@
-giocatore(bot1,140,false,0,0,12).
-casellaRes(c3,1600).
-casellaRes(e3,2400).
-casellaRes(g3,3200).
-casella(s3,2000).
-casellaRes(h2,4000).
-casellaRes(f3,2800).
-casella(s1,2000).
-casellaRes(f2,2600).
-casella(s2,2000).
-casella(s4,2000).
-casellaRes(h1,3500).
-casellaRes(c2,1400).
+giocatore(bot1,0,false,0,0,39).
+casellaRes(b3,1200).
+casellaRes(d1,1800).
+casellaRes(e2,2200).
 casellaRes(f1,2600).
-casellaRes(a1,600).
-casellaRes(g2,3000).
-casellaRes(d3,2000).
-casella(t1,1500).
-set(lightblue,750).
+casellaRes(g3,3200).
+casellaRes(g1,3000).
 

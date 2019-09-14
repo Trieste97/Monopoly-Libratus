@@ -1,16 +1,13 @@
-<<<<<<< HEAD
-giocatore(you,13800,false,0,0,9,1,0).
+giocatore(you,12150,false,0,0,3,3,0).
+casellaAvv(c2,1400,pink).
 casellaAvv(b3,1200,lightblue).
-giocatore(bot1,15000,false,0,0,0,0,0).
-=======
-giocatore(you,7000,false,0,0,27,5,0).
 casellaAvv(a2,600,brown).
-casellaAvv(b3,1200,lightblue).
-casellaAvv(c3,1600,pink).
-casellaAvv(d3,2000,orange).
-casellaAvv(f2,2600,yellow).
-giocatore(bot1,14800,false,0,0,11,2,0).
-casellaMia(b2,1000,lightblue).
-casellaMia(c1,1400,pink).
->>>>>>> branch 'master' of https://github.com/Trieste97/Monopoly-Libratus.git
+giocatore(bot1,600,false,0,0,5,7,0).
+casellaMia(d1,1800,orange).
+casellaMia(e2,2200,red).
+casellaMia(f1,2600,yellow).
+casellaMia(g3,3200,green).
+casellaMia(g1,3000,green).
+casellaMia(s1,2000,station).
+casellaMia(h2,4000,blue).
 

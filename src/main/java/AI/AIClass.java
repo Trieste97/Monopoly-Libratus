@@ -123,4 +123,17 @@ public class AIClass {
 		AnswerSets answers = (AnswerSets) o;
 		return parser.parseDecidiCosaIpotecare(answers);
 	}
+	
+	public boolean decisioneScambioAcquisto28() {
+		encodingResource="encodings/decisioneScambioAcquisto28";
+		instanceResource="encodings/decisioneScambioAcquistoInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		boolean esito = parser.parseDecisioneScambioAcquisto(answers);
+		return esito;
+		
+	}
 }

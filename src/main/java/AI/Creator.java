@@ -222,4 +222,15 @@ public class Creator {
 		}
 		return data;
 	}
+	
+	public static String creaScambio(String nomeCasellaDaCedere, String nomeCasellaDaPrendere) {
+		String scambio = "scambio(";
+		scambio = scambio + "idProposta";
+		scambio = scambio + ",";
+		scambio = scambio + nomeCasellaDaCedere.toLowerCase();
+		scambio = scambio + ",";
+		scambio = scambio + nomeCasellaDaPrendere.toLowerCase();
+		scambio  = scambio + ").";
+		return scambio ;
+	}
 }

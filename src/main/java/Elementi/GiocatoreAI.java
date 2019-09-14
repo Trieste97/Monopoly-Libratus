@@ -134,5 +134,17 @@ public class GiocatoreAI extends Giocatore  {
 	public void setBoard(Board board) {
 		this.board = board;
 	}
+	
+	
+	
+	
+	public boolean chiediSeAccettaScambio2Caselle(String casellaDaCedere, String casellaDaPrendere, Giocatore giocatore, Giocatore avversario){
+		writer.writeDecisioneScambio2Caselle(casellaDaCedere, casellaDaPrendere, giocatore, avversario);
+		AIClass newAI = new AIClass();
+		boolean avversarioAccettaScambio = newAI.decisioneScambioAcquisto28();
+		
+		System.out.println("Ho deciso se scambiare: " + avversarioAccettaScambio);
+		return avversarioAccettaScambio;
+	}
 
 }
