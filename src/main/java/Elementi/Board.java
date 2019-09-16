@@ -29,6 +29,7 @@ public class Board {
 	int numDoppi;
 	int giocatoreCorrenteIndex;
 	Giocatore giocatoreCorrente;
+	private boolean giocoFinito = false;
 	
 	
 	//simple constructor
@@ -62,6 +63,10 @@ public class Board {
 	
 	private int numPlaces;
 	public void rollaDadi() {
+		
+		if (giocoFinito) {
+			return;
+		}
 		numPlaces = getDadi().tiraDadi();
 		TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
 		boolean again = gestisciNumeroDadi();
@@ -419,6 +424,12 @@ public class Board {
 		casellaDaLasciare.setProprietario(giocatoreCheAccetta);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha scambiato " + 
 				casellaDaLasciare.getNome() + " con " + casellaDaPrendere.getNome());
+	}
+	public boolean isGiocoFinito() {
+		return giocoFinito;
+	}
+	public void setGiocoFinito(boolean giocoFinito) {
+		this.giocoFinito = giocoFinito;
 	}
 	
 	

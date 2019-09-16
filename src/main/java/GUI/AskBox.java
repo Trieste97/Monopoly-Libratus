@@ -60,6 +60,7 @@ public class AskBox extends JFrame {
 	}
 
 	public void chiediInfoCostruzione() {
+		panel.removeAll();
 		if (board.getGiocatoreVero().getNumSetsPosseduti() > 0) {
 			for (String coloreEPrezzo : board.getGiocatoreVero().getSetsEPrezzi()) {
 				String colore = coloreEPrezzo.split(",")[0];
@@ -194,6 +195,7 @@ public class AskBox extends JFrame {
 
 	public static boolean chiediSeAccettaScambio(String casellaDaPrendere, String casellaDaScambiare,
 			String proprietarioCasellaDaPrendere) {
+		
 		int answer = JOptionPane.showConfirmDialog(new JFrame(), proprietarioCasellaDaPrendere + ", vuoi scambiare "
 				+ casellaDaPrendere + " con " + casellaDaScambiare + " ?");
 		if (answer == JOptionPane.YES_OPTION) {
@@ -227,6 +229,9 @@ public class AskBox extends JFrame {
 		JOptionPane.showMessageDialog(new JFrame(), "Offerta Non Valida!");
 	}
 
+	public void giocatorePerdente(String giocatorePerdente) {
+		JOptionPane.showMessageDialog(new JFrame(), "Il giocatore " + giocatorePerdente + "ha perso!");
+	}
 	
 	
 	

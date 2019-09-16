@@ -1,8 +1,11 @@
-giocatore(bot1,0,false,0,0,39).
+giocatore(bot1,490,false,0,0,21).
 casellaRes(b3,1200).
-casellaRes(d1,1800).
-casellaRes(e2,2200).
+casella(s2,2000).
 casellaRes(f1,2600).
-casellaRes(g3,3200).
-casellaRes(g1,3000).
+casella(t1,1500).
+casella(s3,2000).
+casella(s4,2000).
+casellaRes(c3,1600).
+casellaRes(e3,2400).
+casellaRes(e1,2200).
 

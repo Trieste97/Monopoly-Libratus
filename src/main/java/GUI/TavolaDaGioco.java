@@ -75,7 +75,7 @@ public class TavolaDaGioco extends JFrame{
 		proponiScambio.setPreferredSize(new Dimension(100, 40));
 		proponiScambio.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				if (!board.isAITurn())  {
+				if (!board.isAITurn() && !board.isGiocoFinito())  {
 					//askBox.chiediConChiScambiare();
 					askBox.chiediScambio();
 				}
@@ -85,7 +85,7 @@ public class TavolaDaGioco extends JFrame{
 		proponiVendita.setPreferredSize(new Dimension(100, 40));
 		proponiVendita.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				if (!board.isAITurn())  {
+				if (!board.isAITurn() && !board.isGiocoFinito())  {
 					//askBox.chiediConChiScambiare();
 					askBox.chiediVendita();
 				}
@@ -96,7 +96,7 @@ public class TavolaDaGioco extends JFrame{
 		costruisci.setPreferredSize(new Dimension(100, 40));
 		costruisci.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				if (!board.isAITurn())  {
+				if (!board.isAITurn() && !board.isGiocoFinito())  {
 					askBox.chiediInfoCostruzione();
 				}
 			}
@@ -106,7 +106,7 @@ public class TavolaDaGioco extends JFrame{
 		ipoteca.setPreferredSize(new Dimension(100, 40));
 		ipoteca.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				if (!board.isAITurn())  {
+				if (!board.isAITurn() && !board.isGiocoFinito())  {
 					askBox.chiediInfoIpoteca();
 				}
 			}
@@ -116,7 +116,7 @@ public class TavolaDaGioco extends JFrame{
 		esciPrigione.setPreferredSize(new Dimension(100, 40));
 		esciPrigione.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				if (!board.isAITurn())  {
+				if (!board.isAITurn() && !board.isGiocoFinito())  {
 					if(board.getGiocatoreCorrente().isInPrigione()) {
 						askBox.chiediComeUscirePrigione();
 					}
@@ -157,8 +157,22 @@ public class TavolaDaGioco extends JFrame{
 		tiraDadi.setPreferredSize(new Dimension(100,  40));
 		tiraDadi.addActionListener(new ActionListener()  {
 			public void actionPerformed(ActionEvent e)  {
-				if (!board.isAITurn())  {
+				
+				boolean giocoFinito = false;
+				String giocatorePerdente = "";
+				for (Giocatore giocatore : board.getGiocatori()) {
+					if(giocatore.getSoldi() < 1) {
+						giocatorePerdente = giocatore.getNome();
+						giocoFinito = true;
+					}
+				}
+				
+				if (!board.isAITurn() && !giocoFinito)  {
 					board.rollaDadi();
+				}
+				else if (giocoFinito) {
+					board.setGiocoFinito(true);
+					askBox.giocatorePerdente(giocatorePerdente);
 				}
 			}
 		});
