@@ -30,6 +30,22 @@ public class Parser {
 
 	}
 	
+	public boolean parseDecisionePuntata(AnswerSets answers) {
+		// TODO Auto-generated method stub
+		boolean esito = true;
+		int n = 0;
+		for(AnswerSet a: answers.getAnswersets()){
+			 System.out.println("AS n.: " + ++n + ": " + a);
+			 String nonPunta = "nonPunta";
+			 String as = a.toString();
+			 if(as.contains(nonPunta)) {
+				 esito = false;
+			 }
+		}
+		return esito;
+
+	}
+	
 	public int parseDecisioneIniziale(AnswerSets answers)  {
 		int esito = -1;
 		int n = 0;

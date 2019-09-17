@@ -156,7 +156,16 @@ public class GiocatoreAI extends Giocatore  {
 		return avversarioAccetta;
 	}
 	
+	public boolean chiediSeVuolePuntare(String casella, String puntata) {
+		// TODO Auto-generated method stub
+		writer.writeDecisionePuntata(casella, puntata, this, board);
+		AIClass newAI = new AIClass();
+		boolean decisionePuntata = newAI.decisionePuntata();
+		
+		System.out.println("Ho deciso se puntare: " + decisionePuntata);
+		return decisionePuntata;
 	
+	}
 	
 
 }

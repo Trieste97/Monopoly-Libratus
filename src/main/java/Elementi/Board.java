@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import AI.Writer;
+import GUI.AskBox;
 import GUI.TavolaDaGioco;
 import Gioco.CreatoreCaselle;
 import javafx.util.Pair;
@@ -187,9 +188,11 @@ public class Board {
 			if(caselle != null)  {
 				
 				if(caselle.get(0).getNumeroCaseCostruite() + 1 > 5)  {
-					TavolaDaGioco.aggiungiACronologia("C'è già un albergo, impossibile costruire ancora qui".toUpperCase());
+//					TavolaDaGioco.aggiungiACronologia("C'è già un albergo, impossibile costruire ancora qui".toUpperCase());
+					AskBox.numeroMassimoCostruzioniSuperato();
 				} else if(giocatoreCorrente.getSoldi() < caselle.get(0).getPrezzoCostruzioneCasa() * caselle.size())  {
-					TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
+//					TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
+					AskBox.soldiInsufficienti();
 				} else  {
 					//TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
 					
@@ -300,7 +303,7 @@ public class Board {
 					banca.vendiCasella(giocatoreCorrente, casella);
 					TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha acquistato " + casella.getNome());
 				} else  {
-					banca.iniziaAsta(casella, giocatori);
+					banca.iniziaAsta(casella, giocatori, isAITurn());
 				}
 				
 			} else if(giocatoreCorrente != casella.getProprietario()) {

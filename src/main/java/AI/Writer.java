@@ -155,6 +155,33 @@ public class Writer {
 
 	}
 
+	
+	public void writeDecisionePuntata(String casella, String puntata, Giocatore giocatore, Board board) {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/decisioneAstaInstance", "UTF-8");
+			writer.println(Creator.creaGiocatore(giocatore));
+			for (Casella caselleTutte : board.getCaselle().values()) {
+				if(caselleTutte instanceof CasellaResidenziale) {
+					writer.println(Creator.creaCasellaResidenziale((CasellaResidenziale)caselleTutte));
+				}
+				else if(caselleTutte.getTipo().equals("Transportation") || caselleTutte.getTipo().equals("Infrastructure")) {
+					writer.println(Creator.creaCasellaNonResidenziale(caselleTutte));
+					
+				}
+			}
+			writer.println(Creator.creaAsta(casella, puntata, giocatore.getNome()));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	public void writeDecidiCosaCostruire(GiocatoreAI giocatoreAI) {
 		PrintWriter writer = null;
 		try {

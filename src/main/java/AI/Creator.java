@@ -106,6 +106,27 @@ public class Creator {
 		return casella;
 	}
 	
+	public static String creaCasellaNonResidenziale(Casella c) {
+		String casella = "casellaNonResidenziale(";
+		casella = casella + c.getNome().toLowerCase();
+		casella = casella + ",";
+		casella = casella + determinaProprietarioCasella(c);
+		casella = casella + ",";
+		casella = casella + c.getPrezzoVendita();
+		casella = casella + ",";
+		casella = casella + c.getPrezzoTransito();
+		casella = casella + ",";
+		casella = casella + c.getPrezzoIpoteca();
+		casella = casella + ",";
+		casella = casella + c.isIpotecata();
+		casella = casella + ").";
+		return casella;
+	}
+	
+	
+	
+	
+	
 	public static String determinaProprietarioCasella(Casella c) {
 		// TODO Auto-generated method stub
 		String proprietario;
@@ -147,6 +168,19 @@ public class Creator {
 			scambio += "casellaToYou(" + c.toLowerCase() + ").\n";
 		}
 		return scambio ;
+	}
+	
+	public static String creaAsta(String casella, String puntata, String giocatore) {
+		String asta = "proposta(";
+		asta = asta + "idProposta";
+		asta = asta + ",";
+		asta = asta + casella.toLowerCase();
+		asta = asta + ",";
+		asta = asta + puntata.toLowerCase();
+		asta = asta + ",";
+		asta = asta + giocatore.toLowerCase();
+		asta  = asta + ").";
+		return asta;
 	}
 	
 	public static String creaAcquisto(String nomeCasellaDaCedere, String prezzo) {

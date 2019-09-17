@@ -2,21 +2,15 @@ package Elementi;
 
 import java.util.ArrayList;
 
-//@Id("Giocatore")
 public class Giocatore {
 
-//	@Param(0)
 	String nome;
-//	@Param(2)
 	boolean inPrigione;
 	ArrayList<Casella> casellePossedute;
 	int[] coloriPosseduti;
 	int posizioneInTabella;
-//	@Param(1)
 	int soldi;
-//	@Param(3)
 	private int numTokensPrigione;
-//	@Param(4)
 	int numTurniPrigioneConsecutivi;
 	
 	public Giocatore(String nome) {

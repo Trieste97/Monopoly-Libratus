@@ -177,30 +177,12 @@ public class TavolaDaGioco extends JFrame{
 			}
 		});
 		
-		/*
-		Button terminaTurno = new Button("Termina Turno");
-		terminaTurno.setPreferredSize(new Dimension(100,  40));
-		terminaTurno.addActionListener(new ActionListener()  {
-			public void actionPerformed(ActionEvent e)  {
-				if (!board.isAITurn())  {
-					if (!turnofinito) {
-						updateTabellone(0);
-						board.finisciTurno();
-						turnofinito = true;
-						board.iniziaTurnoGiocatoreSuccessivo();
-					}
-				}
-			}
-		});
-		*/
 		
 		risultatoDadi.setForeground(Color.WHITE);
 		soldiDisponibili.setForeground(Color.WHITE);
 		
 		box.add(Box.createVerticalStrut(10));
 		box.add(tiraDadi);
-		//box.add(Box.createVerticalStrut(10));
-		//box.add(terminaTurno);
 		box.add(Box.createVerticalStrut(10));
 		box.add(risultatoDadi);
 		box.add(Box.createVerticalStrut(10));
@@ -209,14 +191,6 @@ public class TavolaDaGioco extends JFrame{
 		
 		pannelloDadi.add(box);
 		pannelloDadi.setBackground(new Color(30, 30, 30));
-		/*
-		pannelloDadi.add(tiraDadi);
-		
-		risultatoDadi.setForeground(Color.WHITE);
-		pannelloDadi.add(risultatoDadi);
-		soldiDisponibili.setForeground(Color.WHITE);
-		pannelloDadi.add(soldiDisponibili);
-		pannelloDadi.setBackground(new Color(30, 30, 30));*/
 		return pannelloDadi;
 	}
 	
@@ -241,7 +215,7 @@ public class TavolaDaGioco extends JFrame{
 	}
 	
 	public static boolean chiediSeVuolePuntare(Giocatore g, int posta)  {
-		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Turno di " + g.getNome() + "\nVuoi puntare 10? Posta attuale: " + posta);
+		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Turno di " + g.getNome() + "\nVuoi puntare altri 10? Posta attuale: " + posta);
 		
 		if (answer == JOptionPane.YES_OPTION) {
 		      return true;
@@ -255,11 +229,6 @@ public class TavolaDaGioco extends JFrame{
 		pannelloCronologia = new JPanel();
 		pannelloCronologia.setLayout(new BoxLayout(pannelloCronologia, BoxLayout.PAGE_AXIS));
 		scrollbar = new JScrollPane(pannelloCronologia);
-		/*scrollbar.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-	        public void adjustmentValueChanged(AdjustmentEvent e) {  
-	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-	        }
-	    });*/
 		
 		JLabel titolo = new JLabel("Cronologia");
 		titolo.setForeground(Color.WHITE);

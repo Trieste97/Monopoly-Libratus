@@ -136,4 +136,17 @@ public class AIClass {
 		return esito;
 		
 	}
+	
+	public boolean decisionePuntata() {
+		encodingResource="encodings/decisioneAsta";
+		instanceResource="encodings/decisioneAstaInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		boolean esito = parser.parseDecisionePuntata(answers);
+		return esito;
+		
+	}
 }

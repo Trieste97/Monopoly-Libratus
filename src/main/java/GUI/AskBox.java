@@ -73,6 +73,7 @@ public class AskBox extends JFrame {
 				btn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						board.costruisci(temp);
+						TavolaDaGioco.update(board.getGiocatoreCorrente());
 					}
 				});
 				this.add(btn);
@@ -178,12 +179,14 @@ public class AskBox extends JFrame {
 		token.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				board.esciDiPrigione("token");
+				TavolaDaGioco.update(board.getGiocatoreCorrente());
 			}
 		});
 
 		paga.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				board.esciDiPrigione("paga");
+				TavolaDaGioco.update(board.getGiocatoreCorrente());
 			}
 		});
 
@@ -215,22 +218,32 @@ public class AskBox extends JFrame {
 	}
 
 	public static void avversarioAccetta() {
-//		JOptionPane.showConfirmDialog(new JFrame(), "L'avversario accetta!");
 		JOptionPane.showMessageDialog(new JFrame(), "L'avversario accetta!");
 	}
 
 	public static void avversarioRifiuta() {
-//		JOptionPane.showConfirmDialog(new JFrame(), "L'avversario rifiuta!");
 		JOptionPane.showMessageDialog(new JFrame(), "L'avversario rifiuta!");
 	}
 
 	public static void offertaNonValida() {
-//		JOptionPane.showConfirmDialog(new JFrame(), "L'avversario rifiuta!");
 		JOptionPane.showMessageDialog(new JFrame(), "Offerta Non Valida!");
+	}
+	
+	public static void soldiInsufficienti() {
+		JOptionPane.showMessageDialog(new JFrame(), "Soldi insufficienti!");
+	}
+	
+	public static void numeroMassimoCostruzioniSuperato() {
+		JOptionPane.showMessageDialog(new JFrame(), "Non è possibile costruire altro su questo set!");
+	}
+	
+	public static void messaggio(String messaggio) {
+		JOptionPane.showMessageDialog(new JFrame(), messaggio);
 	}
 
 	public void giocatorePerdente(String giocatorePerdente) {
-		JOptionPane.showMessageDialog(new JFrame(), "Il giocatore " + giocatorePerdente + "ha perso!");
+		TavolaDaGioco.update(board.getGiocatoreCorrente());
+		JOptionPane.showMessageDialog(new JFrame(), "Il giocatore " + giocatorePerdente + " ha perso!");
 	}
 	
 	
@@ -317,6 +330,7 @@ public class AskBox extends JFrame {
 								board.getGiocatori().get(board.getGiocatoreAvversarioIndex()), casellaDaScambiare);
 						temp.setVisible(false);
 						avversarioAccetta();
+						TavolaDaGioco.update(board.getGiocatoreCorrente());
 					}
 					else {
 						temp.setVisible(false);
@@ -389,7 +403,10 @@ public class AskBox extends JFrame {
 					soldiDaDare = "0";
 				}
 				int soldi = Integer.parseInt(soldiDaDare);
-				
+
+				if (soldi > board.getGiocatoreCorrente().getSoldi()) {
+					soldi = board.getGiocatoreCorrente().getSoldi();
+				}
 				if (casellePresentiBot.contains(caselleToYou) && soldi>=0) {
 					Casella casellaDaPrendere = board.getCasellaDaNome(caselleToYou);
 
@@ -402,6 +419,7 @@ public class AskBox extends JFrame {
 						
 						temp.setVisible(false);
 						avversarioAccetta();
+						TavolaDaGioco.update(board.getGiocatoreCorrente());
 					}
 					else {
 						temp.setVisible(false);
