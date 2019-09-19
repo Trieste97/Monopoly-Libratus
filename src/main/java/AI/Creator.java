@@ -176,9 +176,9 @@ public class Creator {
 		asta = asta + ",";
 		asta = asta + casella.toLowerCase();
 		asta = asta + ",";
-		asta = asta + puntata.toLowerCase();
-		asta = asta + ",";
 		asta = asta + giocatore.toLowerCase();
+		asta = asta + ",";
+		asta = asta + puntata.toLowerCase();
 		asta  = asta + ").";
 		return asta;
 	}

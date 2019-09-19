@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import Elementi.Board;
 import Elementi.Casella;
@@ -161,7 +162,11 @@ public class Writer {
 		try {
 			writer = new PrintWriter("encodings/decisioneAstaInstance", "UTF-8");
 			writer.println(Creator.creaGiocatore(giocatore));
-			for (Casella caselleTutte : board.getCaselle().values()) {
+			
+			
+			Collection<Casella> tutteLeCaselle = board.getCaselle().values();
+			
+			for (Casella caselleTutte : tutteLeCaselle) {
 				if(caselleTutte instanceof CasellaResidenziale) {
 					writer.println(Creator.creaCasellaResidenziale((CasellaResidenziale)caselleTutte));
 				}

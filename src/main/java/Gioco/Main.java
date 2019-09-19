@@ -17,12 +17,11 @@ public class Main {
 		ArrayList<Giocatore> giocatori = new ArrayList<Giocatore>();
 		final Giocatore player = new Giocatore("YOU");
 		giocatori.add(player);
-		for(int i = 1; i < numPlayers; i++)  {
-			Giocatore bot = new GiocatoreAI("BOT" + String.valueOf(i));
-			giocatori.add(bot);
-		}
+		GiocatoreAI bot = new GiocatoreAI("BOT" + String.valueOf(1));
+		giocatori.add(bot);
 		
 		final Board board = new Board(giocatori);
+		bot.setBoard(board);
 		EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TavolaDaGioco("Monopoly game", board, numPlayers, player);

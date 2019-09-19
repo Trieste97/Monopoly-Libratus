@@ -27,7 +27,7 @@ public class Board {
 	private Dadi dadi;
 	
 	//info relative allo stato del giocatore (turno corrente)
-	int numDoppi;
+//	int numDoppi;
 	int giocatoreCorrenteIndex;
 	Giocatore giocatoreCorrente;
 	private boolean giocoFinito = false;
@@ -42,7 +42,7 @@ public class Board {
 		//status
 		this.giocatoreCorrenteIndex = 0;
 		this.giocatoreCorrente = giocatori.get(0);
-		this.numDoppi = 0;
+//		this.numDoppi = 0;
 		
 		this.creaMappa();
 	}	
@@ -64,6 +64,12 @@ public class Board {
 	
 	private int numPlaces;
 	public void rollaDadi() {
+		
+		for (Giocatore giocatore : giocatori) {
+			if (giocatore.getSoldi() <= 0) {
+				giocoFinito = true;
+			}
+		}
 		
 		if (giocoFinito) {
 			return;
@@ -119,21 +125,26 @@ public class Board {
 		}
 	}
 	public boolean gestisciNumeroDadi()  {		
-		if(getDadi().isDoppioNumero() && numDoppi == 2)  {
+		if(getDadi().isDoppioNumero() && getGiocatoreCorrente().getNumeriDoppi() == 2)  {
 			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo,\nGiocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
 			giocatoreCorrente.setInPrigione(true);
 			giocatoreCorrente.setPosizioneInTabella(10);
-			
+			giocatoreCorrente.incrTurniPrigione();
+			getGiocatoreCorrente().azzeraNumeroDoppi();
 			return false;
 		} else if(getDadi().isDoppioNumero() && giocatoreCorrente.isInPrigione())  {
 			TavolaDaGioco.aggiungiACronologia("Numero doppio, Giocatore " + giocatoreCorrente.getNome() + " esce dalla prigione");
 			giocatoreCorrente.resetTurniPrigione();
 			giocatoreCorrente.setInPrigione(false);
+			getGiocatoreCorrente().azzeraNumeroDoppi();
 		} else if(giocatoreCorrente.isInPrigione() && giocatoreCorrente.getTurniPrigione() > 2)  {
 			giocatoreCorrente.resetTurniPrigione();
+			giocatoreCorrente.setInPrigione(false);
+			getGiocatoreCorrente().azzeraNumeroDoppi();
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " esce di prigione dopo 3 turni");
 		} else if(giocatoreCorrente.isInPrigione())  {
 			giocatoreCorrente.incrTurniPrigione();
+			getGiocatoreCorrente().azzeraNumeroDoppi();
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " non è uscito di prigione");
 			
 			return false;
@@ -156,7 +167,7 @@ public class Board {
 		
 		//controlla se fine turno
 		if(getDadi().isDoppioNumero())  {
-			numDoppi++;
+			giocatoreCorrente.aumentaNumeroDoppi();
 			return true;
 		}
 		return false;
@@ -255,7 +266,7 @@ public class Board {
 			giocatoreCorrenteIndex = 0;
 		}
 		
-		numDoppi = 0;
+		giocatoreCorrente.azzeraNumeroDoppi();
 		giocatoreCorrente = giocatori.get( giocatoreCorrenteIndex );
 	}
 	public void gestisciPosizione(String position)  {
@@ -304,6 +315,12 @@ public class Board {
 					TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha acquistato " + casella.getNome());
 				} else  {
 					banca.iniziaAsta(casella, giocatori, isAITurn());
+
+					for (Giocatore giocatore : giocatori) {
+						if (giocatore.getSoldi() <= 0) {
+							giocoFinito = true;
+						}
+					}
 				}
 				
 			} else if(giocatoreCorrente != casella.getProprietario()) {

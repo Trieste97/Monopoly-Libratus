@@ -12,6 +12,7 @@ public class Giocatore {
 	int soldi;
 	private int numTokensPrigione;
 	int numTurniPrigioneConsecutivi;
+	private int numeriDoppi;
 	
 	public Giocatore(String nome) {
 		this.nome = nome;
@@ -22,8 +23,16 @@ public class Giocatore {
 		this.setNumTokensPrigione(0);
 		this.numTurniPrigioneConsecutivi = 0;
 		this.coloriPosseduti = new int[8];
+		setNumeriDoppi(0);
 		for(int i = 0; i < 8; i++)
 			this.coloriPosseduti[i] = 0;
+	}
+	
+	public void aumentaNumeroDoppi() {
+		setNumeriDoppi(getNumeriDoppi() + 1);
+	}
+	public void azzeraNumeroDoppi() {
+		setNumeriDoppi(0);
 	}
 	
 	
@@ -203,5 +212,13 @@ public class Giocatore {
 		if (this.coloriPosseduti[7] == 2) sets.add("blue,4000");
 		
 		return sets;
+	}
+
+	public int getNumeriDoppi() {
+		return numeriDoppi;
+	}
+
+	public void setNumeriDoppi(int numeriDoppi) {
+		this.numeriDoppi = numeriDoppi;
 	}
 }
