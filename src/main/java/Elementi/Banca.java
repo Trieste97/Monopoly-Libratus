@@ -24,7 +24,7 @@ public class Banca {
 	//asta semplice, prezzo di partenza = 10, i giocatori possono o ritirarsi o aumentare la posta di 10
 	public void iniziaAsta(Casella casella, ArrayList<Giocatore> giocatori, boolean turnoAI)  {
 		
-		int posta = 14950;
+		int posta = 10;
 		int turno = 0;
 		
 		ArrayList<Integer> candidati = new ArrayList<Integer>();

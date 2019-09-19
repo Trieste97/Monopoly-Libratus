@@ -7,16 +7,16 @@ punta(IdProposta) | nonPunta(IdProposta) :- proposta(IdProposta,_,_,_).
 :- punta(IdProposta), proposta(IdProposta, _, Giocatore,Puntata), giocatore(Giocatore, Soldi,_,_,_,_), Soldi < Puntata.
 
 %Preferisco non puntare se la puntata supera di molto il prezzo di vendita della casella
-scarto(Scart):- proposta(_, Casella,_, Puntata), casella(Casella, _,_,Prezzo,_,_,_), Scart = Puntata - Prezzo.
-scarto(Scart):- proposta(_, Casella,_, Puntata), casellaNonResidenziale(Casella,_,Prezzo,_,_,_), Scart = Puntata - Prezzo.
-
-:~ punta(_), scarto(Scart), Scart > 50. [1:3]
-
+scarto(Scart):- proposta(_, Casella,_, Puntata), casella(Casella, _,_,Prezzo,_,_,_), Scart = Prezzo - Puntata.
+scarto(Scart):- proposta(_, Casella,_, Puntata), casellaNonResidenziale(Casella,_,Prezzo,_,_,_), Scart = Prezzo - Puntata.
+scartoBuono:- scarto(Scart), Scart > 20.
+:~ nonPunta(_), scartoBuono. [1:3]
+:~ punta(_), not scartoBuono. [1:3]
 
 
 %Si preferisce non puntare se il giocatore rimane con pochi soldi
 differenza(Diff):- proposta(_, _,Giocatore, Puntata), giocatore(Giocatore, Soldi,_,_,_,_), Diff = Soldi - Puntata.
-:~ punta(_), differenza(Diff), Diff > 300. [1:4]
+:~ punta(_), differenza(Diff), Diff < 300. [1:4]
 
 %Si preferisce puntare se la casella completa un set
 %numero delle caselle possedute dal giocatore corrente dello stesso colore
@@ -27,3 +27,4 @@ numeroMieCaselleStessoColore(Colore, Numero):- giocatore(Proprietario,_,_,_,_,_)
 
 %Si preferisce acquistare più caselle possibili per avere più proprietà
 :~nonPunta(X). [1:1]
+

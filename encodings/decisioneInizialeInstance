@@ -1,5 +1,4 @@
-giocatore(you,2040,false,0,0,0,1,0).
-casellaAvv(c3,1600,pink).
-giocatore(bot1,13000,false,0,0,12,1,0).
-casellaMia(t1,1500,society).
+giocatore(you,15000,false,0,0,5,0,0).
+giocatore(bot1,14970,false,0,0,0,1,0).
+casellaMia(s1,2000,station).
 

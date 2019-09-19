@@ -170,7 +170,8 @@ public class Writer {
 				if(caselleTutte instanceof CasellaResidenziale) {
 					writer.println(Creator.creaCasellaResidenziale((CasellaResidenziale)caselleTutte));
 				}
-				else if(caselleTutte.getTipo().equals("Transportation") || caselleTutte.getTipo().equals("Infrastructure")) {
+				else if(caselleTutte.getTipo().equals("station") || caselleTutte.getTipo().equals("society")) {
+					System.out.println(caselleTutte.getNome());
 					writer.println(Creator.creaCasellaNonResidenziale(caselleTutte));
 					
 				}

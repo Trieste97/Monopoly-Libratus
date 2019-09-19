@@ -1,4 +1,6 @@
-giocatore(bot1,13600,false,0,0,11).
-avversario(you,13000,false,0,0,19).
-casella(c1,bot1,pink,1400,100,700,false).
-casella(d3,you,orange,2000,160,1000,false).
+giocatore(bot1,10800,false,0,0,18).
+avversario(you,13250,false,0,0,28).
+casella(b1,bot1,lightblue,1000,60,500,false).
+casella(c2,bot1,pink,1400,100,700,false).
+casella(d2,bot1,orange,1800,140,900,false).
+casella(d1,you,orange,1800,140,900,false).

@@ -1,4 +1,6 @@
-giocatore(bot1,15000,true,0,0,10).
+giocatore(bot1,15000,false,0,0,0).
+casellaNonResidenziale(s3,banca,2000,250,1000,false).
+casellaNonResidenziale(s4,banca,2000,250,1000,false).
 casella(g1,banca,green,3000,260,1500,false).
 casella(g2,banca,green,3000,260,1500,false).
 casella(e1,banca,red,2200,180,1100,false).
@@ -10,6 +12,8 @@ casella(c2,banca,pink,1400,100,700,false).
 casella(a1,banca,brown,600,20,300,false).
 casella(c3,banca,pink,1600,120,800,false).
 casella(a2,banca,brown,600,40,300,false).
+casellaNonResidenziale(t1,banca,1500,100,750,false).
+casellaNonResidenziale(t2,banca,1500,100,750,false).
 casella(h1,banca,blue,3500,350,1750,false).
 casella(h2,banca,blue,4000,500,2000,false).
 casella(f1,banca,yellow,2600,220,1300,false).
@@ -21,4 +25,6 @@ casella(b1,banca,lightblue,1000,60,500,false).
 casella(d3,banca,orange,2000,160,1000,false).
 casella(b2,banca,lightblue,1000,60,500,false).
 casella(b3,banca,lightblue,1200,80,600,false).
-proposta(idProposta,c3,bot1,14970).
+casellaNonResidenziale(s1,banca,2000,250,1000,false).
+casellaNonResidenziale(s2,banca,2000,250,1000,false).
+proposta(idProposta,s1,bot1,30).
