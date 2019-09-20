@@ -205,7 +205,7 @@ public class TavolaDaGioco extends JFrame{
 	
 	
 	public static boolean chiediSeVuoleComprare(Casella casella)  {
-		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Vuoi comprare? Prezzo: " + casella.getPrezzoVendita());
+		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Vuoi comprare " + casella.getNome() + "? Prezzo: " + casella.getPrezzoVendita());
 		
 		if (answer == JOptionPane.YES_OPTION) {
 			return true;

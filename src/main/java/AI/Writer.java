@@ -33,7 +33,7 @@ public class Writer {
 		}
 	}
 	
-	public void writeFaiPropostaScambio(ArrayList<Giocatore> giocatori)  {
+	/*public void writeFaiPropostaScambio(ArrayList<Giocatore> giocatori)  {
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter("encodings/faiPropostaScambioInstance", "UTF-8");
@@ -47,7 +47,7 @@ public class Writer {
 			e.printStackTrace();
 		}
 	}
-	
+	*/
 	public void writePropostaAcquisto(Casella casella, Giocatore giocatore) {
 		PrintWriter writer = null;
 		try {

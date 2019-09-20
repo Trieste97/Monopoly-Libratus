@@ -77,7 +77,7 @@ public class AIClass {
 		
 	}
 	
-	public boolean decisioneScambioAcquisto() {
+	/*public boolean decisioneScambioAcquisto() {
 		encodingResource="encodings/decisioneScambioAcquisto";
 		instanceResource="encodings/decisioneScambioAcquistoInstance";
 		program.addFilesPath(encodingResource);
@@ -88,7 +88,7 @@ public class AIClass {
 		boolean esito = parser.parseDecisioneScambioAcquisto(answers);
 		return esito;
 		
-	}
+	}*/
 	public String faiPropostaScambio() {
 		encodingResource="encodings/decisioneIniziale";
 		instanceResource="encodings/decisioneInizialeInstance";

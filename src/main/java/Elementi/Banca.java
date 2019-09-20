@@ -27,6 +27,10 @@ public class Banca {
 		int posta = 10;
 		int turno = 0;
 		
+		if (turnoAI) {
+			turno = 1;
+		}
+		
 		ArrayList<Integer> candidati = new ArrayList<Integer>();
 		for(int i = 0; i < giocatori.size(); i++)  {
 			candidati.add(i);

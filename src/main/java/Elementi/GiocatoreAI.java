@@ -32,13 +32,13 @@ public class GiocatoreAI extends Giocatore  {
 		return esito;
 	}
 	
-	public String decidiCosaScambiare(ArrayList<Giocatore> giocatori)  {
+	/*public String decidiCosaScambiare(ArrayList<Giocatore> giocatori)  {
 		writer.writeFaiPropostaScambio(giocatori);
 		AIClass newAI = new AIClass();
 		String esito = newAI.faiPropostaScambio();
 		System.out.println("Scelta Fatta: " + esito);
 		return esito;
-	}
+	}*/
 	
 	public String voglioUscireDiPrigione()  {
 		String modoUscita = null;
@@ -51,7 +51,7 @@ public class GiocatoreAI extends Giocatore  {
 		return modoUscita;
 	}
 	
-	public boolean chiediSeAccettaScambio(Board board, int soldiToBot, int soldiToYou, String[] caselleToBot, String[] caselleToYou)  {
+	/*public boolean chiediSeAccettaScambio(Board board, int soldiToBot, int soldiToYou, String[] caselleToBot, String[] caselleToYou)  {
 		writer.writeDecisioneScambio(board, soldiToBot, soldiToYou, caselleToBot, caselleToYou);
 		AIClass newAI = new AIClass();
 		boolean avversarioAccettaScambio = newAI.decisioneScambioAcquisto();
@@ -60,7 +60,7 @@ public class GiocatoreAI extends Giocatore  {
 		avversarioAccettaScambio = true;
 		System.out.println("Ho deciso se scambiare: " + avversarioAccettaScambio);
 		return avversarioAccettaScambio;
-	}
+	}*/
 	
 	public ArrayList<String> decidiCosaCostruire(Board board)  {
 		writer.writeDecidiCosaCostruire(this);

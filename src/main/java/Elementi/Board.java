@@ -270,7 +270,13 @@ public class Board {
 		giocatoreCorrente = giocatori.get( giocatoreCorrenteIndex );
 	}
 	public void gestisciPosizione(String position)  {
-		if(position.equals("Start") || position.equals("FreeParking") || position.equals("Jail"))  {
+		
+		if(position.equals("Jail")) {
+			giocatoreCorrente.setPosizioneInTabella(10);
+			giocatoreCorrente.setInPrigione(true);
+			return;
+		}
+		if(position.equals("Start") || position.equals("FreeParking"))  {
 			return;
 		}
 		
@@ -387,7 +393,10 @@ public class Board {
 	}
 
 	public boolean isAITurn()  {
-		return giocatoreCorrente instanceof GiocatoreAI;
+		if(giocatoreCorrente instanceof GiocatoreAI) {
+			return true;
+		}
+		return false;
 	}
 	public Giocatore getGiocatoreVero()  {
 		return this.giocatori.get(0);
