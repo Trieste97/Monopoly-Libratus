@@ -273,6 +273,19 @@ public class Board {
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha ipotecato " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
 		}
 	}
+	public void disipoteca(String nomeCasella)  {
+		Casella cas = getCaselle().get(nomeCasella);
+		
+		if(cas == null)  {
+			System.out.println("Non è stato selezionato niente");
+		} else if(!cas.isIpotecata())  {
+			System.out.println("La casella è già disipotecata");
+		} else  {
+			giocatoreCorrente.diminuisciSoldi(cas.getPrezzoIpoteca());
+			cas.setIpotecata(false);
+			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha tolto l'ipoteca a " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
+		}
+	}
 	public void vendiCase(String colore)  {
 		for(CasellaResidenziale c : getGiocatoreCorrente().getCaselleResidenzialiOggetto())  {
 			if (c.getColore().equals(colore))  {

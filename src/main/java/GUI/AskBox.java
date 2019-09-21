@@ -135,23 +135,34 @@ public class AskBox extends JFrame {
 		panel.removeAll();
 
 		final JComboBox<String> box = new JComboBox<String>();
+		final JComboBox<String> boxIpotecate = new JComboBox<String>();
 
 		Button confermButtonIpoteca;
-		confermButtonIpoteca = new Button("Conferma");
+		confermButtonIpoteca = new Button("Ipoteca");
+		Button confermButtonDisipoteca;
+		confermButtonDisipoteca = new Button("Togli ipoteca");
 		this.add(box);
 		this.add(confermButtonIpoteca);
+		this.add(boxIpotecate);
+		this.add(confermButtonDisipoteca);
 
 		ArrayList<Casella> caselle = board.getGiocatoreCorrente().getCaselleNonIpotecate();
-		Set<String> sets = new HashSet<String>();
+		ArrayList<Casella> caselleIpotecate = board.getGiocatoreCorrente().getCaselleIpotecate();
+		
+//		Set<String> sets = new HashSet<String>();
 		for (Casella c : caselle) {
-			if (c instanceof CasellaResidenziale) {
+			/*if (c instanceof CasellaResidenziale) {
 				CasellaResidenziale cas = (CasellaResidenziale) c;
 				if (cas.getNumeroCaseCostruite() > 0) {
 					sets.add(cas.getColore());
 					continue;
 				}
-			}
+			}*/
 			box.addItem(c.getNome());
+		}
+		 
+		for (Casella casella : caselleIpotecate) {
+			boxIpotecate.addItem(casella.getNome());
 		}
 
 		/*for (final String colore : sets) {
@@ -167,6 +178,25 @@ public class AskBox extends JFrame {
 			this.add(btn);
 		}*/
 		temp = this;
+		confermButtonDisipoteca.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String elementoSelezionato = (String) boxIpotecate.getSelectedItem();
+				if (elementoSelezionato == null) {
+					elementoSelezionato = "";
+				}
+				board.disipoteca(elementoSelezionato);
+				temp.setVisible(false);
+				if (!elementoSelezionato.equals("")) {
+					messaggio("Hai tolto l'ipoteca alla casella selezionata");
+				}
+				else {
+					messaggio("Non hai caselle a cui togliere l'ipoteca");
+				}
+				TavolaDaGioco.update(board.getGiocatoreVero());
+			}
+		});
+		
+		
 		confermButtonIpoteca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String elementoSelezionato = (String) box.getSelectedItem();
@@ -184,6 +214,7 @@ public class AskBox extends JFrame {
 				TavolaDaGioco.update(board.getGiocatoreVero());
 			}
 		});
+		
 
 		this.setVisible(true);
 	}

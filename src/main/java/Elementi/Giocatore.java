@@ -138,6 +138,18 @@ public class Giocatore {
 		return listaCas;
 	}
 	
+	public ArrayList<Casella> getCaselleIpotecate()  {
+		ArrayList<Casella> listaCas = new ArrayList<Casella>();
+		
+		for(Casella c : casellePossedute)  {
+			if(c.isIpotecata())  {
+				listaCas.add(c);
+			}
+		}
+		
+		return listaCas;
+	}
+	
 	public void resetTurniPrigione()  {
 		this.numTurniPrigioneConsecutivi = 0;
 	}
