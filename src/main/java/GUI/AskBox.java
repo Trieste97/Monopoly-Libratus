@@ -40,6 +40,7 @@ public class AskBox extends JFrame {
 	Casella casellaDaPrendere;
 
 	HashSet<String> nomiCaselleEsistenti;
+	AskBox temp;
 
 	public AskBox(final Board board) {
 		super("Monopoly");
@@ -59,20 +60,25 @@ public class AskBox extends JFrame {
 		this.setVisible(false);
 	}
 
+	
+	String coloreString;
 	public void chiediInfoCostruzione() {
 		panel.removeAll();
 		if (board.getGiocatoreVero().getNumSetsPosseduti() > 0) {
 			for (String coloreEPrezzo : board.getGiocatoreVero().getSetsEPrezzi()) {
 				String colore = coloreEPrezzo.split(",")[0];
 				String prezzo = coloreEPrezzo.split(",")[1];
-				final ArrayList<String> temp = new ArrayList<String>();
-				temp.add(colore);
-
+				final ArrayList<String> tempString = new ArrayList<String>();
+				tempString.add(colore);
+				temp = this;
 				Button btn = new Button(
 						"Compra case su set " + traduciColore(colore) + " al prezzo di " + prezzo + "€");
+				coloreString = traduciColore(colore);
 				btn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						board.costruisci(temp);
+						board.costruisci(tempString);
+						temp.setVisible(false);
+						messaggio("Hai costruito su " + coloreString);
 						TavolaDaGioco.update(board.getGiocatoreCorrente());
 					}
 				});
@@ -147,10 +153,10 @@ public class AskBox extends JFrame {
 			box.addItem(c.getNome());
 		}
 
-		for (final String colore : sets) {
+		/*for (final String colore : sets) {
 			Button btn = new Button("Vendi 1 casa (per casella) del set " + traduciColore(colore) + " al prezzo di "
 					+ calcolaPrezzoVenditaColore(colore) + "€");
-
+			temp = this;
 			btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					board.vendiCase(colore);
@@ -158,11 +164,13 @@ public class AskBox extends JFrame {
 				}
 			});
 			this.add(btn);
-		}
-
+		}*/
+		temp = this;
 		confermButtonIpoteca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				board.ipoteca((String) box.getSelectedItem());
+				temp.setVisible(false);
+				messaggio("Hai ipotecato la casella selezionata");
 				TavolaDaGioco.update(board.getGiocatoreVero());
 			}
 		});
@@ -172,26 +180,38 @@ public class AskBox extends JFrame {
 
 	public void chiediComeUscirePrigione() {
 		panel.removeAll();
-
-		Button token = new Button("Utilizza token");
-		Button paga = new Button("Paga la multa (500€)");
-
-		token.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				board.esciDiPrigione("token");
-				TavolaDaGioco.update(board.getGiocatoreCorrente());
+		
+		temp = this;
+		if (board.getGiocatoreCorrente().isInPrigione()) {
+			
+			Button paga = new Button("Paga la multa (500€)");
+			
+			if (board.getGiocatoreCorrente().hasTokenPrigione()) {
+				Button token = new Button("Utilizza token");
+				token.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						board.esciDiPrigione("token");
+						temp.setVisible(false);
+						messaggio("Sei uscito di prigione");
+						TavolaDaGioco.update(board.getGiocatoreCorrente());
+					}
+				});
+				this.add(token);
+				
 			}
-		});
+			
+			paga.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					board.esciDiPrigione("paga");
+					temp.setVisible(false);
+					messaggio("Sei uscito di prigione");
+					TavolaDaGioco.update(board.getGiocatoreCorrente());
+				}
+			});
+			
+			this.add(paga);
+		}
 
-		paga.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				board.esciDiPrigione("paga");
-				TavolaDaGioco.update(board.getGiocatoreCorrente());
-			}
-		});
-
-		this.add(token);
-		this.add(paga);
 		this.setVisible(true);
 	}
 
@@ -250,7 +270,7 @@ public class AskBox extends JFrame {
 	
 	ArrayList<String> casellePresentiGiocatore = new ArrayList<String>();
 	ArrayList<String> casellePresentiBot = new ArrayList<String>();
-	AskBox temp;
+
 	
 	public void chiediScambio() {
 		panel.removeAll();
