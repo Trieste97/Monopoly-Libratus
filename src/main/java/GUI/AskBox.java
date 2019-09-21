@@ -87,6 +87,7 @@ public class AskBox extends JFrame {
 			this.setVisible(true);
 		} else {
 			JLabel label = new JLabel("Non hai set di colori completi per costruire");
+			label.setForeground(Color.WHITE);
 			this.add(label);
 			this.setVisible(true);
 		}
@@ -168,9 +169,18 @@ public class AskBox extends JFrame {
 		temp = this;
 		confermButtonIpoteca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				board.ipoteca((String) box.getSelectedItem());
+				String elementoSelezionato = (String) box.getSelectedItem();
+				if (elementoSelezionato == null) {
+					elementoSelezionato = "";
+				}
+				board.ipoteca(elementoSelezionato);
 				temp.setVisible(false);
-				messaggio("Hai ipotecato la casella selezionata");
+				if (!elementoSelezionato.equals("")) {
+					messaggio("Hai ipotecato la casella selezionata");
+				}
+				else {
+					messaggio("Non hai caselle da ipotecare");
+				}
 				TavolaDaGioco.update(board.getGiocatoreVero());
 			}
 		});
@@ -308,12 +318,15 @@ public class AskBox extends JFrame {
 		text += "<br/>";
 
 		JLabel label = new JLabel(text + "</pre></html>");
-
+		label.setForeground(Color.WHITE);
+		
 		Box box = Box.createVerticalBox();
 		JLabel caselleDare = new JLabel("Casella da dare: ");
+		caselleDare.setForeground(Color.WHITE);
 		final JTextField caselleDaDare = new JTextField(20);
 
 		JLabel caselleRicevere = new JLabel("Casella da ricevere: ");
+		caselleRicevere.setForeground(Color.WHITE);
 		final JTextField caselleDaRicevere = new JTextField(20);
 
 		box.add(caselleDare);
@@ -392,12 +405,15 @@ public class AskBox extends JFrame {
 		text += "<br/>";
 
 		JLabel label = new JLabel(text + "</pre></html>");
+		label.setForeground(Color.WHITE);
 
 		Box box = Box.createVerticalBox();
 		JLabel caselleDare = new JLabel("Soldi da dare: ");
+		caselleDare.setForeground(Color.WHITE);
 		final JTextField caselleDaDare = new JTextField(20);
 
 		JLabel caselleRicevere = new JLabel("Casella da ricevere: ");
+		caselleRicevere.setForeground(Color.WHITE);
 		final JTextField caselleDaRicevere = new JTextField(20);
 
 		box.add(caselleDare);

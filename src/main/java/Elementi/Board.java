@@ -10,7 +10,6 @@ import GUI.TavolaDaGioco;
 import Gioco.CreatoreCaselle;
 import javafx.util.Pair;
 
-//singleton board
 public class Board {
 
 	Writer writer = new Writer();
@@ -65,12 +64,7 @@ public class Board {
 	private int numPlaces;
 	public void rollaDadi() {
 		
-		for (Giocatore giocatore : giocatori) {
-			if (giocatore.getSoldi() <= 0) {
-				giocoFinito = true;
-			}
-		}
-		
+		controllaGiocoFinito();
 		if (giocoFinito) {
 			return;
 		}
@@ -78,14 +72,21 @@ public class Board {
 		TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
 		boolean again = gestisciNumeroDadi();
 		TavolaDaGioco.update(giocatoreCorrente);
-		if (!again)  {
+		controllaGiocoFinito();
+		if (giocoFinito) {
+			return;
+		}
+		if (!again && !giocoFinito)  {
 			finisciTurno();
-			//giocatoreCorrente.setInPrigione(true);
 			//gestione AI
 			do  {
+				controllaGiocoFinito();
+				if (giocoFinito) {
+					return;
+				}
 				int decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
 				GiocatoreAI player = null;
-				if(decisione != -1) {
+				if(decisione != -1 && !giocoFinito) {
 					player = (GiocatoreAI) giocatoreCorrente;
 					player.setBoard(this);
 					player.proposteDaFare(giocatori.get(getGiocatoreAvversarioIndex()));
@@ -93,8 +94,13 @@ public class Board {
 						String modo = player.voglioUscireDiPrigione();
 						esciDiPrigione(modo);
 					}
+					controllaGiocoFinito();
+					if (giocoFinito) {
+						return;
+					}
+					
 				}
-				while (decisione != 0)  {
+				while (decisione != 0 && !giocoFinito)  {
 					//IPOTECA
 					if (decisione == 1)  {
 						//può ritornare il colore (=> vendere una casa per casella del set
@@ -115,12 +121,28 @@ public class Board {
 						break;
 					}
 					decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
+					controllaGiocoFinito();
+					if (giocoFinito) {
+						return;
+					}
+				}
+				controllaGiocoFinito();
+				if (giocoFinito) {
+					return;
 				}
 				numPlaces = getDadi().tiraDadi();
 				TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha rollato " + getDadi().toString());
 				again = gestisciNumeroDadi();
 				TavolaDaGioco.update(giocatoreCorrente);
-			} while (again);
+				controllaGiocoFinito();
+				if (giocoFinito) {
+					return;
+				}
+			} while (again && !giocoFinito);
+			controllaGiocoFinito();
+			if (giocoFinito) {
+				return;
+			}
 			finisciTurno();
 		}
 	}
@@ -461,5 +483,11 @@ public class Board {
 		this.giocoFinito = giocoFinito;
 	}
 	
-	
+	public void controllaGiocoFinito() {
+		for (Giocatore giocatore : giocatori) {
+			if (giocatore.getSoldi() <= 0) {
+				giocoFinito = true;
+			}
+		}
+	}
 }

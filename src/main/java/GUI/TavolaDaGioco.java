@@ -146,6 +146,7 @@ public class TavolaDaGioco extends JFrame{
 	
 	static JLabel risultatoDadi = new JLabel("");
 	static JLabel soldiDisponibili = new JLabel("");
+	static JLabel soldiAvversario = new JLabel("");
 	
 	boolean turnofinito = true;
 	public JPanel creaPannelloDadi() {
@@ -180,6 +181,7 @@ public class TavolaDaGioco extends JFrame{
 		
 		risultatoDadi.setForeground(Color.WHITE);
 		soldiDisponibili.setForeground(Color.WHITE);
+		soldiAvversario.setForeground(Color.WHITE);
 		
 		box.add(Box.createVerticalStrut(10));
 		box.add(tiraDadi);
@@ -187,6 +189,7 @@ public class TavolaDaGioco extends JFrame{
 		box.add(risultatoDadi);
 		box.add(Box.createVerticalStrut(10));
 		box.add(soldiDisponibili);
+		box.add(soldiAvversario);
 		
 		
 		pannelloDadi.add(box);
@@ -201,6 +204,8 @@ public class TavolaDaGioco extends JFrame{
 	}
 	public static void settaSoldiDisponibili() {
 		soldiDisponibili.setText("Soldi: " + Integer.toString(board.getGiocatoreVero().getSoldi()));
+		soldiAvversario.setText("Soldi avversario: " + Integer.toString(board.getGiocatoreBot().getSoldi()));
+
 	}
 	
 	
