@@ -1,3 +1,3 @@
-giocatore(bot1,-180,false,0,0,32).
-set(orange,3000,false).
+giocatore(bot1,7670,false,0,0,10).
+set(brown,1000,true).
 

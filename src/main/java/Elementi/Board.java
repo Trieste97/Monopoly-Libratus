@@ -120,6 +120,14 @@ public class Board {
 						this.costruisci(player.decidiCosaCostruire(this));
 						break;
 					}
+					
+					else if (decisione == 3) {
+						this.disipoteca(player.decidiCosaDisipotecare(getGiocatoreBot()));
+						System.out.println("oooooooooooooooooooooooooooooooooooooooo");
+						break;
+					}
+					
+					
 					decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
 					controllaGiocoFinito();
 					if (giocoFinito) {
@@ -274,6 +282,11 @@ public class Board {
 		}
 	}
 	public void disipoteca(String nomeCasella)  {
+		
+		if(nomeCasella.equals("")) {
+			return;
+		}
+		
 		Casella cas = getCaselle().get(nomeCasella);
 		
 		if(cas == null)  {

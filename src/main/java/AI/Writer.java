@@ -23,6 +23,21 @@ public class Writer {
 		try {
 			writer = new PrintWriter("encodings/decisioneInizialeInstance", "UTF-8");
 			writer.println(Creator.creaDatiGiocatori(giocatori));
+			for (Giocatore giocatore : giocatori) {
+				if (giocatore instanceof GiocatoreAI) {
+					ArrayList<Casella> tutteLeCaselle = giocatore.getCaselleIpotecate();
+					for (Casella caselleTutte : tutteLeCaselle) {
+						if(caselleTutte instanceof CasellaResidenziale) {
+							writer.println(Creator.creaCasellaResidenziale((CasellaResidenziale)caselleTutte));
+						}
+						else if(caselleTutte.getTipo().equals("station") || caselleTutte.getTipo().equals("society")) {
+							writer.println(Creator.creaCasellaNonResidenziale(caselleTutte));
+							
+						}
+					}
+				}
+				
+			}
 			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -171,7 +186,6 @@ public class Writer {
 					writer.println(Creator.creaCasellaResidenziale((CasellaResidenziale)caselleTutte));
 				}
 				else if(caselleTutte.getTipo().equals("station") || caselleTutte.getTipo().equals("society")) {
-					System.out.println(caselleTutte.getNome());
 					writer.println(Creator.creaCasellaNonResidenziale(caselleTutte));
 					
 				}
@@ -210,6 +224,31 @@ public class Writer {
 			writer = new PrintWriter("encodings/decisioneIpotecaInstance", "UTF-8");
 			writer.println(Creator.creaGiocatore(bot));
 			writer.println(Creator.creaDatiPerIpoteca(bot.getCaselleNonIpotecate()));
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeDecidiCosaDisipotecare(GiocatoreAI bot)  {
+		PrintWriter writer = null;
+		try {
+			writer = new PrintWriter("encodings/decisioneIpotecaNegativaInstance", "UTF-8");
+			writer.println(Creator.creaGiocatore(bot));
+			ArrayList<Casella> tutteLeCaselle = bot.getCaselleIpotecate();
+			for (Casella caselleTutte : tutteLeCaselle) {
+				if(caselleTutte instanceof CasellaResidenziale) {
+					writer.println(Creator.creaCasellaResidenziale((CasellaResidenziale)caselleTutte));
+				}
+				else if(caselleTutte.getTipo().equals("station") || caselleTutte.getTipo().equals("society")) {
+					writer.println(Creator.creaCasellaNonResidenziale(caselleTutte));
+					
+				}
+			}
 			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

@@ -65,6 +65,7 @@ public class AskBox extends JFrame {
 	public void chiediInfoCostruzione() {
 		panel.removeAll();
 		if (board.getGiocatoreVero().getNumSetsPosseduti() > 0) {
+			System.out.println("VOGLIO LA CASAAAAA");
 			for (String coloreEPrezzo : board.getGiocatoreVero().getSetsEPrezzi()) {
 				String colore = coloreEPrezzo.split(",")[0];
 				String prezzo = coloreEPrezzo.split(",")[1];

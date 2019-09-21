@@ -85,6 +85,17 @@ public class GiocatoreAI extends Giocatore  {
 		return daIpotecare;
 	}
 	
+	
+	public String decidiCosaDisipotecare(GiocatoreAI bot)  {
+		writer.writeDecidiCosaDisipotecare(bot);
+		AIClass newAI = new AIClass();
+		String daDisipotecare = newAI.decidiCosaDisipotecare();
+		System.out.println("Scelta Fatta: " + daDisipotecare);
+		return daDisipotecare;
+	}
+	
+	
+	
 	public void proposteDaFare(Giocatore avversario) {
 		// TODO Auto-generated method stub
 		

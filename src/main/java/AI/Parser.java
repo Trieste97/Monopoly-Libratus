@@ -64,6 +64,10 @@ public class Parser {
 				 esito = 2;
 				 System.out.println("COSTRUISCO");
 			 }
+			 else if (as.contains("togliIpoteca"))  {
+				 esito = 3;
+				 System.out.println("TOLGO IPOTECA");
+			 }
 		}
 		
 		return esito;
@@ -230,8 +234,23 @@ public class Parser {
 				 vendi = false;
 			 }
 		}
-		System.out.print(casellaOSet);
 		return new Pair<Boolean,String>(vendi,casellaOSet);
+	}
+	
+	public String parseDecidiCosaDisipotecare(AnswerSets answers) {
+		String esito = "";
+		int n = 0;
+		for(AnswerSet a: answers.getAnswersets()){
+			 System.out.println("AS n.: " + ++n + ": " + a);
+			 String as = a.toString();
+			 if(as.contains("togli")) {
+				 ArrayList<Atomo> atomi = parseAtomi(as, "togliIpoteca");
+				 esito = atomi.get(0).get(0);
+				 System.out.println(esito);
+			 }
+			
+		}
+		return esito;
 	}
 
 }

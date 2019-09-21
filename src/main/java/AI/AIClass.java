@@ -124,6 +124,17 @@ public class AIClass {
 		return parser.parseDecidiCosaIpotecare(answers);
 	}
 	
+	public String decidiCosaDisipotecare()  {
+		encodingResource="encodings/decisioneIpotecaNegativa";
+		instanceResource="encodings/decisioneIpotecaNegativaInstance";
+		program.addFilesPath(encodingResource);
+		program.addFilesPath(instanceResource);
+		handler.addProgram(program);
+		Output o =  handler.startSync();
+		AnswerSets answers = (AnswerSets) o;
+		return parser.parseDecidiCosaDisipotecare(answers);
+	}
+	
 	public boolean decisioneScambioAcquisto28() {
 		encodingResource="encodings/decisioneScambioAcquisto28";
 		instanceResource="encodings/decisioneScambioAcquistoInstance";
