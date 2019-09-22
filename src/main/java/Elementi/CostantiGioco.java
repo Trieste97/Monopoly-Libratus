@@ -2,7 +2,7 @@ package Elementi;
 
 public class CostantiGioco {
 
-	public static final int SOLDI_INIZIALI = 1500;//50000;
+	public static final int SOLDI_INIZIALI = 50000;
 	public static final int SOLDI_START = 2000;
 	public static final int INCOME_TAX = 2000;
 	public static final int SUPER_TAX = 1000;
