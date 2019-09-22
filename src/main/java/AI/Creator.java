@@ -218,14 +218,14 @@ public class Creator {
 			}
 		}
 		String data = "";
-		if (coloriPosseduti[0] == 2) data += "set(brown,1000," + caseMaxate[0] + ").\n";;
+		if (coloriPosseduti[0] == 2) data += "set(brown,1000," + caseMaxate[0] + ").\n";
 		if (coloriPosseduti[1] == 3) data += "set(lightblue,1500," + caseMaxate[1] + ").\n";
-		else if (coloriPosseduti[2] == 3) data += "set(pink,3000," + caseMaxate[2] + ").\n";
-		else if (coloriPosseduti[3] == 3) data += "set(orange,3000," + caseMaxate[3] + ").\n";
-		else if (coloriPosseduti[4] == 3) data += "set(red,4500," + caseMaxate[4] + ").\n";
-		else if (coloriPosseduti[5] == 3) data += "set(yellow,4500," + caseMaxate[5] + ").\n";
-		else if (coloriPosseduti[6] == 3) data += "set(green,6000," + caseMaxate[6] + ").\n";
-		else if (coloriPosseduti[7] == 2) data += "set(blue,4000," + caseMaxate[7] + ").\n";
+		if (coloriPosseduti[2] == 3) data += "set(pink,3000," + caseMaxate[2] + ").\n";
+		if (coloriPosseduti[3] == 3) data += "set(orange,3000," + caseMaxate[3] + ").\n";
+		if (coloriPosseduti[4] == 3) data += "set(red,4500," + caseMaxate[4] + ").\n";
+		if (coloriPosseduti[5] == 3) data += "set(yellow,4500," + caseMaxate[5] + ").\n";
+		if (coloriPosseduti[6] == 3) data += "set(green,6000," + caseMaxate[6] + ").\n";
+		if (coloriPosseduti[7] == 2) data += "set(blue,4000," + caseMaxate[7] + ").\n";
 		return data;
 	}
 	

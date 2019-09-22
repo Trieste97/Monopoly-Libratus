@@ -1,6 +1,3 @@
-giocatore(bot1,290,false,0,0,38).
-casellaRes(e1,2200).
-casella(s1,2000).
-casellaRes(f2,2600).
-casella(s4,2000).
+giocatore(bot1,300,false,0,0,9).
+casellaRes(b3,1200).
 

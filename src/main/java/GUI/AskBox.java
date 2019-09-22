@@ -61,39 +61,7 @@ public class AskBox extends JFrame {
 	}
 
 	
-	String coloreString;
-	/*public void chiediInfoCostruzione() {
-		panel.removeAll();
-		if (board.getGiocatoreVero().getNumSetsPosseduti() > 0) {
-			System.out.println("VOGLIO LA CASAAAAA");
-			for (String coloreEPrezzo : board.getGiocatoreVero().getSetsEPrezzi()) {
-				String colore = coloreEPrezzo.split(",")[0];
-				String prezzo = coloreEPrezzo.split(",")[1];
-				final ArrayList<String> tempString = new ArrayList<String>();
-				tempString.add(colore);
-				temp = this;
-				Button btn = new Button(
-						"Compra case su set " + traduciColore(colore) + " al prezzo di " + prezzo + "€");
-				coloreString = traduciColore(colore);
-				btn.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						board.costruisci(tempString);
-						temp.setVisible(false);
-						messaggio("Hai costruito su " + coloreString);
-						TavolaDaGioco.update(board.getGiocatoreCorrente());
-					}
-				});
-				this.add(btn);
-			}
-			this.setVisible(true);
-		} else {
-			JLabel label = new JLabel("Non hai set di colori completi per costruire");
-			label.setForeground(Color.WHITE);
-			this.add(label);
-			this.setVisible(true);
-		}
-	}*/
-	
+		
 	
 	public void chiediInfoCostruzione() {
 		panel.removeAll();
@@ -109,13 +77,12 @@ public class AskBox extends JFrame {
 			temp = this;
 			Button btn = new Button(
 					"Compra case su set " + traduciColore(colore) + " al prezzo di " + prezzo + "€");
-			coloreString = traduciColore(colore);
 			btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					boolean costruito = board.costruisci(tempString);
 					temp.setVisible(false);
 					if (costruito) {
-						messaggio("Hai costruito su " + coloreString);
+						messaggio("Hai costruito sulla casella selezionata");
 					}
 					TavolaDaGioco.update(board.getGiocatoreCorrente());
 				}
@@ -181,15 +148,7 @@ public class AskBox extends JFrame {
 		ArrayList<Casella> caselle = board.getGiocatoreCorrente().getCaselleNonIpotecate();
 		ArrayList<Casella> caselleIpotecate = board.getGiocatoreCorrente().getCaselleIpotecate();
 		
-//		Set<String> sets = new HashSet<String>();
 		for (Casella c : caselle) {
-			/*if (c instanceof CasellaResidenziale) {
-				CasellaResidenziale cas = (CasellaResidenziale) c;
-				if (cas.getNumeroCaseCostruite() > 0) {
-					sets.add(cas.getColore());
-					continue;
-				}
-			}*/
 			box.addItem(c.getNome());
 		}
 		 
@@ -197,18 +156,7 @@ public class AskBox extends JFrame {
 			boxIpotecate.addItem(casella.getNome());
 		}
 
-		/*for (final String colore : sets) {
-			Button btn = new Button("Vendi 1 casa (per casella) del set " + traduciColore(colore) + " al prezzo di "
-					+ calcolaPrezzoVenditaColore(colore) + "€");
-			temp = this;
-			btn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					board.vendiCase(colore);
-					TavolaDaGioco.update(board.getGiocatoreVero());
-				}
-			});
-			this.add(btn);
-		}*/
+		
 		temp = this;
 		confermButtonDisipoteca.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

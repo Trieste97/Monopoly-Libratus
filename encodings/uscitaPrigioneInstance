@@ -1,2 +1,2 @@
-giocatore(bot1,1260,true,0,3,10).
+giocatore(bot1,21160,true,0,1,10).
 inPrigione(bot1).

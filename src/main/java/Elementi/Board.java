@@ -223,10 +223,10 @@ public class Board {
 	}*/
 	public void compraCasellaAvversaria(Casella casella, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, int prezzo)  {
 		giocatoreCheAccetta.getCasellePossedute().remove(casella);
-		giocatoreCheFaPorposta.getCasellePossedute().add(casella);
+//		giocatoreCheFaPorposta.getCasellePossedute().add(casella);
+		giocatoreCheFaPorposta.aggiungiCasella(casella);
 		casella.setProprietario(giocatoreCheFaPorposta);
 		giocatoreCheFaPorposta.diminuisciSoldi(prezzo);
-		giocatoreCheFaPorposta.aggiungiCasella(casella);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha acquistato " + casella.getNome());
 	}
 	public boolean costruisci(ArrayList<String> sets)  {
@@ -281,11 +281,7 @@ public class Board {
 	public void ipoteca(String nomeCasella)  {
 		Casella cas = getCaselle().get(nomeCasella);
 		
-		if(cas == null)  {
-			System.out.println("Non è stato selezionato niente");
-		} else if(cas.isIpotecata())  {
-			System.out.println("La casella è già ipotecata");
-		} else  {
+		if(!cas.equals(null) && !cas.isIpotecata())  {
 			giocatoreCorrente.aumentaSoldi(cas.getPrezzoIpoteca());
 			cas.setIpotecata(true);
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha ipotecato " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
@@ -293,6 +289,7 @@ public class Board {
 	}
 	public void disipoteca(String nomeCasella)  {
 		
+		System.out.println(nomeCasella);
 		if(nomeCasella.equals("")) {
 			return;
 		}
@@ -504,13 +501,13 @@ public class Board {
 	
 	public void scambia(Casella casellaDaPrendere, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, Casella casellaDaLasciare)  {
 		giocatoreCheAccetta.getCasellePossedute().remove(casellaDaPrendere);
-		giocatoreCheFaPorposta.getCasellePossedute().add(casellaDaPrendere);
+//		giocatoreCheFaPorposta.getCasellePossedute().add(casellaDaPrendere);
+		giocatoreCheFaPorposta.aggiungiCasella(casellaDaPrendere);
 		casellaDaPrendere.setProprietario(giocatoreCheFaPorposta);
 		giocatoreCheFaPorposta.getCasellePossedute().remove(casellaDaLasciare);
-		giocatoreCheAccetta.getCasellePossedute().add(casellaDaLasciare);
-		casellaDaLasciare.setProprietario(giocatoreCheAccetta);
-		giocatoreCheFaPorposta.aggiungiCasella(casellaDaPrendere);
+//		giocatoreCheAccetta.getCasellePossedute().add(casellaDaLasciare);
 		giocatoreCheAccetta.aggiungiCasella(casellaDaLasciare);
+		casellaDaLasciare.setProprietario(giocatoreCheAccetta);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha scambiato " + 
 				casellaDaLasciare.getNome() + " con " + casellaDaPrendere.getNome());
 	}

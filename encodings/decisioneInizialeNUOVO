@@ -21,7 +21,6 @@ decido(dadi) | decido(ipoteca) | decido(costruire) | decido(tolgoIpoteca).
 :- decido(costruire), giocatore(bot1,_,_,_,_,_,_,Sets), Sets < 1.
 
 %Se ho almeno un set e parecchi soldi mi conviene costruire
-%:~ decido(costruire), giocatore(bot1,Soldi,_,_,_,_,_,Sets), Sets > 0, Soldi < 2300. [1:8]
 :~ decido(dadi), giocatore(bot1,Soldi,_,_,_,_,_,Sets), Sets > 0, Soldi > 8000. [1:8]
 :~ decido(ipoteca), giocatore(bot1,Soldi,_,_,_,_,_,Sets), Sets > 0, Soldi > 8000. [1:8]
 :~ decido(tolgoIpoteca), giocatore(bot1,Soldi,_,_,_,_,_,Sets), Sets > 0, Soldi > 8000. [1:8]
@@ -32,7 +31,6 @@ decido(dadi) | decido(ipoteca) | decido(costruire) | decido(tolgoIpoteca).
 :- decido(ipoteca), giocatore(bot1,_,_,_,_,_,M,_), M=0.
 
 %Preferisco non ipotecare niente se ho abbastanza soldi
-%:~ decido(ipoteca), giocatore(bot1,Soldi,_,_,_,_,_,_), Soldi > 500. [1:9]
 :~ decido(dadi), giocatore(bot1,Soldi,_,_,_,_,_,_), Soldi < 500. [1:9]
 :~ decido(costruire), giocatore(bot1,Soldi,_,_,_,_,_,_), Soldi < 500. [1:9]
 :~ decido(tolgoIpoteca), giocatore(bot1,Soldi,_,_,_,_,_,_), Soldi < 500. [1:9]

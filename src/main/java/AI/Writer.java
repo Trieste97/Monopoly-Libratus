@@ -48,21 +48,7 @@ public class Writer {
 		}
 	}
 	
-	/*public void writeFaiPropostaScambio(ArrayList<Giocatore> giocatori)  {
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter("encodings/faiPropostaScambioInstance", "UTF-8");
-			writer.println(Creator.creaDatiGiocatori(giocatori));
-			writer.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	*/
+	
 	public void writePropostaAcquisto(Casella casella, Giocatore giocatore) {
 		PrintWriter writer = null;
 		try {

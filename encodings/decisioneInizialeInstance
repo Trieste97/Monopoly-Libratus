@@ -1,5 +1,3 @@
-giocatore(you,6400,false,0,0,2,7,0).
-giocatore(bot1,2050,false,0,0,26,11,0).
+giocatore(you,8550,false,0,0,28,14,4).
+giocatore(bot1,20620,false,0,1,33,14,2).
 
-casellaNonResidenziale(s2,bot1,2000,250,1000,true).
-casellaNonResidenziale(s4,bot1,2000,250,1000,true).

@@ -150,32 +150,6 @@ public class Parser {
 		return esito;
 	}
 	
-	public boolean parseCostruzioneCasa(AnswerSets answers) {
-
-		boolean esito = false;
-		int n = 0;
-		for(AnswerSet a: answers.getAnswersets()){
-			 System.out.println("AS n.: " + ++n + ": " + a);
-			 String as = a.toString();
-			 if(as.contains("costruisco")) {
-				 System.out.println("COSTRUISCO CASA");
-				 esito = true;
-			 }
-			 else if(as.contains("nonCostruisco")) {
-				 System.out.println("CASA NON COSTRUITA");
-			 }
-		}
-		return esito;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	private void stampaAtomiconsiderati(ArrayList<Atomo> atomi) {
