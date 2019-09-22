@@ -107,11 +107,11 @@ public class Board {
 						//o il nome di una casella
 						Pair<Boolean,String> daIpotecare = player.decidiCosaIpotecare(getGiocatoreBot());
 						
-						if (daIpotecare.getKey())  {
+						/*if (daIpotecare.getKey())  {
 							this.vendiCase(daIpotecare.getValue());
-						} else  {
+						} else  {*/
 							this.ipoteca(daIpotecare.getValue());
-						}
+						//}
 						break;
 					}
 					
@@ -123,15 +123,20 @@ public class Board {
 					
 					else if (decisione == 3) {
 						this.disipoteca(player.decidiCosaDisipotecare(getGiocatoreBot()));
-						System.out.println("oooooooooooooooooooooooooooooooooooooooo");
 						break;
 					}
-					
 					
 					decisione = giocatoreCorrente.decidiCosaFare(this.giocatori);
 					controllaGiocoFinito();
 					if (giocoFinito) {
 						return;
+					}
+					if (decisione > 3 || decisione < 0) {
+						controllaGiocoFinito();
+						if (giocoFinito) {
+							return;
+						}
+						break;
 					}
 				}
 				controllaGiocoFinito();
@@ -156,7 +161,8 @@ public class Board {
 	}
 	public boolean gestisciNumeroDadi()  {		
 		if(getDadi().isDoppioNumero() && getGiocatoreCorrente().getNumeriDoppi() == 2)  {
-			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo,\nGiocatore " + giocatoreCorrente.getNome() + " finisce in prigione");
+			TavolaDaGioco.aggiungiACronologia("Terzo numero doppio consecutivo");
+			TavolaDaGioco.aggiungiACronologia(giocatoreCorrente.getNome() + " finisce in prigione");
 			giocatoreCorrente.setInPrigione(true);
 			giocatoreCorrente.setPosizioneInTabella(10);
 			giocatoreCorrente.incrTurniPrigione();
@@ -202,7 +208,7 @@ public class Board {
 		}
 		return false;
 	}
-	public void scambia(int soldiToBot, int soldiToYou, String[] caselleToBot, String[] caselleToYou)  {
+	/*public void scambia(int soldiToBot, int soldiToYou, String[] caselleToBot, String[] caselleToYou)  {
 		getGiocatoreBot().aumentaSoldi(soldiToBot);
 		getGiocatoreBot().diminuisciSoldi(soldiToYou);
 		getGiocatoreVero().aumentaSoldi(soldiToYou);
@@ -214,15 +220,16 @@ public class Board {
 		for (String s : caselleToBot)  {
 			caselle.get(s).setProprietario(getGiocatoreVero());
 		}
-	}
+	}*/
 	public void compraCasellaAvversaria(Casella casella, Giocatore giocatoreCheFaPorposta, Giocatore giocatoreCheAccetta, int prezzo)  {
 		giocatoreCheAccetta.getCasellePossedute().remove(casella);
 		giocatoreCheFaPorposta.getCasellePossedute().add(casella);
 		casella.setProprietario(giocatoreCheFaPorposta);
 		giocatoreCheFaPorposta.diminuisciSoldi(prezzo);
+		giocatoreCheFaPorposta.aggiungiCasella(casella);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha acquistato " + casella.getNome());
 	}
-	public void costruisci(ArrayList<String> sets)  {
+	public boolean costruisci(ArrayList<String> sets)  {
 		for(String colore : sets)  {
 			ArrayList<CasellaResidenziale> caselle = this.checkPossedimentoColore(colore, giocatoreCorrente);
 			
@@ -231,9 +238,11 @@ public class Board {
 				if(caselle.get(0).getNumeroCaseCostruite() + 1 > 5)  {
 //					TavolaDaGioco.aggiungiACronologia("C'è già un albergo, impossibile costruire ancora qui".toUpperCase());
 					AskBox.numeroMassimoCostruzioniSuperato();
+					return false;
 				} else if(giocatoreCorrente.getSoldi() < caselle.get(0).getPrezzoCostruzioneCasa() * caselle.size())  {
 //					TavolaDaGioco.aggiungiACronologia("Soldi non sufficienti".toUpperCase());
 					AskBox.soldiInsufficienti();
+					return false;
 				} else  {
 					//TavolaDaGioco.aggiungiACronologia("Casa costruita con successo".toUpperCase());
 					
@@ -241,11 +250,12 @@ public class Board {
 						c.aggiungiCasa();
 						giocatoreCorrente.diminuisciSoldi(c.getPrezzoCostruzioneCasa());
 					}
-					
+					return true;
 				}
 				
 			}
-		}		
+		}
+		return false;
 	}
 	public void esciDiPrigione(String modo)  {
 		if(modo.equals("token"))  {
@@ -299,14 +309,14 @@ public class Board {
 			TavolaDaGioco.aggiungiACronologia("Giocatore " + giocatoreCorrente.getNome() + " ha tolto l'ipoteca a " + cas.getNome() + " per " + cas.getPrezzoIpoteca());
 		}
 	}
-	public void vendiCase(String colore)  {
+	/*public void vendiCase(String colore)  {
 		for(CasellaResidenziale c : getGiocatoreCorrente().getCaselleResidenzialiOggetto())  {
 			if (c.getColore().equals(colore))  {
 				c.rimuoviCasa();
 				getGiocatoreCorrente().aumentaSoldi(c.getPrezzoCostruzioneCasa()/2);
 			}
 		}
-	}
+	}*/
 	public void finisciTurno()  {
 		giocatoreCorrenteIndex++;
 		
@@ -499,6 +509,8 @@ public class Board {
 		giocatoreCheFaPorposta.getCasellePossedute().remove(casellaDaLasciare);
 		giocatoreCheAccetta.getCasellePossedute().add(casellaDaLasciare);
 		casellaDaLasciare.setProprietario(giocatoreCheAccetta);
+		giocatoreCheFaPorposta.aggiungiCasella(casellaDaPrendere);
+		giocatoreCheAccetta.aggiungiCasella(casellaDaLasciare);
 		TavolaDaGioco.aggiungiACronologia(giocatoreCheFaPorposta.getNome() + " ha scambiato " + 
 				casellaDaLasciare.getNome() + " con " + casellaDaPrendere.getNome());
 	}

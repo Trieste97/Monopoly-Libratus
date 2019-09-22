@@ -70,9 +70,11 @@ public class Giocatore {
 		this.soldi -= soldi;
 	}
 	public void aggiungiCasella(Casella casella)  {
-		casellePossedute.add(casella);
-		if (casella instanceof CasellaResidenziale)  {
-			aggiornaColoriPosseduti();
+		if(!casellePossedute.contains(casella)) {
+			casellePossedute.add(casella);
+			if (casella instanceof CasellaResidenziale)  {
+				aggiornaColoriPosseduti();
+			}
 		}
 	}
 	public void rimuovi(Casella casella)  {
