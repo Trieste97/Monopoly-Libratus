@@ -326,12 +326,7 @@ public class Board {
 	}
 	public void gestisciPosizione(String position)  {
 		
-		if(position.equals("Jail")) {
-			giocatoreCorrente.setPosizioneInTabella(10);
-			giocatoreCorrente.setInPrigione(true);
-			return;
-		}
-		if(position.equals("Start") || position.equals("FreeParking"))  {
+		if(position.equals("Start") || position.equals("FreeParking") || position.equals("Jail"))  {
 			return;
 		}
 		

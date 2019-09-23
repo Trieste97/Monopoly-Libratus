@@ -1,4 +1,6 @@
-giocatore(bot1,20620,false,0,1,33).
-set(orange,3000,true).
-set(red,4500,true).
+giocatore(bot1,46770,false,0,2,26).
+set(brown,1000,true).
+set(pink,3000,true).
+set(yellow,4500,true).
+set(blue,4000,true).
 
