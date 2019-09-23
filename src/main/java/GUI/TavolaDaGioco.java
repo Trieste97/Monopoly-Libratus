@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -14,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import Elementi.Board;
@@ -229,11 +232,17 @@ public class TavolaDaGioco extends JFrame{
 		return false;
 	}
 	
-	JScrollPane scrollbar;
+	static JScrollPane scrollbar;
 	public void creaPannelloCronologia() {
 		pannelloCronologia = new JPanel();
 		pannelloCronologia.setLayout(new BoxLayout(pannelloCronologia, BoxLayout.PAGE_AXIS));
 		scrollbar = new JScrollPane(pannelloCronologia);
+		
+		scrollbar.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+	        public void adjustmentValueChanged(AdjustmentEvent e) {  
+	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+	        }
+	    });
 		
 		JLabel titolo = new JLabel("Cronologia");
 		titolo.setForeground(Color.WHITE);
@@ -247,6 +256,8 @@ public class TavolaDaGioco extends JFrame{
 		pannelloCronologia.add(stringaDaAggiungere);
 		pannelloCronologia.revalidate();
 		pannelloCronologia.repaint();
+		JScrollBar vertical = scrollbar.getVerticalScrollBar();
+		vertical.setValue( vertical.getMaximum() );
 	} 
 	
 	public void creaPannelloPedine(int numplayers, Board board) {
