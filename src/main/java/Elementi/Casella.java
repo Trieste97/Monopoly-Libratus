@@ -38,6 +38,18 @@ public class Casella {
 		this.prezzoTransito = prezzoTransito;
 	}
 	
+	public int getPrezzoPassaggio()  {
+		int prezzo = this.prezzoTransito;
+		
+		for (Casella c : this.getProprietario().getCaselleNonIpotecate())  {
+			if (c.getTipo().equals(this.tipo))  {
+				prezzo *= 2;
+			}
+		}
+		
+		return prezzo;
+	}
+	
 	public int getPrezzoIpoteca() {
 		return prezzoIpoteca;
 	}

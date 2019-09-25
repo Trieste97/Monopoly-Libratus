@@ -89,4 +89,34 @@ public class CasellaResidenziale extends Casella {
 	public boolean caseMax()  {
 		return numeroCaseCostruite == 5;
 	}
+	
+	@Override
+	public int getPrezzoPassaggio()  {
+		if(this.tipo.equals("ColoredLand"))  {
+			int prezzo = 0;
+			switch(numeroCaseCostruite)  {
+			case 0:
+				prezzo = this.prezzoTransito;
+				break;
+			case 1:
+				prezzo = this.prezzoTransitoNumeroCase1;
+				break;
+			case 2:
+				prezzo = this.prezzoTransitoNumeroCase2;
+				break;
+			case 3:
+				prezzo = this.prezzoTransitoNumeroCase3;
+				break;
+			case 4:
+				prezzo = this.prezzoTransitoNumeroCase4;
+				break;
+			case 5:
+				prezzo = this.prezzoTransitoHotel;
+				break;
+			}
+			return prezzo;
+		} else {
+			return super.getPrezzoPassaggio();
+		}
+	}
 }

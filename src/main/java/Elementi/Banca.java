@@ -24,7 +24,7 @@ public class Banca {
 	//asta semplice, prezzo di partenza = 10, i giocatori possono o ritirarsi o aumentare la posta di 10
 	public void iniziaAsta(Casella casella, ArrayList<Giocatore> giocatori, boolean turnoAI)  {
 		
-		int posta = 10;
+		int posta = 50;
 		int turno = 0;
 		
 		if (turnoAI) {
@@ -42,11 +42,11 @@ public class Banca {
 			if(turnoAI) {
 				
 				GiocatoreAI bot = (GiocatoreAI) giocatori.get(candidati.get(turno));
-				String postaString = Integer.toString(posta + 10);
+				String postaString = Integer.toString(posta + 50);
 				boolean decisionePuntata = bot.chiediSeVuolePuntare(casella.getNome(), postaString);
 				if(decisionePuntata)  {
-					AskBox.messaggio("Giocatore " + giocatori.get(candidati.get(turno)).getNome() + " decide di puntare");
-					posta += 10;
+					//AskBox.messaggio("Giocatore " + giocatori.get(candidati.get(turno)).getNome() + " decide di puntare");
+					posta += 50;
 				} 
 				else  {
 					//decide di ritirarsi
@@ -65,7 +65,7 @@ public class Banca {
 				boolean decidePuntare = TavolaDaGioco.chiediSeVuolePuntare(giocatori.get(candidati.get(turno)), posta);
 				
 				if(decidePuntare)  {
-					if(giocatori.get( candidati.get( turno ) ).getSoldi() < posta+10)  {
+					if(giocatori.get( candidati.get( turno ) ).getSoldi() < posta+50)  {
 						//il giocatore non si può permettere di continuare
 						AskBox.messaggio("Giocatore " + giocatori.get(candidati.get(turno)).getNome() + " non ha soldi a sufficienza");
 						candidati.remove(turno);
@@ -73,7 +73,7 @@ public class Banca {
 					else  {
 						//il giocatore punta aumentando la posta
 //						AskBox.messaggio("Giocatore " + giocatori.get(candidati.get(turno)).getNome() + " decide di puntare");
-						posta += 10;
+						posta += 50;
 					}
 				} else  {
 					//decide di ritirarsi

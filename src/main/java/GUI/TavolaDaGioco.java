@@ -223,7 +223,7 @@ public class TavolaDaGioco extends JFrame{
 	}
 	
 	public static boolean chiediSeVuolePuntare(Giocatore g, int posta)  {
-		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Turno di " + g.getNome() + "\nVuoi puntare altri 10? Posta attuale: " + posta);
+		int answer = JOptionPane.showConfirmDialog(new JFrame(), "Turno di " + g.getNome() + "\nVuoi puntare altri 50? Posta attuale: " + posta);
 		
 		if (answer == JOptionPane.YES_OPTION) {
 		      return true;
