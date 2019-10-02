@@ -21,6 +21,7 @@ public class Writer {
 	public void writeDecisioneIniziale(ArrayList<Giocatore> giocatori)  {
 		PrintWriter writer = null;
 		try {
+			
 			writer = new PrintWriter("encodings/decisioneInizialeInstance", "UTF-8");
 			writer.println(Creator.creaDatiGiocatori(giocatori));
 			for (Giocatore giocatore : giocatori) {

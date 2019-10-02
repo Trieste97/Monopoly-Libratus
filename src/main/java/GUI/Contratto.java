@@ -3,8 +3,11 @@ package GUI;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
+
+import Gioco.Main;
 
 public class Contratto {
 	
@@ -25,10 +28,14 @@ public class Contratto {
 	}
 	
 	private void init(String nome)  {
-		String path = "src/main/resources/images/" + nome + ".png";
+		String path = "/images/" + nome + ".png";
 		try {
-			image = ImageIO.read(new File(path));
-		} catch (IOException e) {
+			URL url = Main.class.getResource(path);
+			if (url == null)  {
+				return;
+			}
+			image = ImageIO.read(url);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

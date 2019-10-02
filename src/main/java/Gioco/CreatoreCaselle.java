@@ -2,6 +2,8 @@ package Gioco;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -32,7 +34,8 @@ public class CreatoreCaselle {
 		HashMap<Integer,String> mappa = new HashMap<Integer,String>();
 		
 		try {
-			Scanner scanner = new Scanner(new File("src/main/resources/board.txt"));
+			InputStream istream = Main.class.getResourceAsStream("/board.txt");
+			Scanner scanner = new Scanner(istream);
 			int pos = -1;
 			
 			while (scanner.hasNextLine()) {
@@ -100,7 +103,7 @@ public class CreatoreCaselle {
 				}
 			}
 			scanner.close();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
@@ -127,7 +130,8 @@ public class CreatoreCaselle {
 
 	public static void caricaNomiCaselle(HashSet<String> set)  {
 		try {
-			Scanner scanner = new Scanner(new File("src/main/resources/board.txt"));
+			InputStream istream = Main.class.getResourceAsStream("/board.txt");
+			Scanner scanner = new Scanner(istream);
 			
 			while (scanner.hasNextLine()) {
 				String line = scanner.nextLine();
@@ -146,7 +150,7 @@ public class CreatoreCaselle {
 				} 
 			}
 			scanner.close();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

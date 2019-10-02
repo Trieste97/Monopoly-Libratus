@@ -1,0 +1,16 @@
+%Dato un set di caselle scegliere quale disipotecare
+
+%Si può togliere o lasciare l'ipoteca
+togliIpoteca(Casella) | lasciaIpoteca(Casella) :- casella(Casella, _,_,_,_,_,_).
+togliIpoteca(Casella) | lasciaIpoteca(Casella) :- casellaNonResidenziale(Casella,_,_,_,_,_).
+
+
+%Non si può togliere l'ipoteca se la casella non è ipotecata
+:- togliIpoteca(Casella), casella(Casella, _,_,_,_,_,false).
+:- togliIpoteca(Casella), casellaNonResidenziale(Casella,_,_,_,_,false).
+
+%Si preferisce non togliere l'ipoteca se si ha pochi soldi
+:~ togliIpoteca(_), giocatore(Giocatore, Soldi,_,_,_,_), Soldi<1000. [1:2]
+
+%Si preferisce togliere l'ipoteca
+:~lasciaIpoteca(_). [1:1]

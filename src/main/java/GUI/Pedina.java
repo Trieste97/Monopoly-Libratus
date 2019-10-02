@@ -3,8 +3,11 @@ package GUI;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
+
+import Gioco.Main;
 
 public class Pedina {
 	
@@ -25,7 +28,7 @@ public class Pedina {
 	}
 	
 	public void init(int num) {
-		String path = "src/main/resources/images/pedina";
+		String path = "/images/pedina";
 		
 		switch(num)  {
 			case 0: path += "1.png";
@@ -41,9 +44,10 @@ public class Pedina {
 			break;
 		}
 		try {
-			image = ImageIO.read(new File(path));
+			URL url = Main.class.getResource(path);
+			image = ImageIO.read(url);
 			image = image.getScaledInstance(30, 30, Image.SCALE_DEFAULT);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

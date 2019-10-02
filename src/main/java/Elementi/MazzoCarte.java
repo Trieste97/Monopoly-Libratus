@@ -2,8 +2,11 @@ package Elementi;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Random;
 import java.util.Scanner;
+
+import Gioco.Main;
 
 public class MazzoCarte {
 
@@ -26,7 +29,8 @@ public class MazzoCarte {
 		valoriCartaChest = new String[11];
 		
 		try {
-			Scanner scanner = new Scanner(new File("src/main/resources/cards.txt"));
+			InputStream istream = Main.class.getResourceAsStream("/cards.txt");
+			Scanner scanner = new Scanner(istream);
 			int posChance = 0;
 			int posChest = 0;
 			
@@ -60,7 +64,7 @@ public class MazzoCarte {
 			
 			scanner.close();
 			//mischia();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

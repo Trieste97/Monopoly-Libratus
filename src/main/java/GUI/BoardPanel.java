@@ -6,8 +6,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -19,6 +19,7 @@ import Elementi.Board;
 import Elementi.Casella;
 import Elementi.CasellaResidenziale;
 import Elementi.Giocatore;
+import Gioco.Main;
 
 @SuppressWarnings("serial")
 public class BoardPanel extends JPanel  {
@@ -35,8 +36,9 @@ public class BoardPanel extends JPanel  {
 	public BoardPanel(int numPlayers, Board board)  {
 		this.board = board;
 		try {
-			tavola = ImageIO.read(new File("src/main/resources/images/immagineTavola.jpg"));
-		} catch (IOException e) {
+			URL url = Main.class.getResource("/images/immagineTavola.jpg");
+			tavola = ImageIO.read(url);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -70,8 +72,9 @@ public class BoardPanel extends JPanel  {
 		
 		Scanner scanner = null;
 		try {
-			scanner = new Scanner(new File("src/main/resources/positions.txt"));
-		} catch (FileNotFoundException e) {
+			InputStream istream = Main.class.getResourceAsStream("/positions.txt");
+			scanner = new Scanner(istream);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
@@ -95,8 +98,9 @@ public class BoardPanel extends JPanel  {
 		
 		Scanner scanner = null;
 		try {
-			scanner = new Scanner(new File("src/main/resources/houses.txt"));
-		} catch (FileNotFoundException e) {
+			InputStream istream = Main.class.getResourceAsStream("/houses.txt");
+			scanner = new Scanner(istream);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;

@@ -1,0 +1,26 @@
+%Dati in input:
+%giocatore(nome,soldi,isPrigione(),numToken,turniPrigione,posizione)
+%
+%Caselle non ipotecate:
+%casella(nome,prezzoIpoteca)
+
+%Posso ipotecare caselle o non ipotecare
+ipoteca(X) | nonIpoteca(X) :- casella(X,_).
+ipoteca(X) | nonIpoteca(X) :- casellaRes(X,_).
+
+%Ipoteco massimo una sola casella
+%numVendi(X) :- X = #count{Set, Z:vendi(Set)}.
+:-  #count{Casella:ipoteca(Casella)} > 1.
+
+%Se sono qui, devo per forza ipotecare
+:- #count{Casella:ipoteca(Casella)} = 0.
+
+%Preferisco ipotecare le caselle non residenziali, poi le residenziali
+:~ ipoteca(Casella), casellaRes(Casella,X). [1:1]
+
+%Totale soldi fatti
+tot(X) :- ipoteca(Casella), casella(Casella,X).
+tot(X) :- ipoteca(Casella), casellaRes(Casella,X).
+
+%Preferisco ipotecare caselle con meno valore
+:~ tot(X). [X:2]
