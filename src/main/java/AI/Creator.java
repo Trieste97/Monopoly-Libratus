@@ -25,12 +25,6 @@ public class Creator {
 			data += g.getPosizioneInTabella() + ",";
 			data += g.getNumCasellePossedute() + ",";
 			data += g.getNumSetsPosseduti() + ").\n";
-			
-			/*String temp = "casellaAvv";
-			if (g instanceof GiocatoreAI) temp = "casellaMia";
-			for (Casella c : g.getCasellePossedute())  {
-				data += temp + "(" + c.getNome().toLowerCase() + "," + c.getPrezzoVendita() + "," + c.getTipo() + ").\n";
-			}*/
 		}
 		
 		return data;

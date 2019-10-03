@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: Gioco.Main
+Class-Path: ciao.jar

@@ -1,7 +1,9 @@
 package AI;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 
+import Gioco.Main;
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
 import it.unical.mat.embasp.base.Output;
@@ -21,7 +23,13 @@ public class AIClass {
 	
 	public AIClass() {
 		// TODO Auto-generated constructor stub
-		handler = new DesktopHandler(new DLVDesktopService("lib/dlv.mingw.exe"));
+		String path = "";
+		if (System.getProperty("os.name").startsWith("Windows"))  {
+			path = "lib/dlv.mingw.exe";
+		} else  {
+			path = "lib/dlv";
+		}
+		handler = new DesktopHandler(new DLVDesktopService(path));
 		program = new ASPInputProgram(); //forse può generare problemi: creare in ogni funzione uno nuovo
 		parser = new Parser();
 	}
